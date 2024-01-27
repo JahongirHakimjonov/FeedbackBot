@@ -13,7 +13,7 @@ load_dotenv(find_dotenv())
 
 # Initialize bot and dispatcher
 bot_token = os.getenv('BOT_TOKEN')
-if bot_token is None:
+if not bot_token:
     raise ValueError("Missing BOT_TOKEN environment variable")
 bot = Bot(token=bot_token)
 dp = Dispatcher(bot, storage=MemoryStorage())
@@ -40,6 +40,13 @@ class Form(StatesGroup):
 
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
+    # Create a keyboard
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    # Add 'info' button
+    keyboard.add(types.KeyboardButton('Infoℹ⁉️'))
+    # Send a message with this keyboard
+    await bot.send_message(message.chat.id, "👋👋👋", reply_markup=keyboard)
+
     try:
         # Check if telegram_id already exists in the database
         cur.execute("SELECT * FROM students WHERE telegram_id = %s", (message.from_user.id,))
@@ -131,9 +138,30 @@ async def process_login_id(message: types.Message, state: FSMContext):
         print(f"Error in process_login_id: {e}")
 
 
+@dp.message_handler(lambda message: message.text == 'Infoℹ⁉️')
+async def handle_info_button(message: types.Message):
+    # The same code as in your cmd_info function
+    try:
+        cur.execute(
+            "SELECT students.first_name, students.last_name, groups.group_num, students.course_num, students.telegram_id FROM students INNER JOIN groups ON students.group_id = groups.id WHERE students.telegram_id = %s",
+            (message.from_user.id,))
+        result = cur.fetchone()
+        if result is not None:
+            await bot.send_message(message.chat.id,
+                                   f"Ism, Name, Имя: {result[0]}\n"
+                                   f"Familiya, Surname, Фамилия: {result[1]}\n"
+                                   f"Guruh raqami, Group number, Номер группа: {result[2]}\n"
+                                   f"Kurs, Course, Курс: {result[3]}\n"
+                                   f"Telegram id: {result[4]}")
+        else:
+            pass
+    except Exception as e:
+        print(f"Error in handle_info_button: {e}")
+
+
 if __name__ == '__main__':
     try:
-        executor.start_polling(dp, skip_updates=True)
+        executor.start_polling(dp, skip_updates=True, timeout=60)
     except Exception as e:
         print(f"Error in polling: {e}")
     finally:
