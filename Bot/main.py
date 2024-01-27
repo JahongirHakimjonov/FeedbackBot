@@ -143,7 +143,9 @@ async def handle_info_button(message: types.Message):
     # The same code as in your cmd_info function
     try:
         cur.execute(
-            "SELECT students.first_name, students.last_name, groups.group_num, students.course_num, students.telegram_id FROM students INNER JOIN groups ON students.group_id = groups.id WHERE students.telegram_id = %s",
+            "SELECT students.first_name, students.last_name, groups.group_num, students.course_num, "
+            "students.telegram_id FROM students INNER JOIN groups ON students.group_id = groups.id WHERE "
+            "students.telegram_id = %s",
             (message.from_user.id,))
         result = cur.fetchone()
         if result is not None:
