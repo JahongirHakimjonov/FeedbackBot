@@ -122,12 +122,12 @@ class Score(AbstractBaseModel):
 
 class ClassSchedule(AbstractBaseModel):
     DAYS_OF_WEEK = [
-        ('MON', 'Dushanba'),
-        ('TUE', 'Seshanba'),
-        ('WED', 'Chorshanba'),
-        ('THU', 'Payshanba'),
-        ('FRI', 'Juma'),
-        ('SAT', 'Shanba'),
+        (0, 'Dushanba'),
+        (1, 'Seshanba'),
+        (2, 'Chorshanba'),
+        (3, 'Payshanba'),
+        (4, 'Juma'),
+        (5, 'Shanba'),
     ]
 
     LESSON_START_TIME = [
@@ -143,7 +143,7 @@ class ClassSchedule(AbstractBaseModel):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     teacher = models.ManyToManyField(Teacher, related_name='class_schedule')
-    day = models.CharField(max_length=10, choices=DAYS_OF_WEEK)
+    day = models.IntegerField(max_length=10, choices=DAYS_OF_WEEK)
     start_time = models.CharField(max_length=5, choices=LESSON_START_TIME)
     end_time = models.CharField(max_length=5, blank=True, null=True)
     room = models.IntegerField()
