@@ -51,26 +51,16 @@ class TeacherAdmin(admin.ModelAdmin):
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'teacher_names', 'is_active')
+    list_display = ('name', 'is_active', 'teacher_names')
     list_filter = ('is_active',)
-    search_fields = ('name', 'teacher__first_name', 'teacher__last_name')
+    search_fields = ('name',)
 
     def teacher_names(self, obj):
-        return ", ".join([f"{teacher.first_name} {teacher.last_name}" for teacher in obj.teacher.all()])
+        class_schedule_instances = ClassSchedule.objects.filter(lesson=obj)
+        teachers_for_lesson = [cs.teacher for cs in class_schedule_instances]
+        return ", ".join([f"{teacher.first_name} {teacher.last_name}" for teacher in teachers_for_lesson])
 
     teacher_names.short_description = 'Ustozlar'
-    #
-    # def average_score(self, obj):
-    #     avg_score = Score.objects.filter(lesson=obj).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
-    #     return avg_score if avg_score is not None else 0
-    #
-    # average_score.short_description = "O'rtacha baho"
-    #
-    # def percentage(self, obj):
-    #     avg_score = Score.objects.filter(lesson=obj).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
-    #     return avg_score * 20 if avg_score is not None else 0
-    #
-    # percentage.short_description = "Foiz %"
 
 
 @admin.register(Score)
@@ -94,11 +84,11 @@ class ScoreAdmin(admin.ModelAdmin):
 class ClassScheduleAdmin(admin.ModelAdmin):
     list_display = ('day', 'lesson_name', 'teacher_names', 'group_number', 'start_time')
     exclude = ('end_time',)
-    list_filter = ('group', 'day', 'lesson__name')
+    list_filter = ('group', 'day', 'lesson__name', 'group__group_num')
     search_fields = ('group__group_num', 'lesson__name')
 
     def teacher_names(self, obj):
-        return ", ".join([f"{teacher.first_name} {teacher.last_name}" for teacher in obj.teacher.all()])
+        return f"{obj.teacher.first_name} {obj.teacher.last_name}"
 
     teacher_names.short_description = 'Ustozlar'
 

@@ -38,11 +38,11 @@ class TeacherForm(BaseCommonForm):
 class LessonForm(BaseCommonForm):
     class Meta:
         model = Lesson
-        fields = ['name', 'teacher', 'is_active']
+        fields = ['name', 'is_active']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['teacher'].queryset = Teacher.objects.filter(is_active=True)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['teacher'].queryset = Teacher.objects.filter(is_active=True)
 
 
 class ScoreForm(BaseCommonForm):

@@ -42,7 +42,7 @@ class Group(AbstractBaseModel):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.group_num}  {self.type} {self.is_active}"
+        return f"{self.group_num}"
 
     class Meta:
         verbose_name_plural = "Guruhlar"
@@ -64,7 +64,7 @@ class Student(AbstractBaseModel):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} {self.group}"
+        return f"{self.first_name} {self.last_name} "
 
     class Meta:
         verbose_name_plural = "Talabalar"
@@ -94,11 +94,10 @@ class Teacher(AbstractBaseModel):
 
 class Lesson(AbstractBaseModel):
     name = models.CharField(max_length=150)
-    teacher = models.ManyToManyField(Teacher, related_name='lessons')
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.name} {self.teacher} {self.is_active}"
+        return f"{self.name} "
 
     class Meta:
         verbose_name_plural = "Fanlar"
@@ -113,7 +112,7 @@ class Score(AbstractBaseModel):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.teacher} {self.lesson} {self.student}"
+        return f"{self.teacher} "
 
     class Meta:
         verbose_name_plural = "Baholar"
@@ -142,8 +141,8 @@ class ClassSchedule(AbstractBaseModel):
 
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    teacher = models.ManyToManyField(Teacher, related_name='class_schedule')
-    day = models.IntegerField(max_length=10, choices=DAYS_OF_WEEK)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    day = models.IntegerField(choices=DAYS_OF_WEEK)
     start_time = models.CharField(max_length=5, choices=LESSON_START_TIME)
     end_time = models.CharField(max_length=5, blank=True, null=True)
     room = models.IntegerField()
@@ -152,11 +151,7 @@ class ClassSchedule(AbstractBaseModel):
         start_time_obj = datetime.strptime(self.start_time, '%H:%M')
         end_time_obj = start_time_obj + timedelta(minutes=80)
         self.end_time = end_time_obj.strftime('%H:%M')
-        if not self.pk:  # only for new instances
-            super().save(*args, **kwargs)  # first save to generate an id
-            self.teacher.set(self.lesson.teacher.all())  # set the teachers
-        else:
-            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.group} {self.lesson} {self.teacher} {self.day} {self.start_time} {self.end_time}"
