@@ -34,7 +34,7 @@ try:
     cur = conn.cursor()
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 except psycopg2.OperationalError as e:
-    print(f"Error in databasmain.pye connection: {e}")
+    print(f"Error in database connection: {e}")
     exit(1)
 
 
