@@ -20,7 +20,7 @@ class StudentForm(forms.ModelForm):
 class BaseCommonForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['is_active'].initial = True  # Set is_active to True by default
+        self.fields['is_active'].initial = True
 
 
 class GroupForm(BaseCommonForm):
@@ -39,10 +39,6 @@ class LessonForm(BaseCommonForm):
     class Meta:
         model = Lesson
         fields = ['name', 'is_active']
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['teacher'].queryset = Teacher.objects.filter(is_active=True)
 
 
 class ScoreForm(BaseCommonForm):

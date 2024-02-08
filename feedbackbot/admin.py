@@ -38,13 +38,13 @@ class TeacherAdmin(admin.ModelAdmin):
 
     def average_score(self, obj):
         avg_score = Score.objects.filter(teacher=obj).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
-        return avg_score if avg_score is not None else 0
+        return format(avg_score, '.2f') if avg_score is not None else '0.00'
 
     average_score.short_description = "O'rtacha baho"
 
     def percentage(self, obj):
         avg_score = Score.objects.filter(teacher=obj).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
-        return avg_score * 20 if avg_score is not None else 0
+        return format(avg_score * 20, '.2f') if avg_score is not None else '0.00'
 
     percentage.short_description = "Foiz %"
 
@@ -65,7 +65,7 @@ class LessonAdmin(admin.ModelAdmin):
 
 @admin.register(Score)
 class ScoreAdmin(admin.ModelAdmin):
-    list_display = ('teacher_name', 'lesson_name', 'score_for_teacher', 'feedback')
+    list_display = ('teacher_name', 'lesson_name', 'score_for_teacher', 'feedback', 'student')
     list_filter = ('teacher__first_name', 'teacher__last_name', 'lesson__name')
     search_fields = ('teacher__first_name', 'teacher__last_name', 'lesson__name')
 

@@ -122,7 +122,7 @@ LANGUAGE_CODE = 'uz-uz'
 
 TIME_ZONE = 'Asia/Tashkent'
 
-TIME_FORMAT = 'H:i'
+TIME_FORMAT = '%H:%M:%S'
 
 USE_I18N = True
 
