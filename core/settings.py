@@ -156,13 +156,10 @@ JAZZMIN_SETTINGS = {
     "search_model": ["auth.User", "auth.Group"],
     "topmenu_links": [
 
-        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Home", "url": "/", "permissions": ["auth.view_user"]},
 
         {"name": "Support", "url": "https://t.me/tiiamenru_fed_supportbot", "new_window": True},
 
-        {"model": "auth.User"},
-
-        {"app": "books"},
     ],
 
     "usermenu_links": [
@@ -172,7 +169,7 @@ JAZZMIN_SETTINGS = {
     "show_sidebar": True,
     "navigation_expanded": True,
     "hide_apps": [],
-    "hide_models": [],
+    "hide_models": ['auth.group', 'auth.user', 'auth.permission', 'auth.group', 'auth.user', 'auth.permission',],
     "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
 
     "icons": {

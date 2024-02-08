@@ -5,3 +5,8 @@ from django.views.generic import TemplateView
 class HomePageView(TemplateView):
     def get(self, request, *args, **kwargs):
         return render(request, 'feedbackbot/home.html')
+
+#
+# class LogoutView(TemplateView):
+#     def get(self, request, *args, **kwargs):
+#         return render(request, 'feedbackbot/home.html')

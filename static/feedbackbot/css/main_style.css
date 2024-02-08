@@ -52,11 +52,11 @@ body{
     background-size: cover;
     position: relative;
 }
-nav{
+nav {
     display: flex;
-    padding: 2% 6%;
     justify-content: space-between;
     align-items: center;
+    padding: 2% 6%;
 }
 nav img{
     width: 150px;
@@ -177,7 +177,6 @@ h3{
 .course-col:hover{
     box-shadow: 10px 10px 24px 0px rgba(0,0,0,0.4);
 }
-
 
     /*Campus*/
 
@@ -379,6 +378,14 @@ h3{
     .ctn h1{
         font-size: 24px;
     }
+}
+ .header_name {
+    color: white;
+    max-height: 50px;
+ }
+ #logo-img {
+    height: 70px; /* Adjust this value as needed */
+    width: auto; /* This will keep the aspect ratio of the image */
 }
 
 /* Media query is Close*/
