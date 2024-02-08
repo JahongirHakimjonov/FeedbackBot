@@ -1,63 +1,114 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="{% static 'feedbackbot/css/style.css' %}" />
-    <title>Beautiful Website</title>
-  </head>
-  <body>
-    <header>
-      <a href="#" class="logo">JaKhanGir</a>
-      <ul>
-        <li><a href="https://github.com/JahongirHakimjonov">GitHub</a></li>
-        <li><a href="https://instagram.com/ja_khan_gir">Instagram</a></li>
-        <li><a href="https://t.me/ja_khan_gir">Telegram</a></li>
-        <li><a href="https://www.linkedin.com/in/jahongir-hakimjonov">LinkedIn</a></li>
-      </ul>
-    </header>
-    <section>
-        <img src="{% static 'feedbackbot/image/stars.png' %}" id="stars">
-        <img src="{% static 'feedbackbot/image/moon.png' %}" id="moon">
-        <img src="{% static 'feedbackbot/image/mountains_behind.png' %}" id="mountains_behind">
-        <h2 id="text">Starry Night</h2>
-        <a href="/admin" id="btn">Admin Page</a>
-        <img src="{% static 'feedbackbot/image/mountains_front.png' %}" id="mountains_front">
-    </section>
-    <div class="sec" id="sec">
-        <h2>Really Cool Website...</h2>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim aut iure distinctio earum officia, odit excepturi architecto, molestias minima aperiam voluptate eius asperiores saepe modi necessitatibus totam optio explicabo reiciendis debitis obcaecati quos ullam. Id repellendus magni at, nisi asperiores ratione quia voluptatem libero. Provident possimus suscipit omnis pariatur accusantium esse natus officia eius aliquid fuga temporibus, quaerat est ducimus totam tenetur placeat assumenda facilis animi blanditiis atque nulla. Cum, quos ipsum at nesciunt qui error aspernatur quas ullam nulla.<br><br>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde ipsam quidem ea vel totam animi itaque cumque quam autem earum repellat, pariatur culpa consequatur, ab architecto id iusto tempora similique, adipisci atque dolores hic nisi repudiandae. Architecto, iure quia similique beatae debitis doloremque assumenda eos neque optio voluptatem labore quisquam omnis unde. Reiciendis iste ab assumenda error nam aliquam nihil odit modi, ullam praesentium. Hic nemo non nobis obcaecati, harum officia eveniet vel rem nam earum laboriosam quaerat molestias quidem fugit cupiditate dolor ut impedit perferendis sed minima porro. Odio atque et dignissimos, nesciunt quis eum explicabo officia reiciendis nemo enim, qui nihil vitae cupiditate, laborum voluptate non odit quia dolores possimus corrupti. Quaerat tenetur nesciunt in earum molestiae dolorem.<br><br>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis similique laboriosam magnam dolor omnis. Labore ullam, assumenda error hic nulla dolor vel vero laborum corrupti fugiat, possimus deleniti aut quibusdam tenetur excepturi ea, asperiores soluta eveniet nihil harum quas dicta! Perspiciatis corporis asperiores laborum nulla! Iure, quas blanditiis tempora incidunt a tempore aspernatur laborum, commodi atque voluptatem accusamus nulla quaerat ullam. Incidunt pariatur voluptatibus ducimus itaque aliquid expedita consectetur! Facilis, consectetur ad similique aliquam labore eos at nostrum laboriosam enim minus? Nihil ex esse, voluptatibus quibusdam qui reprehenderit cupiditate tempora consequatur in ad praesentium assumenda, maxime officiis unde ut nam quos. Velit dignissimos repudiandae necessitatibus doloremque quaerat ullam maxime modi eius. Deserunt, delectus enim sed dignissimos nostrum quaerat consequuntur culpa.<br><br>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo error at ea ex! Temporibus hic in iste est, itaque, enim vitae omnis neque qui eos fuga similique, nisi magni vero. Iste a itaque delectus sint provident repellat, nihil quos hic suscipit ab perspiciatis enim facere blanditiis assumenda, est repellendus adipisci aperiam deserunt atque alias deleniti neque quas harum aut! Numquam in consequatur aut culpa nemo neque aspernatur sint eligendi earum ut maxime nisi, beatae, totam aliquam commodi itaque optio impedit et ab at quas molestias unde blanditiis possimus. Eaque vel consequuntur corporis voluptas similique non nostrum minima ad natus rerum.</p>
-    </div>
-    <script>
-        let stars = document.getElementById('stars');
-        let moon = document.getElementById('moon');
-        let mountains_behind = document.getElementById('mountains_behind');
-        let text = document.getElementById('text');
-        let btn = document.getElementById('btn');
-        let mountains_front = document.getElementById('mountains_front');
-        let header = document.querySelector('header');
+{% block body %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>TIIAME NRU</title>
+        <link rel="shortcut icon" href="{% static 'feedbackbot/image/logo.png' %}">
+        <link rel="stylesheet" href="{% static 'feedbackbot/css/main_style.css' %}">
+    </head>
+    <body>
 
-        window.addEventListener('scroll', function(){
-            let value = window.scrollY;
-            stars.style.left = value * 0.25 + 'px';
-            moon.style.top = value * 1.05 + 'px';
-            mountains_behind.style.top = value * 0.5 + 'px';
-            mountains_front.style.top = value * 0 + 'px';
-            text.style.marginRight = value * 4 + 'px';
-            text.style.marginTop = value * 1.5 + 'px';
-            btn.style.marginTop = value * 1.5 + 'px';
-            header.style.top = value * 0.5 + 'px';
-        })
-    </script>
-  </body>
-</html>
+    <section class="header">
+        <nav>
+            <a href="{% url 'home' %}"><img src="{% static 'feedbackbot/image/logo.png' %}" height="150" id="logo-img"></a>
+            <span class="header__name" style="max-width: 320px">"Toshkent irrigatsiya va qishloq xo'jaligini mehanizatsiyalash muhandislari instituti" <br>Milliy
+                tadqiqoqt
+                universiteti</span>
+
+            <div class="nav-links" id="navLinks">
+
+                <span class="icon" onclick="hidemenu()">&#10005;</span>
+                <ul>
+                    <li><a href="https://t.me/ilovetiiame">Telegram</a></li>
+                    <li><a href="https://instagram.com/tiiameofficial">Instagram</a></li>
+                    <li><a href="https://facebook.com/tiiame.uz">Facebook</a></li>
+                    <li><a href="https://twitter.com/tiiameofficial">Twitter</a></li>
+                    <li><a href="https://tiiame.uz/">Web Sayt</a></li>
+                </ul>
+            </div>
+            <span class="icon" onclick="showmenu()">&#9776;</span>
+        </nav>
+
+        <div class="text-box">
+            <h1>"TIQXMMI" MTU</h1>
+            <p>"Toshkent irrigatsiya va qishloq xo'jaligini mehanizatsiyalash muhandislari instituti" <br>Milliy
+                tadqiqoqt
+                universiteti.</p>
+
+            <a href="/admin" class="hero-btn">Saytga Kirish</a>
+        </div>
+    </section>
+
+    <!--Course of Collage-->
+
+
+    <section class="course" id="course_call">
+        <h1>"TIQXMMI" MTU, Iqtisod fakulteti</h1>
+        <p>Ta'lim tizimini nazorat qilish va ustozlarni baholash uchun mo'ljallangan platforma</p>
+
+        <div class="row">
+            <div class="course-col">
+                <h2>Telegram Bot</h2>
+                <p>Talabalar telegram botdan o'zlarining shaxsiy id va parollari orqali ro'yxatdan o'tishadi va har bir talabaga biriktirilgan dars jadvali bo'yicha darsning yakunida talabaga avtomatlashtirilgan holda habar yuboriladi bu habarda "Ustozning pedagoglik mahorartiga baho bering" deb yozilgan bo'ladi keyin talaba baho beradi va o'z fikrlarini bildiradi natijalar esa platformaga saqlanadi.</p>
+            </div>
+
+            <div class="course-col">
+                <h2>Admin Platforma</h2>
+                <p>Admin platformaga esa faqat ruhsat etilgan shaxslar kira oladi bular odatda dekanat a'zolari hisoblanadi, platformaning vazifalari Talabalar,Ustozlarni ro'yxatdan o'tqazish dars jadvallarini nazorat qilish, fan va guruhlarni nazorat qilish va eng asosiysi ustozlarga qo'yilgan baholarni kuzatib ularni o'rtacha bahosi (1-5-oralig'ida) va foiz ko'rsatgichini kuzatib borish bo'ladi.</p>
+            </div>
+
+            <div class="course-col">
+                <h2>Natija</h2>
+                <p>Natijada esa har bir ustozga qo'yilgan baho, fikr va foiz ko'rsatkichlaridan kelib chiqqan holda o'qituvchiga ogohlantirish berish va kerakli chora tadbirlarni ko'rish imkoniyati bo'ladi buning natijasida esa fakultetning ta'lim sifatida sezilarli darajada o'zgarish bo'ladi.
+                Buning barchasi ta'lim sifatini yaxshilash va talabalarni sifatli ta'lim olishini taminlash uchun qilinmoqda.</p>
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <section class="facilities">
+        <h1>IQTISOD FAKULTETI</h1>
+        <p>Fakultetning rivojlanish tarixi va faoliyati.</p>
+
+        <div class="row">
+            <div class="facilities-col">
+                <h3>Tarixi</h3>
+                <p>1974 yilda Toshkent irrigatssiya va qishloq xo‘jaligini mexanizatsiyalash injenerlari institutining “Gidrotexnik inshootlar” fakulteti qoshida  “Suv xo‘jaligi iqtisodi va uni tashkil etish” yo‘nalishi ochildi. Bu yo‘nalish 1976 yilga borib mustaqil fakultetga aylantirildi.</p>
+            </div>
+
+            <div class="facilities-col">
+                <h3>Rivojlanishi</h3>
+                <p>Fakultet 2004 yildan “Suv xo‘jaligini boshqarish va uning iqtisodiyoti”, 2015 yildan “Suv xo‘jaligida menejment” fakulteti nomi bilan, O‘zbekiston Respublikasi prezidentining 2017 yil 24 maydagi PQ-3003 “Qishloq va suv xo‘jaligi tarmoqlari uchun muhandis-texnik kadrlar tayyorlash tizimini tubdan takomillashtirish chora-tadbirlari” to‘g‘risidagi qaroriga asosan, “Suv xo‘jaligini tashkil etish va boshqarish” fakulteti nomi bilan faoliyat ko‘rsatib keldi.</p>
+            </div>
+
+            <div class="facilities-col">
+                <h3>So'ngi faoliyati</h3>
+                <p>O‘zbekiston Respublikasi Prezidentining 10.12.2021yil PQ-42-son "Iqtisodiyot tarmoqlari uchun muhandis kadrlarni tayyorlash tizimini innovatsiya va raqamlashtirish asosida tubdan takomillashtirish chora-tadbirlari to‘g‘risida"gi Qarori asosida “Toshkent irrigatsiya va qishloq xo‘jaligini mexanizatsiyalash muhandislari instituti” Milliy tadqiqot universiteti tarkibida 2023 yil 1 fevraldan “Iqtisodiyot” fakulteti sifatida qayta nomlanib zamonaviy o‘quv va ilmiy-laboratoriya xonalari, yuqori malakali pedagog xodimlarning o‘quv va ilmiy, ilg‘or pedagogik faoliyatlari yo‘lga qo‘yilgan holatda samarali  faoliyatini amalga oshirib kelmoqda.</p>
+            </div>
+        </div>
+    </section>
+
+    <!--Call To Action Section-->
+
+    <section class="ctn">
+        <h1> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </h1>
+    </section>
+
+    <!--Footer-->
+    <section class="footer">
+        <h4>About Us</h4>
+        <p>Ushbu platforma va telegram bot mahsus buyurtma asosida "TIQXMMI" MTU Iqtisod fakulteti uchun
+            tayyorlandi.</p>
+        <p id="copyright">Made By Jahongir Hakimjonov</p>
+    </section>
+
+    <!--Javascript is Start-->
+    <script src="{% static 'feedbackbot/js/main_script.js' %}"></script>
+    </body>
+
+
+    </html>
+{% endblock %}

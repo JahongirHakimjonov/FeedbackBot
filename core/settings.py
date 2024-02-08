@@ -151,7 +151,7 @@ JAZZMIN_SETTINGS = {
     "site_title": "TIIAME NRU",
     "site_header": "TIIAME NRU",
     "site_brand": "TIIAME NRU",
-    "site_icon": "feedbackbot/image/logo.jpg",
+    "site_icon": "feedbackbot/image/logo.png",
     "welcome_sign": "TIIAME NRU Admin",
     "search_model": ["auth.User", "auth.Group"],
     "topmenu_links": [
@@ -188,10 +188,10 @@ JAZZMIN_SETTINGS = {
     "changeform_format": "horizontal_tabs",
     "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
     "site_logo_classes": "img-circle",
-    "login_logo": "feedbackbot/image/logo.jpg",
+    "login_logo": "feedbackbot/image/login_logo.jpg",
     "custom_css": "feedbackbot/css/custom.css",
-    "site_logo": "feedbackbot/image/logo.jpg",
-    "login_logo_dark": "feedbackbot/image/logo.jpg",
+    "site_logo": "feedbackbot/image/login_logo.jpg",
+    "login_logo_dark": "feedbackbot/image/login_logo.jpg",
     "show_ui_builder": False,
 }
 
