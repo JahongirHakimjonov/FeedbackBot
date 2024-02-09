@@ -148,18 +148,18 @@ class ClassSchedule(AbstractBaseModel):
     end_time = models.CharField(max_length=15, blank=True, null=True)
     room = models.IntegerField()
 
-    def clean(self):
-        if self.start_time is None:
-            raise ValidationError("Dars boshlanish vaqti kiritilishi shart")
-
-        if self.end_time is None:
-            raise ValidationError("Dars tugash vaqti kiritilishi shart")
-
-        if self.start_time >= self.end_time:
-            raise ValidationError("Dars tugash vaqti dars boshlanish vaqtidan katta bo'lishi shart")
-
-        if self.day not in dict(self.DAYS_OF_WEEK).keys():
-            raise ValidationError("Notog'ri dars kuni kiritildi")
+    # def clean(self):
+    #     if self.start_time is None:
+    #         raise ValidationError("Dars boshlanish vaqti kiritilishi shart")
+    #
+    #     if self.end_time is None:
+    #         raise ValidationError("Dars tugash vaqti kiritilishi shart")
+    #
+    #     if self.start_time >= self.end_time:
+    #         raise ValidationError("Dars tugash vaqti dars boshlanish vaqtidan katta bo'lishi shart")
+    #
+    #     if self.day not in dict(self.DAYS_OF_WEEK).keys():
+    #         raise ValidationError("Notog'ri dars kuni kiritildi")
 
     def save(self, *args, **kwargs):
         start_time_obj = datetime.strptime(self.start_time, '%H:%M:%S')

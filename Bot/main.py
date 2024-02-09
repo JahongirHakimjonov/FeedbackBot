@@ -112,7 +112,8 @@ async def handle_info_button(message: types.Message):
         result = cur.fetchone()
         if result is not None:
             await bot.send_message(message.chat.id,
-                                   f"Ism Familiya: ```{result[0]} {result[1]}```\n"
+                                   f"Ism: ```{result[0]}```\n"
+                                   f"Familiya: ```{result[1]}```"
                                    f"Guruh raqami: ```{result[2]}```\n"
                                    f"Kurs: ```{result[3]}```\n"
                                    f"Telegram id: ```{result[4]}```", parse_mode='Markdown')
