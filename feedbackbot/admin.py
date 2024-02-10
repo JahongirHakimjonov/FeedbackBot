@@ -1,22 +1,26 @@
 from django.contrib import admin
-from django.db.models import Avg
+from import_export.admin import ImportExportModelAdmin
 
 from .models import Student, Teacher, Lesson, ClassSchedule, Score, Group
+from .resources import StudentResource, TeacherResource, LessonResource, ClassScheduleResource, ScoreResource, \
+    GroupResource
 
 
 @admin.register(Group)
-class GroupAdmin(admin.ModelAdmin):
-    list_display = ('group_num', 'type', 'course_num', 'is_active')
+class GroupAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = GroupResource
+    list_display = ('id', 'group_num', 'type', 'course_num')
     exclude = ('course_num',)
     list_filter = ('is_active', 'type')
     search_fields = ('group_num',)
 
 
 @admin.register(Student)
-class StudentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'telegram_id', 'group_number', 'course_num', 'is_active')
-    fields = ('login_id', 'password', 'first_name', 'last_name', 'telegram_id', 'group', 'is_active')
-    list_filter = ('group', 'is_active', 'course_num')
+class StudentAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = StudentResource
+    list_display = ('first_name', 'last_name', 'telegram_id', 'group_number', 'course_num')
+    fields = ('login_id', 'password', 'first_name', 'last_name', 'telegram_id', 'group')
+    list_filter = ('group', 'course_num')
     search_fields = ('first_name', 'last_name', 'telegram_id')
 
     def group_number(self, obj):
@@ -26,33 +30,21 @@ class StudentAdmin(admin.ModelAdmin):
 
 
 @admin.register(Teacher)
-class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'degree', 'average_score', 'percentage', 'is_active')
-    list_filter = ('degree', 'is_active',)
-    search_fields = ('first_name', 'last_name', 'degree')
+class TeacherAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = TeacherResource
+    list_display = ('full_name', 'average_score', 'percentage')
+    search_fields = ('first_name', 'last_name')
 
     def full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
 
     full_name.short_description = "To'liq ism"
 
-    def average_score(self, obj):
-        avg_score = Score.objects.filter(teacher=obj).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
-        return format(avg_score, '.2f') if avg_score is not None else '0.00'
-
-    average_score.short_description = "O'rtacha baho"
-
-    def percentage(self, obj):
-        avg_score = Score.objects.filter(teacher=obj).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
-        return format(avg_score * 20, '.2f') if avg_score is not None else '0.00'
-
-    percentage.short_description = "Foiz %"
-
 
 @admin.register(Lesson)
-class LessonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'is_active', 'teacher_names')
-    list_filter = ('is_active',)
+class LessonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = LessonResource
+    list_display = ('name', 'teacher_names')
     search_fields = ('name',)
 
     def teacher_names(self, obj):
@@ -64,7 +56,8 @@ class LessonAdmin(admin.ModelAdmin):
 
 
 @admin.register(Score)
-class ScoreAdmin(admin.ModelAdmin):
+class ScoreAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = ScoreResource
     list_display = ('teacher_name', 'lesson_name', 'score_for_teacher', 'feedback', 'student')
     list_filter = ('teacher__first_name', 'teacher__last_name', 'lesson__name')
     search_fields = ('teacher__first_name', 'teacher__last_name', 'lesson__name')
@@ -81,7 +74,8 @@ class ScoreAdmin(admin.ModelAdmin):
 
 
 @admin.register(ClassSchedule)
-class ClassScheduleAdmin(admin.ModelAdmin):
+class ClassScheduleAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = ClassScheduleResource
     list_display = ('day', 'lesson_name', 'teacher_names', 'group_number', 'start_time')
     exclude = ('end_time',)
     list_filter = ('group', 'day', 'lesson__name', 'group__group_num')

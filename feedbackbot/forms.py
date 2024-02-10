@@ -32,7 +32,7 @@ class GroupForm(BaseCommonForm):
 class TeacherForm(BaseCommonForm):
     class Meta:
         model = Teacher
-        fields = ['first_name', 'last_name', 'surname', 'is_active']
+        fields = ['first_name', 'last_name', 'is_active']
 
 
 class LessonForm(BaseCommonForm):

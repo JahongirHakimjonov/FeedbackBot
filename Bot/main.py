@@ -1,9 +1,9 @@
 import os
 import pytz
 import psycopg2
-import datetime
-import aiocron
 import asyncio
+import aiocron
+import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
@@ -17,6 +17,10 @@ from psycopg2.extras import DictCursor
 
 load_dotenv(find_dotenv())
 
+# Initialize logging
+logging.basicConfig(filename='bot.log', level=logging.ERROR)
+
+# Initialize bot, dispatcher, and memory storage
 bot_token = os.getenv('BOT_TOKEN')
 if not bot_token:
     raise ValueError("Missing BOT_TOKEN environment variable")
@@ -24,6 +28,7 @@ bot = Bot(token=bot_token)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
+# Initialize database connection
 dbname = os.getenv('DB_NAME')
 user = os.getenv('DB_USER')
 password = os.getenv('DB_PASSWORD')
@@ -34,18 +39,20 @@ try:
     cur = conn.cursor()
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 except psycopg2.OperationalError as e:
-    print(f"Error in database connection: {e}")
+    logging.error(f"Error in database connection: {e}")
     exit(1)
 
 
+# Define states for the FSM
 class Form(StatesGroup):
     login_id = State()
     password = State()
     teacher_rating = State()
     feedback = State()
-    feedback_message = State()  # new state
+    feedback_message = State()
 
 
+# Handle /start command
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
     keyboards = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -56,29 +63,27 @@ async def cmd_start(message: types.Message):
         cur.execute("SELECT * FROM students WHERE telegram_id = %s", (message.from_user.id,))
         result = cur.fetchone()
         if result is None:
-            await bot.send_message(message.chat.id,
-                                   "Shaxsiy login raqamingizni yuboring.")
-
+            await bot.send_message(message.chat.id, "Shaxsiy login raqamingizni yuboring.")
             await Form.login_id.set()
         else:
-            await bot.send_message(message.chat.id,
-                                   "Siz allaqachon ro'yxatdan o'tgansiz!.")
+            await bot.send_message(message.chat.id, "Siz allaqachon ro'yxatdan o'tgansiz!.")
     except Exception as es:
-        print(f"Error occurred in cmd_start while starting the bot: {es}")
+        logging.error(f"Error occurred in cmd_start while starting the bot: {es}")
 
 
+# Handle login_id state
 @dp.message_handler(state=Form.login_id)
 async def process_login_id(message: types.Message, state: FSMContext):
     try:
         async with state.proxy() as data:
             data['login_id'] = message.text
-        await bot.send_message(message.chat.id,
-                               "Iltimos, parolingizni yuboring.")
+        await bot.send_message(message.chat.id, "Iltimos, parolingizni yuboring.")
         await Form.next()
     except Exception as es:
-        print(f"Error occurred in process_login_id while processing login id: {es}")
+        logging.error(f"Error occurred in process_login_id while processing login id: {es}")
 
 
+# Handle password state
 @dp.message_handler(state=Form.password)
 async def process_password(message: types.Message, state: FSMContext):
     try:
@@ -91,16 +96,16 @@ async def process_password(message: types.Message, state: FSMContext):
                 cur.execute("UPDATE students SET telegram_id = %s WHERE login_id = %s AND password = %s",
                             (message.from_user.id, data['login_id'], data['password']))
                 conn.commit()
-                await bot.send_message(message.chat.id,
-                                       "Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi!")
+                await bot.send_message(message.chat.id, "Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi!")
             else:
                 await bot.send_message(message.chat.id,
                                        "Xatolik yuz berdi! Iltimos, qaytadan urinib ko'ring. \n\n/start")
         await state.finish()
     except Exception as es:
-        print(f"Error occurred in process_password while processing password: {es}")
+        logging.error(f"Error occurred in process_password while processing password: {es}")
 
 
+# Handle Info button
 @dp.message_handler(lambda message: message.text == 'Infoℹ⁉️')
 async def handle_info_button(message: types.Message):
     try:
@@ -118,10 +123,9 @@ async def handle_info_button(message: types.Message):
                                    f"Kurs: ```{result[3]}```\n"
                                    f"Telegram id: ```{result[4]}```", parse_mode='Markdown')
         else:
-            await bot.send_message(message.chat.id,
-                                   "Siz ro'yxatdan o'tmagansiz! Iltimos, /start buyrug'ini bosing.")
+            await bot.send_message(message.chat.id, "Siz ro'yxatdan o'tmagansiz! Iltimos, /start buyrug'ini bosing.")
     except Exception as es:
-        print(f"Error occurred in handle_info_button while handling info button: {es}")
+        logging.error(f"Error occurred in handle_info_button while handling info button: {es}")
 
 
 # Define the inline keyboard
@@ -164,15 +168,18 @@ async def cronjob():
 async def process_callback(callback_query: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
         data['score'] = int(callback_query.data)
-        data['rating_message_id'] = callback_query.message.message_id  # Store the message ID
+        if 'rating_message_id' in data:
+            await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
+        else:
+            print("rating_message_id not found in data")
 
     feedback_message = await bot.send_message(callback_query.from_user.id, "Fikr mulohazalaringizni jo'nating")
     await Form.feedback_message.set()
     async with state.proxy() as data:
-        data['feedback_prompt_message_id'] = feedback_message.message_id  # Store the message ID
+        data['feedback_prompt_message_id'] = feedback_message.message_id
 
     # Wait for 70 minutes
-    await asyncio.sleep(70 * 60)
+    await asyncio.sleep(1 * 10)
 
     # Check if the user has responded
     async with state.proxy() as data:
@@ -210,9 +217,9 @@ async def process_feedback_message(message: types.Message, state: FSMContext):
 
 if __name__ == '__main__':
     try:
-        executor.start_polling(dp, timeout=60, skip_updates=True)
+        executor.start_polling(dp, timeout=120, skip_updates=True)
     except Exception as es:
-        print(f"Error occurred in main while starting the bot: {es}")
+        logging.error(f"Error occurred in main while starting the bot: {es}")
     finally:
         cur.close()
         conn.close()

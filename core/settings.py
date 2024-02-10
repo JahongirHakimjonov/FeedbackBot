@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'feedbackbot.apps.FeedbackbotConfig',
+    'import_export'
 ]
 
 MIDDLEWARE = [
@@ -169,7 +170,7 @@ JAZZMIN_SETTINGS = {
     "show_sidebar": True,
     "navigation_expanded": True,
     "hide_apps": [],
-    "hide_models": ['auth.group', 'auth.user', 'auth.permission', 'auth.group', 'auth.user', 'auth.permission',],
+    "hide_models": ['auth.group', 'auth.user', 'auth.permission', 'auth.group', 'auth.user', 'auth.permission', ],
     "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
 
     "icons": {

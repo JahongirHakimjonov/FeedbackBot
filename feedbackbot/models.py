@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Avg
 
 
 class AbstractBaseModel(models.Model):
@@ -73,17 +73,23 @@ class Student(AbstractBaseModel):
 
 
 class Teacher(AbstractBaseModel):
-    DEGREE_CHOICES = [
-        ('master', 'Magistr'),
-        ('bachelor', 'Bakalavr'),
-        ('academic', 'Akademik'),
-        ('drscience', 'Doktorant'),
-        ('phd', 'Professor'),
-    ]
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-    degree = models.CharField(max_length=10, choices=DEGREE_CHOICES)
+    average_score = models.FloatField(blank=True, null=True)
+    percentage = models.FloatField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
+
+    def average_score(self):
+        avg_score = Score.objects.filter(teacher=self).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
+        return format(avg_score, '.2f') if avg_score is not None else '0.00'
+
+    average_score.short_description = "O'rtacha baho"
+
+    def percentage(self):
+        avg_score = Score.objects.filter(teacher=self).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
+        return format(avg_score * 20, '.2f') if avg_score is not None else '0.00'
+
+    percentage.short_description = "Foiz %"
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -138,6 +144,8 @@ class ClassSchedule(AbstractBaseModel):
         ('13:30:00', '5-PARA, 13:30'),
         ('15:00:00', '6-PARA, 15:00'),
         ('16:30:00', '7-PARA, 16:30'),
+        ('16:30:00', '8-PARA, 16:30'),
+        ('16:30:00', '9-PARA, 16:30'),
     ]
 
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -147,19 +155,6 @@ class ClassSchedule(AbstractBaseModel):
     start_time = models.CharField(max_length=15, choices=LESSON_START_TIME)
     end_time = models.CharField(max_length=15, blank=True, null=True)
     room = models.IntegerField()
-
-    # def clean(self):
-    #     if self.start_time is None:
-    #         raise ValidationError("Dars boshlanish vaqti kiritilishi shart")
-    #
-    #     if self.end_time is None:
-    #         raise ValidationError("Dars tugash vaqti kiritilishi shart")
-    #
-    #     if self.start_time >= self.end_time:
-    #         raise ValidationError("Dars tugash vaqti dars boshlanish vaqtidan katta bo'lishi shart")
-    #
-    #     if self.day not in dict(self.DAYS_OF_WEEK).keys():
-    #         raise ValidationError("Notog'ri dars kuni kiritildi")
 
     def save(self, *args, **kwargs):
         start_time_obj = datetime.strptime(self.start_time, '%H:%M:%S')
