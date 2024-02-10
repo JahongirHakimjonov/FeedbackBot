@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.db.models import Avg
 
 
 class AbstractBaseModel(models.Model):
@@ -10,10 +9,10 @@ class AbstractBaseModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def get_created_at_time(self):
-        return self.created_at.strftime('%H:%M')
+        return self.created_at.strftime('%H:%M:%S')
 
     def get_updated_at_time(self):
-        return self.updated_at.strftime('%H:%M')
+        return self.updated_at.strftime('%H:%M:%S')
 
     class Meta:
         abstract = True
@@ -31,16 +30,16 @@ class Group(AbstractBaseModel):
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     is_active = models.BooleanField(default=True)
 
-    def save(self, *args, **kwargs):
-        if 101 <= self.group_num <= 115:
-            self.course_num = 1
-        elif 201 <= self.group_num <= 215:
-            self.course_num = 2
-        elif 301 <= self.group_num <= 315:
-            self.course_num = 3
-        elif 401 <= self.group_num <= 415:
-            self.course_num = 4
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if 101 <= self.group_num <= 115:
+    #         self.course_num = 1
+    #     elif 201 <= self.group_num <= 215:
+    #         self.course_num = 2
+    #     elif 301 <= self.group_num <= 315:
+    #         self.course_num = 3
+    #     elif 401 <= self.group_num <= 415:
+    #         self.course_num = 4
+    #     super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.group_num}"
@@ -56,13 +55,9 @@ class Student(AbstractBaseModel):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     telegram_id = models.BigIntegerField(unique=True, blank=True, null=True)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='students')
-    course_num = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    course_num = models.IntegerField()
     is_active = models.BooleanField(default=True)
-
-    def save(self, *args, **kwargs):
-        self.course_num = self.group.course_num
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} "
@@ -75,21 +70,7 @@ class Student(AbstractBaseModel):
 class Teacher(AbstractBaseModel):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-    average_score = models.FloatField(blank=True, null=True)
-    percentage = models.FloatField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
-
-    def average_score(self):
-        avg_score = Score.objects.filter(teacher=self).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
-        return format(avg_score, '.2f') if avg_score is not None else '0.00'
-
-    average_score.short_description = "O'rtacha baho"
-
-    def percentage(self):
-        avg_score = Score.objects.filter(teacher=self).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
-        return format(avg_score * 20, '.2f') if avg_score is not None else '0.00'
-
-    percentage.short_description = "Foiz %"
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

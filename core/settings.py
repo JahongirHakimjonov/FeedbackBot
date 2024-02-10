@@ -165,7 +165,7 @@ JAZZMIN_SETTINGS = {
 
     "usermenu_links": [
         {"name": "Support", "url": "https://t.me/tiiamenru_fed_supportbot", "new_window": True},
-        {"model": "auth.user"}
+        # {"model": "auth.user"}
     ],
     "show_sidebar": True,
     "navigation_expanded": True,

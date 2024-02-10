@@ -146,7 +146,7 @@ async def cronjob():
                 (now.weekday(), now.strftime('%H:%M:%S')))
     classes = cur.fetchall()
     for class_ in classes:
-        cur.execute("SELECT telegram_id FROM students WHERE group_id = %s", (class_['group_id'],))
+        cur.execute("SELECT telegram_id FROM students WHERE group_id = %s AND telegram_id IS NOT NULL", (class_['group_id'],))
         students = cur.fetchall()
         for student in students:
             cur.execute("SELECT first_name, last_name FROM teachers WHERE id = %s", (class_['teacher_id'],))
@@ -178,10 +178,6 @@ async def process_callback(callback_query: types.CallbackQuery, state: FSMContex
     async with state.proxy() as data:
         data['feedback_prompt_message_id'] = feedback_message.message_id
 
-    # Wait for 70 minutes
-    await asyncio.sleep(1 * 10)
-
-    # Check if the user has responded
     async with state.proxy() as data:
         if 'feedback' not in data:
             # If the user hasn't responded, delete the messages
@@ -193,6 +189,10 @@ async def process_callback(callback_query: types.CallbackQuery, state: FSMContex
 async def process_feedback_message(message: types.Message, state: FSMContext):
     try:
         async with state.proxy() as data:
+            if 'rating_message_id' not in data:
+                await bot.send_message(message.chat.id, "Please rate first before giving feedback.")
+                return
+
             cur.execute(
                 "SELECT lesson_id, teacher_id FROM class_schedule WHERE group_id = (SELECT group_id FROM students "
                 "WHERE telegram_id = %s)",

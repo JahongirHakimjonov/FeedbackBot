@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Avg
 from import_export.admin import ImportExportModelAdmin
 
 from .models import Student, Teacher, Lesson, ClassSchedule, Score, Group
@@ -37,6 +38,18 @@ class TeacherAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
     def full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
+
+    def average_score(self, obj):
+        avg_score = Score.objects.filter(teacher=obj).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
+        return format(avg_score, '.2f') if avg_score is not None else '0.00'
+
+    average_score.short_description = "O'rtacha baho"
+
+    def percentage(self, obj):
+        avg_score = Score.objects.filter(teacher=obj).aggregate(avg_score=Avg('score_for_teacher'))['avg_score']
+        return format(avg_score * 20, '.2f') if avg_score is not None else '0.00'
+
+    percentage.short_description = "Foiz %"
 
     full_name.short_description = "To'liq ism"
 
