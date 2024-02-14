@@ -51,7 +51,7 @@ class TeacherAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
     percentage.short_description = "Foiz %"
 
-    full_name.short_description = "To'liq ism"
+    full_name.short_description = "Ism Familiya"
 
 
 @admin.register(Lesson)

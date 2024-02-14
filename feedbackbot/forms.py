@@ -5,16 +5,14 @@ from .models import Group, Teacher, Lesson, Student, Score, ClassSchedule
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['first_name', 'last_name', 'surname', 'telegram_id', 'group_num', 'courses']
+        fields = ['first_name', 'last_name', 'surname', 'telegram_id', 'group_num', 'courses', 'course_num']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.handle_group_choices()
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['group_num'].queryset = Group.objects.filter(is_active=True)
+    #     self.fields['courses'].queryset = Group.objects.filter(is_active=True)
+    #     self.fields['course_num'].queryset = Group.objects.filter(is_active=True)
 
-    def handle_group_choices(self):
-        if self.initial.get('courses'):
-            course = self.initial['courses']
-            self.fields['group'].choices = [(i, i) for i in course.get_group_range()]
 
 
 class BaseCommonForm(forms.ModelForm):

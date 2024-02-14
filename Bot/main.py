@@ -17,10 +17,8 @@ from psycopg2.extras import DictCursor
 
 load_dotenv(find_dotenv())
 
-# Initialize logging
 logging.basicConfig(filename='bot.log', level=logging.ERROR)
 
-# Initialize bot, dispatcher, and memory storage
 bot_token = os.getenv('BOT_TOKEN')
 if not bot_token:
     raise ValueError("Missing BOT_TOKEN environment variable")
@@ -28,11 +26,10 @@ bot = Bot(token=bot_token)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
-# Initialize database connection
-dbname = os.getenv('DB_NAME')
-user = os.getenv('DB_USER')
-password = os.getenv('DB_PASSWORD')
-host = os.getenv('DB_HOST')
+dbname = os.getenv('SQL_DATABASE')
+user = os.getenv('SQL_USER')
+password = os.getenv('SQL_PASSWORD')
+host = os.getenv('SQL_HOST')
 
 try:
     conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, cursor_factory=DictCursor)
@@ -43,7 +40,6 @@ except psycopg2.OperationalError as e:
     exit(1)
 
 
-# Define states for the FSM
 class Form(StatesGroup):
     login_id = State()
     password = State()
@@ -52,11 +48,9 @@ class Form(StatesGroup):
     feedback_message = State()
 
 
-# Handle /start command
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
     keyboards = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboards.add(types.KeyboardButton('Infoℹ⁉️'))
     await bot.send_message(message.chat.id, "👀", reply_markup=keyboards)
 
     try:
@@ -71,7 +65,6 @@ async def cmd_start(message: types.Message):
         logging.error(f"Error occurred in cmd_start while starting the bot: {es}")
 
 
-# Handle login_id state
 @dp.message_handler(state=Form.login_id)
 async def process_login_id(message: types.Message, state: FSMContext):
     try:
@@ -83,7 +76,6 @@ async def process_login_id(message: types.Message, state: FSMContext):
         logging.error(f"Error occurred in process_login_id while processing login id: {es}")
 
 
-# Handle password state
 @dp.message_handler(state=Form.password)
 async def process_password(message: types.Message, state: FSMContext):
     try:
@@ -93,21 +85,26 @@ async def process_password(message: types.Message, state: FSMContext):
                         (data['login_id'], data['password']))
             result = cur.fetchone()
             if result is not None:
-                cur.execute("UPDATE students SET telegram_id = %s WHERE login_id = %s AND password = %s",
-                            (message.from_user.id, data['login_id'], data['password']))
-                conn.commit()
-                await bot.send_message(message.chat.id, "Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi!")
+                if result['telegram_id'] is None:
+                    cur.execute("UPDATE students SET telegram_id = %s WHERE login_id = %s AND password = %s",
+                                (message.from_user.id, data['login_id'], data['password']))
+                    conn.commit()
+                    await bot.send_message(message.chat.id, "Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi!")
+                else:
+                    await bot.send_message(message.chat.id, "Bunday foydalanuvchi mavjud\n\nQayta urunish uchun /start "
+                                                            "buyrug'ini bosing.")
             else:
                 await bot.send_message(message.chat.id,
-                                       "Xatolik yuz berdi! Iltimos, qaytadan urinib ko'ring. \n\n/start")
-        await state.finish()
+                                       "Xatolik yuz berdi! Iltimos, qaytadan urinib ko'ring. \n\nQayta urunish uchun "
+                                       "/start buyrug'ini bosing")
     except Exception as es:
         logging.error(f"Error occurred in process_password while processing password: {es}")
+    finally:
+        await state.finish()
 
 
-# Handle Info button
-@dp.message_handler(lambda message: message.text == 'Infoℹ⁉️')
-async def handle_info_button(message: types.Message):
+@dp.message_handler(commands='about')
+async def cmd_info(message: types.Message):
     try:
         cur.execute(
             "SELECT students.first_name, students.last_name, groups.group_num, students.course_num, "
@@ -125,10 +122,45 @@ async def handle_info_button(message: types.Message):
         else:
             await bot.send_message(message.chat.id, "Siz ro'yxatdan o'tmagansiz! Iltimos, /start buyrug'ini bosing.")
     except Exception as es:
-        logging.error(f"Error occurred in handle_info_button while handling info button: {es}")
+        logging.error(f"Error occurred in cmd_info while handling info command: {es}")
 
 
-# Define the inline keyboard
+@dp.message_handler(commands='help')
+async def cmd_help(message: types.Message):
+    try:
+        await bot.send_message(message.chat.id,
+                               "Ushbu bot ta'lim sifatini nazorat qilish va ustozlarga baho berish uchun "
+                               "mo'ljallangan.\n"
+                               "Botdan foydalanish uchun quyidagi buyruqlardan foydalaning:\n\n"
+                               "/start - Botni ishga tushirish\n"
+                               "/about - O'z ma'lumotlaringizni ko'rish\n"
+                               "/tutorial - Botdan foydalanish uchun qo'llanma\n"
+                               "/help - Yordam\n\n")
+    except Exception as es:
+        logging.error(f"Error occurred in cmd_help while handling help command: {es}")
+
+
+@dp.message_handler(commands='tutorial')
+async def cmd_tutorial(message: types.Message):
+    try:
+        # Send video with caption
+        with open("Bot/tutorial.mp4", 'rb') as video_file:
+            await bot.send_video(chat_id=message.chat.id, video=video_file,
+                                 caption="Botdan foydalanish uchun ro'yxatdan o'tgan bo'lishingiz kerak.\n\n"
+                                         "Ro'yxatdan o'tish uchun shaxsiy login raqamingizni yuboring. Bu sizning "
+                                         "HEMIS ID raqamingiz hisoblanadi\n\n"
+                                         "Keyingi qadamda parolingizni yuboring. Agar siz ro'yxatdan o'tgan "
+                                         "bo'lsangiz, bot sizga ma'lumotlaringizni ko'rsatadi.\n\n"
+                                         "Parol bu sizning passport seriya raqamingiz hisoblanadi.  Misol uchun: "
+                                         "AA1234567\n\n"
+                                         "Agar siz ro'yxatdan o'tmagan bo'lsangiz, bot sizni ro'yxatdan o'tishga "
+                                         "chaqiradi.\n\n"
+                                         "Agar sizga darsingiz yo'q vaqtda baho berish uchun habar yuborilsa iltimos "
+                                         "buni be etibor qoldiring.\n")
+    except Exception as es:
+        logging.error(f"Error occurred in cmd_tutorial while handling tutorial command: {es}")
+
+
 keyboard = InlineKeyboardMarkup()
 keyboard.row(
     InlineKeyboardButton("1", callback_data="1"),
@@ -143,10 +175,11 @@ keyboard.row(
 async def cronjob():
     now = datetime.now(pytz.timezone('Asia/Tashkent'))
     cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
-                (now.weekday(), now.strftime('%H:%M:%S')))
+                ((now.weekday() + 1) % 7, now.strftime('%H:%M:%S')))
     classes = cur.fetchall()
     for class_ in classes:
-        cur.execute("SELECT telegram_id FROM students WHERE group_id = %s AND telegram_id IS NOT NULL", (class_['group_id'],))
+        cur.execute("SELECT telegram_id FROM students WHERE group_id = %s AND telegram_id IS NOT NULL",
+                    (class_['group_id'],))
         students = cur.fetchall()
         for student in students:
             cur.execute("SELECT first_name, last_name FROM teachers WHERE id = %s", (class_['teacher_id'],))
@@ -168,16 +201,17 @@ async def cronjob():
 async def process_callback(callback_query: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
         data['score'] = int(callback_query.data)
-        if 'rating_message_id' in data:
-            await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
-        else:
-            print("rating_message_id not found in data")
+        data['rating_message_id'] = callback_query.message.message_id  # Store the message ID
 
     feedback_message = await bot.send_message(callback_query.from_user.id, "Fikr mulohazalaringizni jo'nating")
     await Form.feedback_message.set()
     async with state.proxy() as data:
-        data['feedback_prompt_message_id'] = feedback_message.message_id
+        data['feedback_prompt_message_id'] = feedback_message.message_id  # Store the message ID
 
+    # Wait for 70 minutes
+    await asyncio.sleep(70 * 60)
+
+    # Check if the user has responded
     async with state.proxy() as data:
         if 'feedback' not in data:
             # If the user hasn't responded, delete the messages
@@ -189,10 +223,6 @@ async def process_callback(callback_query: types.CallbackQuery, state: FSMContex
 async def process_feedback_message(message: types.Message, state: FSMContext):
     try:
         async with state.proxy() as data:
-            if 'rating_message_id' not in data:
-                await bot.send_message(message.chat.id, "Please rate first before giving feedback.")
-                return
-
             cur.execute(
                 "SELECT lesson_id, teacher_id FROM class_schedule WHERE group_id = (SELECT group_id FROM students "
                 "WHERE telegram_id = %s)",

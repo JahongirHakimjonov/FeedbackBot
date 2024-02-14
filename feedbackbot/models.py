@@ -25,24 +25,24 @@ class Group(AbstractBaseModel):
         ('rus', "Rus guruh"),
     ]
 
-    group_num = models.IntegerField(unique=True)
+    group_num = models.IntegerField()
     course_num = models.IntegerField(blank=True, null=True)
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     is_active = models.BooleanField(default=True)
 
-    # def save(self, *args, **kwargs):
-    #     if 101 <= self.group_num <= 115:
-    #         self.course_num = 1
-    #     elif 201 <= self.group_num <= 215:
-    #         self.course_num = 2
-    #     elif 301 <= self.group_num <= 315:
-    #         self.course_num = 3
-    #     elif 401 <= self.group_num <= 415:
-    #         self.course_num = 4
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if 101 <= self.group_num <= 115:
+            self.course_num = 1
+        elif 201 <= self.group_num <= 215:
+            self.course_num = 2
+        elif 301 <= self.group_num <= 315:
+            self.course_num = 3
+        elif 401 <= self.group_num <= 415:
+            self.course_num = 4
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.group_num}"
+        return str(self.group_num)
 
     class Meta:
         verbose_name_plural = "Guruhlar"
@@ -50,17 +50,22 @@ class Group(AbstractBaseModel):
 
 
 class Student(AbstractBaseModel):
-    login_id = models.CharField(max_length=20, unique=True)
-    password = models.CharField(max_length=20, unique=True)
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    id = models.AutoField(primary_key=True)
+    login_id = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     telegram_id = models.BigIntegerField(unique=True, blank=True, null=True)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
     course_num = models.IntegerField()
     is_active = models.BooleanField(default=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        self.course_num = self.group.course_num
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} "
+        return f"{self.first_name} {self.last_name}"
 
     class Meta:
         verbose_name_plural = "Talabalar"
@@ -109,12 +114,12 @@ class Score(AbstractBaseModel):
 
 class ClassSchedule(AbstractBaseModel):
     DAYS_OF_WEEK = [
-        (0, 'Dushanba'),
-        (1, 'Seshanba'),
-        (2, 'Chorshanba'),
-        (3, 'Payshanba'),
-        (4, 'Juma'),
-        (5, 'Shanba'),
+        (1, 'Dushanba'),
+        (2, 'Seshanba'),
+        (3, 'Chorshanba'),
+        (4, 'Payshanba'),
+        (5, 'Juma'),
+        (6, 'Shanba'),
     ]
 
     LESSON_START_TIME = [
@@ -135,7 +140,7 @@ class ClassSchedule(AbstractBaseModel):
     day = models.IntegerField(choices=DAYS_OF_WEEK)
     start_time = models.CharField(max_length=15, choices=LESSON_START_TIME)
     end_time = models.CharField(max_length=15, blank=True, null=True)
-    room = models.IntegerField()
+    room = models.CharField(max_length=20, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         start_time_obj = datetime.strptime(self.start_time, '%H:%M:%S')
