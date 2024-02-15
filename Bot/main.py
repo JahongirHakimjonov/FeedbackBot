@@ -60,7 +60,7 @@ async def cmd_start(message: types.Message):
             await bot.send_message(message.chat.id, "*Shaxsiy login raqamingizni yuboring❗*", parse_mode='Markdown')
             await Form.login_id.set()
         else:
-            await bot.send_message(message.chat.id, "*Siz allaqachon ro'yxatdan o'tgansiz❗.*", parse_mode='Markdown')
+            await bot.send_message(message.chat.id, "*Siz allaqachon ro'yxatdan o'tgansiz❗*", parse_mode='Markdown')
     except Exception as es:
         logging.error(f"Error occurred in cmd_start while starting the bot: {es}")
 
@@ -97,7 +97,7 @@ async def process_password(message: types.Message, state: FSMContext):
                                                             "buyrug'ini bosing.", parse_mode='Markdown')
             else:
                 await bot.send_message(message.chat.id,
-                                       "*ID yoki parolingiz xato iltimos qaytadan urunib ko'ring.❗* \n\nQayta urunish "
+                                       "*ID yoki parolingiz xato iltimos qaytadan urunib ko'ring❗* \n\nQayta urunish "
                                        "uchun"
                                        " /start buyrug'ini bosing", parse_mode='Markdown')
     except Exception as es:

@@ -21,7 +21,7 @@ class StudentAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = StudentResource
     list_display = ('first_name', 'last_name', 'telegram_id', 'group_number', 'course_num')
     fields = ('login_id', 'password', 'first_name', 'last_name', 'telegram_id', 'group')
-    list_filter = ('group', 'course_num', 'group__group_num')
+    list_filter = ('group', 'course_num')
     search_fields = ('first_name', 'last_name', 'telegram_id', 'group__group_num')
 
     def group_number(self, obj):

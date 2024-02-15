@@ -12,7 +12,7 @@ class StudentResource(resources.ModelResource):
 
     class Meta:
         model = Student
-        fields = ('login_id', 'password', 'first_name', 'last_name', 'group', 'course_num')
+        fields = ('login_id', 'password', 'first_name', 'last_name', 'group')
         exclude = ('id',)
         import_id_fields = ['login_id']
 
@@ -66,7 +66,7 @@ class ScoreResource(resources.ModelResource):
 class GroupResource(resources.ModelResource):
     class Meta:
         model = Group
-        fields = ('id', 'group_num', 'type', 'course_num')
+        fields = ('id', 'group_num', 'type')
 
     def get_import_id_fields(self):
         return ['id']

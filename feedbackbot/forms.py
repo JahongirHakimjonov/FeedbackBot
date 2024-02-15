@@ -14,7 +14,6 @@ class StudentForm(forms.ModelForm):
     #     self.fields['course_num'].queryset = Group.objects.filter(is_active=True)
 
 
-
 class BaseCommonForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

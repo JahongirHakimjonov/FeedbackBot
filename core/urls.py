@@ -22,7 +22,6 @@ from django.urls import path, include
 urlpatterns = [
     path('tiiame/admin/', admin.site.urls),
     path('', include('feedbackbot.urls')),
-    path('i18n/', include('django.conf.urls.i18n')),
 ]
 
 if settings.DEBUG:
