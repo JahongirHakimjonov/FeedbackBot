@@ -487,3 +487,94 @@ HINT:  Оператор с данными именем и типами аргументов не найден. Возможно, вам сл
 
 ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 2] No such file or directory: '/app/Bot/tutorial.mp4'
 ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 2] No such file or directory: '/app/Bot/tutorial.mp4'
+ERROR:asyncio:Task exception was never retrieved
+future: <Task finished name='Task-132' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=KeyError('rating_message_id')>
+Traceback (most recent call last):
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
+    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
+    return await asyncio.gather(*tasks)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in process_update
+    return await self.callback_query_handlers.notify(update.callback_query)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 212, in process_callback
+    await asyncio.sleep(70 * 60)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\storage.py", line 439, in __getitem__
+    return self._data[item]
+KeyError: 'rating_message_id'
+ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 2] No such file or directory: 'Bot/tutorial.mp4'
+ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 22] Invalid argument: 'D:\\Python\\MyProjects\\TIIAME_NRU\\Bot\tutorial.mp4'
+ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Message caption is too long
+ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Message caption is too long
+ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Wrong file identifier/http url specified
+ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Wrong file identifier/http url specified
+ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Wrong file identifier/http url specified
+ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Message caption is too long
+ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Message caption is too long
+ERROR:asyncio:Task exception was never retrieved
+future: <Task finished name='Task-9' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=MissingSchema("Invalid URL '/instagram': No scheme supplied. Perhaps you meant https:///instagram?")>
+Traceback (most recent call last):
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
+    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
+    return await asyncio.gather(*tasks)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 256, in process_update
+    return await self.message_handlers.notify(update.message)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 157, in send_instagram_video
+    download_instagram_video(url)
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 150, in download_instagram_video
+    r = requests.get(url, allow_redirects=True)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 575, in request
+    prep = self.prepare_request(req)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 486, in prepare_request
+    p.prepare(
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\models.py", line 368, in prepare
+    self.prepare_url(url, params)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\models.py", line 439, in prepare_url
+    raise MissingSchema(
+requests.exceptions.MissingSchema: Invalid URL '/instagram': No scheme supplied. Perhaps you meant https:///instagram?
+ERROR:asyncio:Task exception was never retrieved
+future: <Task finished name='Task-16' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=MissingSchema("Invalid URL '/instagram': No scheme supplied. Perhaps you meant https:///instagram?")>
+Traceback (most recent call last):
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
+    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
+    return await asyncio.gather(*tasks)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 256, in process_update
+    return await self.message_handlers.notify(update.message)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 157, in send_instagram_video
+    download_instagram_video(url)
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 150, in download_instagram_video
+    r = requests.get(url, allow_redirects=True)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 575, in request
+    prep = self.prepare_request(req)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 486, in prepare_request
+    p.prepare(
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\models.py", line 368, in prepare
+    self.prepare_url(url, params)
+  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\models.py", line 439, in prepare_url
+    raise MissingSchema(
+requests.exceptions.MissingSchema: Invalid URL '/instagram': No scheme supplied. Perhaps you meant https:///instagram?
+ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Message caption is too long
+ERROR:root:Error occurred in cmd_help while handling help command: Can't parse entities: unsupported start tag "quote" at byte offset 283
+ERROR:root:Error occurred in cmd_help while handling help command: Can't parse entities: unsupported start tag "quote" at byte offset 283
+ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 2] No such file or directory: 'D:\\Python\\MyProjects\\TIIAME_NRU\\Bot\\tutorial.mp4'

@@ -51,16 +51,16 @@ class Form(StatesGroup):
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
     keyboards = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    await bot.send_message(message.chat.id, "👀", reply_markup=keyboards)
+    await bot.send_message(message.chat.id, "Assalomu alaykum", reply_markup=keyboards)
 
     try:
         cur.execute("SELECT * FROM students WHERE telegram_id = %s", (message.from_user.id,))
         result = cur.fetchone()
         if result is None:
-            await bot.send_message(message.chat.id, "Shaxsiy login raqamingizni yuboring.")
+            await bot.send_message(message.chat.id, "*Shaxsiy login raqamingizni yuboring❗*", parse_mode='Markdown')
             await Form.login_id.set()
         else:
-            await bot.send_message(message.chat.id, "Siz allaqachon ro'yxatdan o'tgansiz!.")
+            await bot.send_message(message.chat.id, "*Siz allaqachon ro'yxatdan o'tgansiz❗.*", parse_mode='Markdown')
     except Exception as es:
         logging.error(f"Error occurred in cmd_start while starting the bot: {es}")
 
@@ -70,7 +70,7 @@ async def process_login_id(message: types.Message, state: FSMContext):
     try:
         async with state.proxy() as data:
             data['login_id'] = message.text
-        await bot.send_message(message.chat.id, "Iltimos, parolingizni yuboring.")
+        await bot.send_message(message.chat.id, "*Iltimos, parolingizni yuboring❗*", parse_mode='Markdown')
         await Form.next()
     except Exception as es:
         logging.error(f"Error occurred in process_login_id while processing login id: {es}")
@@ -89,14 +89,17 @@ async def process_password(message: types.Message, state: FSMContext):
                     cur.execute("UPDATE students SET telegram_id = %s WHERE login_id = %s AND password = %s",
                                 (message.from_user.id, data['login_id'], data['password']))
                     conn.commit()
-                    await bot.send_message(message.chat.id, "Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi!")
+                    await bot.send_message(message.chat.id, "*Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi❗*",
+                                           parse_mode='Markdown')
                 else:
-                    await bot.send_message(message.chat.id, "Bunday foydalanuvchi mavjud\n\nQayta urunish uchun /start "
-                                                            "buyrug'ini bosing.")
+                    await bot.send_message(message.chat.id, "*Bunday foydalanuvchi mavjud❗*\n\nQayta urunish uchun "
+                                                            "/start"
+                                                            "buyrug'ini bosing.", parse_mode='Markdown')
             else:
                 await bot.send_message(message.chat.id,
-                                       "Xatolik yuz berdi! Iltimos, qaytadan urinib ko'ring. \n\nQayta urunish uchun "
-                                       "/start buyrug'ini bosing")
+                                       "*ID yoki parolingiz xato iltimos qaytadan urunib ko'ring.❗* \n\nQayta urunish "
+                                       "uchun"
+                                       " /start buyrug'ini bosing", parse_mode='Markdown')
     except Exception as es:
         logging.error(f"Error occurred in process_password while processing password: {es}")
     finally:
@@ -120,7 +123,8 @@ async def cmd_info(message: types.Message):
                                    f"Kurs: ```{result[3]}```\n"
                                    f"Telegram id: ```{result[4]}```", parse_mode='Markdown')
         else:
-            await bot.send_message(message.chat.id, "Siz ro'yxatdan o'tmagansiz! Iltimos, /start buyrug'ini bosing.")
+            await bot.send_message(message.chat.id, "*Siz ro'yxatdan o'tmagansiz❗* Iltimos, /start buyrug'ini bosing.",
+                                   parse_mode='Markdown')
     except Exception as es:
         logging.error(f"Error occurred in cmd_info while handling info command: {es}")
 
@@ -135,28 +139,46 @@ async def cmd_help(message: types.Message):
                                "/start - Botni ishga tushirish\n"
                                "/about - O'z ma'lumotlaringizni ko'rish\n"
                                "/tutorial - Botdan foydalanish uchun qo'llanma\n"
-                               "/help - Yordam\n\n")
+                               "/help - Yordam\n\n"
+                               "*Bunday foydalanuvchi mavjud*\nhabari kelsa demak sizga tegishli ID va parol "
+                               "orqali boshqa talaba ro'yxatdan o'tgan bo'ladi. Bunday holatda siz fakultet "
+                               "dekanatiga murojat qilishingiz kerak.\n\n"
+                               "*ID yoki parolingiz xato iltimos qaytadan urunib ko'ring*\ndegan habar kelsa "
+                               "demak siz ID yoki parolni noto'g'ri kiritgansiz. Iltimos, qaytadan urinib "
+                               "ko'ring.\n\n"
+                               "*Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi!*\nhabari kelgandagina siz "
+                               "ro'yxatdan muvafaqiyatli o'tgan bo'lasizn\n\n"
+                               "Darsingiz tugagan vaqtda 1 dan 5 gacha baho berish uchun habar keladi va "
+                               "baho berganingizdan so'ng\n\n*Dars va ustoz haqida fikr va takliflaringizni "
+                               "yuboring.*\n"
+                               "degan habar keladi bu holatda har qanday fikr va takliflaringizni "
+                               "yuborishingiz shart aks holda bergan bahoyingiz qabul qilinmaydi.❗",
+                               parse_mode='Markdown')
     except Exception as es:
         logging.error(f"Error occurred in cmd_help while handling help command: {es}")
 
+
+# ... other parts of the code ...
 
 @dp.message_handler(commands='tutorial')
 async def cmd_tutorial(message: types.Message):
     try:
         # Send video with caption
-        with open("Bot/tutorial.mp4", 'rb') as video_file:
+        tutorial_video_path = os.path.join(os.path.dirname(__file__), '../media/tutorial.mp4')
+        with open(tutorial_video_path, 'rb') as video_file:
             await bot.send_video(chat_id=message.chat.id, video=video_file,
                                  caption="Botdan foydalanish uchun ro'yxatdan o'tgan bo'lishingiz kerak.\n\n"
                                          "Ro'yxatdan o'tish uchun shaxsiy login raqamingizni yuboring. Bu sizning "
-                                         "HEMIS ID raqamingiz hisoblanadi\n\n"
-                                         "Keyingi qadamda parolingizni yuboring. Agar siz ro'yxatdan o'tgan "
-                                         "bo'lsangiz, bot sizga ma'lumotlaringizni ko'rsatadi.\n\n"
+                                         "*HEMIS ID* raqamingiz hisoblanadi\n\n"
+                                         "Keyingi qadamda parolingizni yuboring.\n\n"
                                          "Parol bu sizning passport seriya raqamingiz hisoblanadi.  Misol uchun: "
-                                         "AA1234567\n\n"
+                                         "*AA1234567*\n\n"
+                                         "Agar siz ro'yxatdan o'tgan "
+                                         "bo'lsangiz, bot sizga ma'lumotlaringizni ko'rsatadi.\n\n"
                                          "Agar siz ro'yxatdan o'tmagan bo'lsangiz, bot sizni ro'yxatdan o'tishga "
                                          "chaqiradi.\n\n"
-                                         "Agar sizga darsingiz yo'q vaqtda baho berish uchun habar yuborilsa iltimos "
-                                         "buni be etibor qoldiring.\n")
+                                         "*Agar sizga darsingiz yo'q vaqtda baho berish uchun habar yuborilsa iltimos "
+                                         "buni be etibor qoldiring.❗️❗️*\n\n", parse_mode='Markdown')
     except Exception as es:
         logging.error(f"Error occurred in cmd_tutorial while handling tutorial command: {es}")
 
@@ -196,6 +218,11 @@ async def cronjob():
                                    "Ustozning pedagoglik mahoratiga baho bering❗️👇",
                                    reply_markup=keyboard, parse_mode='Markdown')
 
+            # Store the class_id in the state
+            state = dp.current_state(user=student['telegram_id'])
+            async with state.proxy() as data:
+                data['class_id'] = class_['id']
+
 
 @dp.callback_query_handler(lambda c: c.data and c.data.isdigit())
 async def process_callback(callback_query: types.CallbackQuery, state: FSMContext):
@@ -203,7 +230,8 @@ async def process_callback(callback_query: types.CallbackQuery, state: FSMContex
         data['score'] = int(callback_query.data)
         data['rating_message_id'] = callback_query.message.message_id  # Store the message ID
 
-    feedback_message = await bot.send_message(callback_query.from_user.id, "Fikr mulohazalaringizni jo'nating")
+    feedback_message = await bot.send_message(callback_query.from_user.id, "Dars va ustoz haqida fikr va "
+                                                                           "takliflaringizni yuboring.")
     await Form.feedback_message.set()
     async with state.proxy() as data:
         data['feedback_prompt_message_id'] = feedback_message.message_id  # Store the message ID
@@ -224,9 +252,8 @@ async def process_feedback_message(message: types.Message, state: FSMContext):
     try:
         async with state.proxy() as data:
             cur.execute(
-                "SELECT lesson_id, teacher_id FROM class_schedule WHERE group_id = (SELECT group_id FROM students "
-                "WHERE telegram_id = %s)",
-                (message.from_user.id,))
+                "SELECT lesson_id, teacher_id FROM class_schedule WHERE id = %s",
+                (data['class_id'],))
             lesson_id, teacher_id = cur.fetchone()
 
             cur.execute(
