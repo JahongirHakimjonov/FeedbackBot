@@ -204,9 +204,9 @@ async def cronjob():
                     (class_['group_id'],))
         students = cur.fetchall()
         for student in students:
-            cur.execute("SELECT first_name, last_name FROM teachers WHERE id = %s", (class_['teacher_id'],))
+            cur.execute("SELECT full_name FROM teachers WHERE id = %s", (class_['teacher_id'],))
             teacher = cur.fetchone()
-            teacher_name = teacher['first_name'] + ' ' + teacher['last_name']
+            teacher_name = teacher['full_name']
 
             cur.execute("SELECT name FROM lessons WHERE id = %s", (class_['lesson_id'],))
             lesson_name = cur.fetchone()['name']

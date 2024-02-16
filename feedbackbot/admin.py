@@ -34,7 +34,7 @@ class StudentAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class TeacherAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = TeacherResource
     list_display = ('full_name', 'average_score', 'percentage')
-    search_fields = ('first_name', 'last_name')
+    search_fields = ('full_name',)
 
     def full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
@@ -63,7 +63,7 @@ class LessonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     def teacher_names(self, obj):
         class_schedule_instances = ClassSchedule.objects.filter(lesson=obj)
         teachers_for_lesson = [cs.teacher for cs in class_schedule_instances]
-        return ", ".join([f"{teacher.first_name} {teacher.last_name}" for teacher in teachers_for_lesson])
+        return ", ".join([f"{teacher.full_name}" for teacher in teachers_for_lesson])
 
     teacher_names.short_description = 'Ustozlar'
 
@@ -72,11 +72,11 @@ class LessonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class ScoreAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = ScoreResource
     list_display = ('teacher_name', 'lesson_name', 'score_for_teacher', 'feedback', 'student')
-    list_filter = ('teacher__first_name', 'teacher__last_name', 'lesson__name')
-    search_fields = ('teacher__first_name', 'teacher__last_name', 'lesson__name')
+    list_filter = ('teacher__full_name', 'lesson__name')
+    search_fields = ('teacher__full_name', 'lesson__name')
 
     def teacher_name(self, obj):
-        return f"{obj.teacher.first_name} {obj.teacher.last_name}"
+        return f"{obj.teacher.full_name}"
 
     teacher_name.short_description = 'Ustoz'
 
@@ -91,11 +91,11 @@ class ClassScheduleAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = ClassScheduleResource
     list_display = ('day', 'lesson_name', 'teacher_names', 'group_number', 'start_time')
     exclude = ('end_time',)
-    list_filter = ('group', 'day', 'lesson__name', 'group__group_num')
+    list_filter = ('group', 'day', 'lesson__name')
     search_fields = ('group__group_num', 'lesson__name')
 
     def teacher_names(self, obj):
-        return f"{obj.teacher.first_name} {obj.teacher.last_name}"
+        return f"{obj.teacher.full_name}"
 
     teacher_names.short_description = 'Ustozlar'
 

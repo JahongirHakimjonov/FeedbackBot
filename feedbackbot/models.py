@@ -73,12 +73,12 @@ class Student(AbstractBaseModel):
 
 
 class Teacher(AbstractBaseModel):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    full_name = models.CharField(max_length=50)
+    # last_name = models.CharField(max_length=20)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.full_name}"
 
     class Meta:
         verbose_name_plural = "Uztozlar"
@@ -143,8 +143,12 @@ class ClassSchedule(AbstractBaseModel):
     room = models.CharField(max_length=20, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        start_time_obj = datetime.strptime(self.start_time, '%H:%M:%S')
-        end_time_obj = start_time_obj + timedelta(minutes=80)
+        if isinstance(self.start_time, str):
+            start_time_obj = datetime.strptime(self.start_time, '%H:%M:%S').time()
+        else:
+            start_time_obj = self.start_time
+
+        end_time_obj = (datetime.combine(datetime.today(), start_time_obj) + timedelta(minutes=80)).time()
         self.end_time = end_time_obj.strftime('%H:%M:%S')
         super().save(*args, **kwargs)
 
