@@ -61,7 +61,8 @@ async def send_news():
                     caption = caption[:1021] + "..."
                 if news['image']:
                     try:
-                        with open(f"../media/{news['image']}", 'rb') as photo:
+                        rasm = os.path.join(os.path.dirname(__file__), f"../media/{news['image']}")
+                        with open(rasm, 'rb') as photo:
                             await bot.send_photo(user['telegram_id'], photo, caption=caption, parse_mode='Markdown')
                     except FileNotFoundError:
                         logging.error(f"File not found: media/{news['image']}")

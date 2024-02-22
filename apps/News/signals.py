@@ -6,14 +6,7 @@ from Bot.main import send_news
 
 
 @receiver(post_save, sender=News)
-def news_post_save(sender, instance, created, **kwargs):
+async def news_post_save(sender, instance, created, **kwargs):
     if created:
         print("News created and sending to telegram ")
-
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-
-        try:
-            loop.run_until_complete(send_news())
-        finally:
-            loop.close()
+        await send_news()
