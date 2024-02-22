@@ -155,3 +155,36 @@ RuntimeError: There is no current event loop in thread 'Thread-1 (process_reques
 INFO:django.utils.autoreload:D:\Python\MyProjects\TIIAME_NRU\apps\News\signals.py changed, reloading.
 INFO:django.utils.autoreload:Watching for file changes with StatReloader
 INFO:django.utils.autoreload:Watching for file changes with StatReloader
+INFO:django.utils.autoreload:D:\Python\MyProjects\TIIAME_NRU\apps\News\signals.py changed, reloading.
+ERROR:asyncio:Fatal error on SSL transport
+protocol: <asyncio.sslproto.SSLProtocol object at 0x000001ECE426F9A0>
+transport: <_ProactorSocketTransport fd=832 read=<_OverlappedFuture cancelled>>
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\sslproto.py", line 690, in _process_write_backlog
+    self._transport.write(chunk)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\proactor_events.py", line 365, in write
+    self._loop_writing(data=bytes(data))
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\proactor_events.py", line 401, in _loop_writing
+    self._write_fut = self._loop._proactor.send(self._sock, data)
+AttributeError: 'NoneType' object has no attribute 'send'
+INFO:django.utils.autoreload:Watching for file changes with StatReloader
+INFO:django.utils.autoreload:Watching for file changes with StatReloader
+WARNING:django.request:Not Found: /admin/
+ERROR:root:File not found: media/news/elon2_14_Nnyx06j.png
+ERROR:root:File not found: media/news/elon2_14_Nnyx06j.png
+ERROR:root:File not found: media/news/elon2_14_Nnyx06j.png
+INFO:django.utils.autoreload:Watching for file changes with StatReloader
+WARNING:django.request:Not Found: /admin/
+INFO:django.utils.autoreload:Watching for file changes with StatReloader
+WARNING:django.request:Not Found: /admin/
+ERROR:root:File not found: media/news/YcLbRyGPzSFMaFJ1REY9N_Y9W1Yud_b0.jpg
+ERROR:root:File not found: media/news/YcLbRyGPzSFMaFJ1REY9N_Y9W1Yud_b0.jpg
+ERROR:root:File not found: media/news/YcLbRyGPzSFMaFJ1REY9N_Y9W1Yud_b0.jpg
+INFO:django.utils.autoreload:Watching for file changes with StatReloader
+ERROR:root:File not found: media/news/YcLbRyGPzSFMaFJ1REY9N_Y9W1Yud_b0.jpg
+INFO:django.utils.autoreload:Watching for file changes with StatReloader
+ERROR:root:File not found: media/news/YcLbRyGPzSFMaFJ1REY9N_Y9W1Yud_b0.jpg
+INFO:django.utils.autoreload:D:\Python\MyProjects\TIIAME_NRU\apps\News\signals.py changed, reloading.
+INFO:django.utils.autoreload:Watching for file changes with StatReloader
+INFO:django.utils.autoreload:D:\Python\MyProjects\TIIAME_NRU\Bot\main.py changed, reloading.
+INFO:django.utils.autoreload:Watching for file changes with StatReloader

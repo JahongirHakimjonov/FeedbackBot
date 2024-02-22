@@ -52,7 +52,7 @@ async def send_news():
     try:
         cur.execute("SELECT telegram_id FROM students WHERE telegram_id IS NOT NULL")
         users = cur.fetchall()
-        cur.execute("SELECT title, content, image FROM news")
+        cur.execute("SELECT title, content, image FROM news ORDER BY created_at DESC LIMIT 1")
         data = cur.fetchall()
         for user in users:
             for news in data:
