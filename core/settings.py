@@ -39,7 +39,7 @@ ALLOWED_HOSTS = ['*']
 
 class MyApplicationConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'feedbackbot'
+    name = 'apps.feedbackbot'
 
 
 INSTALLED_APPS = [
@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'feedbackbot.apps.FeedbackbotConfig',
+    'apps.feedbackbot.apps.FeedbackbotConfig',
+    'apps.News.apps.NewsConfig',
     'import_export'
 ]
 

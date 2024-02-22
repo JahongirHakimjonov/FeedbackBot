@@ -10,9 +10,9 @@ from .resources import StudentResource, TeacherResource, LessonResource, ClassSc
 @admin.register(Group)
 class GroupAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = GroupResource
-    list_display = ('id', 'group_num', 'type', 'course_num')
+    list_display = ('group_num', 'type', 'course_num')
     exclude = ('course_num',)
-    list_filter = ('is_active', 'type')
+    list_filter = ('course_num', 'type')
     search_fields = ('group_num',)
 
 

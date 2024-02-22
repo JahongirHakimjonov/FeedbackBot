@@ -1,580 +1,218 @@
-ERROR:aiogram.dispatcher.dispatcher:Cause exception while getting updates.
+ERROR:root:Error occurred while running the bot: This event loop is already running
+ERROR:root:Error occurred in main while starting the bot: Event loop is closed
+ERROR:root:Error occurred while running the bot: This event loop is already running
+ERROR:root:Error occurred while running the bot: This event loop is already running
+ERROR:root:Error occurred in send_news: cursor already closed
+ERROR:root:Error occurred while running the bot: This event loop is already running
+ERROR:root:Error occurred in send_news: cursor already closed
+ERROR:root:Error occurred while running the bot: This event loop is already running
+ERROR:root:Error occurred in send_news: cursor already closed
+ERROR:root:Error occurred while running the bot: This event loop is already running
+ERROR:root:Error occurred in send_news: cursor already closed
+ERROR:root:Error occurred in main while starting the bot: Event loop is closed
+ERROR:root:Error occurred in main while starting the bot: There is no current event loop in thread 'MainThread'.
+ERROR:root:Error occurred in main while starting the bot: There is no current event loop in thread 'MainThread'.
+ERROR:root:Error occurred in main while starting the bot: There is no current event loop in thread 'MainThread'.
+ERROR:root:Error occurred while starting the bot: This event loop is already running
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 381, in start_polling
-    updates = await self.bot.get_updates(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\bot.py", line 110, in get_updates
-    result = await self.request(api.Methods.GET_UPDATES, payload)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\base.py", line 236, in request
-    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 139, in make_request
-    async with session.post(url, data=req, **kwargs) as response:
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 1167, in __aenter__
-    self._resp = await self._coro
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 586, in _request
-    await resp.start(conn)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client_reqrep.py", line 900, in start
-    with self._timer:
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\helpers.py", line 725, in __exit__
-    raise asyncio.TimeoutError from None
-asyncio.exceptions.TimeoutError
-ERROR:aiogram.dispatcher.dispatcher:Cause exception while getting updates.
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 221, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 1155, in _create_direct_connection
-    hosts = await asyncio.shield(host_resolved)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 874, in _resolve_host
-    addrs = await self._resolver.resolve(host, port, family=self._family)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\resolver.py", line 33, in resolve
-    infos = await self._loop.getaddrinfo(
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\base_events.py", line 863, in getaddrinfo
-    return await self.run_in_executor(
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\concurrent\futures\thread.py", line 58, in run
-    result = self.fn(*self.args, **self.kwargs)
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\socket.py", line 955, in getaddrinfo
-    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
-socket.gaierror: [Errno 11004] getaddrinfo failed
-
-The above exception was the direct cause of the following exception:
-
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 199, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:root:Error occurred in cmd_start while starting the bot: cursor already closed
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 139, in make_request
-    async with session.post(url, data=req, **kwargs) as response:
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 1167, in __aenter__
-    self._resp = await self._coro
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 562, in _request
-    conn = await self._connector.connect(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 540, in connect
-    proto = await self._create_connection(req, traces, timeout)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 901, in _create_connection
-    _, proto = await self._create_direct_connection(req, traces, timeout)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 1169, in _create_direct_connection
-    raise ClientConnectorError(req.connection_key, exc) from exc
-aiohttp.client_exceptions.ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [getaddrinfo failed]
-
-During handling of the above exception, another exception occurred:
-
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 199, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 381, in start_polling
-    updates = await self.bot.get_updates(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\bot.py", line 110, in get_updates
-    result = await self.request(api.Methods.GET_UPDATES, payload)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\base.py", line 236, in request
-    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 142, in make_request
-    raise exceptions.NetworkError(f"aiohttp client throws an error: {e.__class__.__name__}: {e}")
-aiogram.utils.exceptions.NetworkError: Aiohttp client throws an error: ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [getaddrinfo failed]
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-18' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=KeyError('rating_message_id')>
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 199, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in process_update
-    return await self.callback_query_handlers.notify(update.callback_query)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 185, in process_callback
-    await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\storage.py", line 439, in __getitem__
-    return self._data[item]
-KeyError: 'rating_message_id'
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-34' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=KeyError('rating_message_id')>
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 199, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in process_update
-    return await self.callback_query_handlers.notify(update.callback_query)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 185, in process_callback
-    await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\storage.py", line 439, in __getitem__
-    return self._data[item]
-KeyError: 'rating_message_id'
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-49' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=KeyError('rating_message_id')>
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 199, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:root:Error occurred in send_news: [Errno 2] No such file or directory: 'news/507.png'
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in process_update
-    return await self.callback_query_handlers.notify(update.callback_query)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 185, in process_callback
-    await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\storage.py", line 439, in __getitem__
-    return self._data[item]
-KeyError: 'rating_message_id'
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-81' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=KeyError('rating_message_id')>
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 221, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in process_update
-    return await self.callback_query_handlers.notify(update.callback_query)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 185, in process_callback
-    await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\storage.py", line 439, in __getitem__
-    return self._data[item]
-KeyError: 'rating_message_id'
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-23' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=KeyError('rating_message_id')>
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 221, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in process_update
-    return await self.callback_query_handlers.notify(update.callback_query)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 184, in process_callback
-    await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\storage.py", line 439, in __getitem__
-    return self._data[item]
-KeyError: 'rating_message_id'
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-31' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=KeyError('rating_message_id')>
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 221, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in process_update
-    return await self.callback_query_handlers.notify(update.callback_query)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 184, in process_callback
-    await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\storage.py", line 439, in __getitem__
-    return self._data[item]
-KeyError: 'rating_message_id'
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-15' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=KeyError('rating_message_id')>
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 221, in cronjob
+    @aiocron.crontab('* * * * *')
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:root:File not found: news/507.png
+ERROR:root:File not found: news/507.png
+ERROR:root:File not found: news/507.png
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in process_update
-    return await self.callback_query_handlers.notify(update.callback_query)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 184, in process_callback
-    await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\storage.py", line 439, in __getitem__
-    return self._data[item]
-KeyError: 'rating_message_id'
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-58' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=KeyError('rating_message_id')>
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 224, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:root:File not found: media/news/news/507.png
+ERROR:root:File not found: media/news/news/507.png
+ERROR:root:File not found: media/news/news/507.png
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in process_update
-    return await self.callback_query_handlers.notify(update.callback_query)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 184, in process_callback
-    await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\storage.py", line 439, in __getitem__
-    return self._data[item]
-KeyError: 'rating_message_id'
-ERROR:aiogram.dispatcher.dispatcher:Cause exception while getting updates.
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 224, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:root:Error occurred in cmd_start while starting the bot: cursor already closed
+ERROR:root:Error occurred in cmd_start while starting the bot: cursor already closed
+ERROR:root:Error occurred in cmd_start while starting the bot: cursor already closed
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 381, in start_polling
-    updates = await self.bot.get_updates(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\bot.py", line 110, in get_updates
-    result = await self.request(api.Methods.GET_UPDATES, payload)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\base.py", line 236, in request
-    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 139, in make_request
-    async with session.post(url, data=req, **kwargs) as response:
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 1167, in __aenter__
-    self._resp = await self._coro
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 586, in _request
-    await resp.start(conn)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client_reqrep.py", line 900, in start
-    with self._timer:
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\helpers.py", line 725, in __exit__
-    raise asyncio.TimeoutError from None
-asyncio.exceptions.TimeoutError
-ERROR:aiogram.dispatcher.dispatcher:Cause exception while getting updates.
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 224, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:asyncio:Exception in callback Cron.set_result(<_GatheringFu...ady closed')]>)
+handle: <Handle Cron.set_result(<_GatheringFu...ady closed')]>)>
 Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 381, in start_polling
-    updates = await self.bot.get_updates(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\bot.py", line 110, in get_updates
-    result = await self.request(api.Methods.GET_UPDATES, payload)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\base.py", line 236, in request
-    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 139, in make_request
-    async with session.post(url, data=req, **kwargs) as response:
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 1167, in __aenter__
-    self._resp = await self._coro
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 586, in _request
-    await resp.start(conn)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client_reqrep.py", line 900, in start
-    with self._timer:
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\helpers.py", line 725, in __exit__
-    raise asyncio.TimeoutError from None
-asyncio.exceptions.TimeoutError
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-42' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=KeyError('rating_message_id')>
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in process_update
-    return await self.callback_query_handlers.notify(update.callback_query)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 174, in process_callback
-    await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\storage.py", line 439, in __getitem__
-    return self._data[item]
-KeyError: 'rating_message_id'
-ERROR:root:Error occurred in main while starting the bot: Aiohttp client throws an error: ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [Превышен таймаут семафора]
-ERROR:aiogram.dispatcher.dispatcher:Cause exception while getting updates.
-Traceback (most recent call last):
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\windows_events.py", line 494, in finish_recv
-    return ov.getresult()
-OSError: [WinError 64] Указанное сетевое имя более недоступно
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 980, in _wrap_create_connection
-    return await self._loop.create_connection(*args, **kwargs)  # type: ignore[return-value]  # noqa
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\base_events.py", line 1103, in create_connection
-    transport, protocol = await self._create_connection_transport(
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\base_events.py", line 1133, in _create_connection_transport
-    await waiter
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\proactor_events.py", line 286, in _loop_reading
-    length = fut.result()
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\windows_events.py", line 826, in _poll
-    value = callback(transferred, key, ov)
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\windows_events.py", line 498, in finish_recv
-    raise ConnectionResetError(*exc.args)
-ConnectionResetError: [WinError 64] Указанное сетевое имя более недоступно
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 139, in make_request
-    async with session.post(url, data=req, **kwargs) as response:
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 1167, in __aenter__
-    self._resp = await self._coro
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 562, in _request
-    conn = await self._connector.connect(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 540, in connect
-    proto = await self._create_connection(req, traces, timeout)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 901, in _create_connection
-    _, proto = await self._create_direct_connection(req, traces, timeout)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 1209, in _create_direct_connection
-    raise last_exc
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 1178, in _create_direct_connection
-    transp, proto = await self._wrap_create_connection(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 988, in _wrap_create_connection
-    raise client_error(req.connection_key, exc) from exc
-aiohttp.client_exceptions.ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [Указанное сетевое имя более недоступно]
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 381, in start_polling
-    updates = await self.bot.get_updates(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\bot.py", line 110, in get_updates
-    result = await self.request(api.Methods.GET_UPDATES, payload)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\base.py", line 236, in request
-    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 142, in make_request
-    raise exceptions.NetworkError(f"aiohttp client throws an error: {e.__class__.__name__}: {e}")
-aiogram.utils.exceptions.NetworkError: Aiohttp client throws an error: ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [Указанное сетевое имя более недоступно]
-ERROR:aiogram.dispatcher.dispatcher:Cause exception while getting updates.
-Traceback (most recent call last):
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\windows_events.py", line 494, in finish_recv
-    return ov.getresult()
-OSError: [WinError 64] Указанное сетевое имя более недоступно
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 980, in _wrap_create_connection
-    return await self._loop.create_connection(*args, **kwargs)  # type: ignore[return-value]  # noqa
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\base_events.py", line 1103, in create_connection
-    transport, protocol = await self._create_connection_transport(
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\base_events.py", line 1133, in _create_connection_transport
-    await waiter
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\proactor_events.py", line 286, in _loop_reading
-    length = fut.result()
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\windows_events.py", line 826, in _poll
-    value = callback(transferred, key, ov)
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\windows_events.py", line 498, in finish_recv
-    raise ConnectionResetError(*exc.args)
-ConnectionResetError: [WinError 64] Указанное сетевое имя более недоступно
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 139, in make_request
-    async with session.post(url, data=req, **kwargs) as response:
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 1167, in __aenter__
-    self._resp = await self._coro
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 562, in _request
-    conn = await self._connector.connect(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 540, in connect
-    proto = await self._create_connection(req, traces, timeout)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 901, in _create_connection
-    _, proto = await self._create_direct_connection(req, traces, timeout)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 1209, in _create_direct_connection
-    raise last_exc
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 1178, in _create_direct_connection
-    transp, proto = await self._wrap_create_connection(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\connector.py", line 988, in _wrap_create_connection
-    raise client_error(req.connection_key, exc) from exc
-aiohttp.client_exceptions.ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [Указанное сетевое имя более недоступно]
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 381, in start_polling
-    updates = await self.bot.get_updates(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\bot.py", line 110, in get_updates
-    result = await self.request(api.Methods.GET_UPDATES, payload)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\base.py", line 236, in request
-    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 142, in make_request
-    raise exceptions.NetworkError(f"aiohttp client throws an error: {e.__class__.__name__}: {e}")
-aiogram.utils.exceptions.NetworkError: Aiohttp client throws an error: ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [Указанное сетевое имя более недоступно]
-ERROR:aiogram.dispatcher.dispatcher:Cause exception while getting updates.
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 139, in make_request
-    async with session.post(url, data=req, **kwargs) as response:
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 1167, in __aenter__
-    self._resp = await self._coro
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 586, in _request
-    await resp.start(conn)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client_reqrep.py", line 905, in start
-    message, payload = await protocol.read()  # type: ignore[union-attr]
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\streams.py", line 616, in read
-    await self._waiter
-aiohttp.client_exceptions.ClientOSError: [WinError 64] Указанное сетевое имя более недоступно
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 381, in start_polling
-    updates = await self.bot.get_updates(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\bot.py", line 110, in get_updates
-    result = await self.request(api.Methods.GET_UPDATES, payload)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\base.py", line 236, in request
-    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 142, in make_request
-    raise exceptions.NetworkError(f"aiohttp client throws an error: {e.__class__.__name__}: {e}")
-aiogram.utils.exceptions.NetworkError: Aiohttp client throws an error: ClientOSError: [WinError 64] Указанное сетевое имя более недоступно
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Failed to get http url content
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Wrong file identifier/http url specified
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Wrong file identifier/http url specified
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Invalid file http url specified: wrong port number specified in the url
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Invalid file http url specified: wrong port number specified in the url
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Invalid file http url specified: wrong port number specified in the url
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 22] Invalid argument: 'D:\\Python\\MyProjects\\TIIAME_NRU\\media\tutorial.mp4'
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 2] No such file or directory: 'media\\tutorial.mp4'
-ERROR:aiogram.dispatcher.dispatcher:Cause exception while getting updates.
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 139, in make_request
-    async with session.post(url, data=req, **kwargs) as response:
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 1167, in __aenter__
-    self._resp = await self._coro
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client.py", line 586, in _request
-    await resp.start(conn)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\client_reqrep.py", line 905, in start
-    message, payload = await protocol.read()  # type: ignore[union-attr]
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiohttp\streams.py", line 616, in read
-    await self._waiter
-aiohttp.client_exceptions.ClientOSError: [WinError 1236] Подключение к сети было разорвано локальной системой
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 381, in start_polling
-    updates = await self.bot.get_updates(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\bot.py", line 110, in get_updates
-    result = await self.request(api.Methods.GET_UPDATES, payload)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\base.py", line 236, in request
-    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\bot\api.py", line 142, in make_request
-    raise exceptions.NetworkError(f"aiohttp client throws an error: {e.__class__.__name__}: {e}")
-aiogram.utils.exceptions.NetworkError: Aiohttp client throws an error: ClientOSError: [WinError 1236] Подключение к сети было разорвано локальной системой
-ERROR:root:Error occurred in cmd_start while starting the bot: ОШИБКА:  оператор не существует: character varying = integer
-LINE 1: SELECT * FROM students WHERE telegram_id = 483578239
-                                                 ^
-HINT:  Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
-
-ERROR:root:Error occurred in cmd_start while starting the bot: ОШИБКА:  оператор не существует: character varying = integer
-LINE 1: SELECT * FROM students WHERE telegram_id = 483578239
-                                                 ^
-HINT:  Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
-
-ERROR:root:Error occurred in cmd_info while handling info command: ОШИБКА:  оператор не существует: character varying = integer
-LINE 1: ...s.group_id = groups.id WHERE students.telegram_id = 48357823...
-                                                             ^
-HINT:  Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
-
-ERROR:root:Error occurred in cmd_start while starting the bot: ОШИБКА:  оператор не существует: character varying = integer
-LINE 1: SELECT * FROM students WHERE telegram_id = 483578239
-                                                 ^
-HINT:  Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
-
-ERROR:root:Error occurred in cmd_start while starting the bot: ОШИБКА:  оператор не существует: character varying = integer
-LINE 1: SELECT * FROM students WHERE telegram_id = 483578239
-                                                 ^
-HINT:  Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
-
-ERROR:root:Error occurred in cmd_start while starting the bot: ОШИБКА:  оператор не существует: character varying = integer
-LINE 1: SELECT * FROM students WHERE telegram_id = 483578239
-                                                 ^
-HINT:  Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
-
-ERROR:root:Error occurred in cmd_start while starting the bot: ОШИБКА:  оператор не существует: character varying = integer
-LINE 1: SELECT * FROM students WHERE telegram_id = 483578239
-                                                 ^
-HINT:  Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
-
-ERROR:root:Error occurred in cmd_start while starting the bot: ОШИБКА:  оператор не существует: character varying = integer
-LINE 1: SELECT * FROM students WHERE telegram_id = 483578239
-                                                 ^
-HINT:  Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
-
-ERROR:root:Error occurred in cmd_start while starting the bot: ОШИБКА:  оператор не существует: character varying = integer
-LINE 1: SELECT * FROM students WHERE telegram_id = 881359509
-                                                 ^
-HINT:  Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
-
-ERROR:root:Error occurred in cmd_start while starting the bot: ОШИБКА:  оператор не существует: character varying = integer
-LINE 1: SELECT * FROM students WHERE telegram_id = 881359509
-                                                 ^
-HINT:  Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
-
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 2] No such file or directory: '/app/Bot/tutorial.mp4'
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 2] No such file or directory: '/app/Bot/tutorial.mp4'
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-132' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=KeyError('rating_message_id')>
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in process_update
-    return await self.callback_query_handlers.notify(update.callback_query)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 212, in process_callback
-    await asyncio.sleep(70 * 60)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\storage.py", line 439, in __getitem__
-    return self._data[item]
-KeyError: 'rating_message_id'
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 2] No such file or directory: 'Bot/tutorial.mp4'
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 22] Invalid argument: 'D:\\Python\\MyProjects\\TIIAME_NRU\\Bot\tutorial.mp4'
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Message caption is too long
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Message caption is too long
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Wrong file identifier/http url specified
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Wrong file identifier/http url specified
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Wrong file identifier/http url specified
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Message caption is too long
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Message caption is too long
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-9' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=MissingSchema("Invalid URL '/instagram': No scheme supplied. Perhaps you meant https:///instagram?")>
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 256, in process_update
-    return await self.message_handlers.notify(update.message)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 157, in send_instagram_video
-    download_instagram_video(url)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 150, in download_instagram_video
-    r = requests.get(url, allow_redirects=True)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\api.py", line 73, in get
-    return request("get", url, params=params, **kwargs)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\api.py", line 59, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 575, in request
-    prep = self.prepare_request(req)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 486, in prepare_request
-    p.prepare(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\models.py", line 368, in prepare
-    self.prepare_url(url, params)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\models.py", line 439, in prepare_url
-    raise MissingSchema(
-requests.exceptions.MissingSchema: Invalid URL '/instagram': No scheme supplied. Perhaps you meant https:///instagram?
-ERROR:asyncio:Task exception was never retrieved
-future: <Task finished name='Task-16' coro=<Dispatcher._process_polling_updates() done, defined at C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py:407> exception=MissingSchema("Invalid URL '/instagram': No scheme supplied. Perhaps you meant https:///instagram?")>
-Traceback (most recent call last):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 415, in _process_polling_updates
-    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 235, in process_updates
-    return await asyncio.gather(*tasks)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\dispatcher.py", line 256, in process_update
-    return await self.message_handlers.notify(update.message)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\aiogram\dispatcher\handler.py", line 117, in notify
-    response = await handler_obj.handler(*args, **partial_data)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 157, in send_instagram_video
-    download_instagram_video(url)
-  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 150, in download_instagram_video
-    r = requests.get(url, allow_redirects=True)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\api.py", line 73, in get
-    return request("get", url, params=params, **kwargs)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\api.py", line 59, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 575, in request
-    prep = self.prepare_request(req)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 486, in prepare_request
-    p.prepare(
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\models.py", line 368, in prepare
-    self.prepare_url(url, params)
-  File "C:\Users\jahon\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\models.py", line 439, in prepare_url
-    raise MissingSchema(
-requests.exceptions.MissingSchema: Invalid URL '/instagram': No scheme supplied. Perhaps you meant https:///instagram?
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: Message caption is too long
-ERROR:root:Error occurred in cmd_help while handling help command: Can't parse entities: unsupported start tag "quote" at byte offset 283
-ERROR:root:Error occurred in cmd_help while handling help command: Can't parse entities: unsupported start tag "quote" at byte offset 283
-ERROR:root:Error occurred in cmd_tutorial while handling tutorial command: [Errno 2] No such file or directory: 'D:\\Python\\MyProjects\\TIIAME_NRU\\Bot\\tutorial.mp4'
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\aiocron\__init__.py", line 112, in set_result
+    raise result
+  File "D:\Python\MyProjects\TIIAME_NRU\Bot\main.py", line 224, in cronjob
+    cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
+  File "D:\Python\MyProjects\TIIAME_NRU\venv\lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+psycopg2.InterfaceError: cursor already closed
+ERROR:root:File not found: media/news/news/507.png
+ERROR:root:File not found: media/news/news/506.png
+ERROR:root:File not found: media/news/news/507.png
+ERROR:root:File not found: media/news/news/506.png
+ERROR:root:File not found: media/news/news/507.png
+ERROR:root:File not found: media/news/news/506.png
+ERROR:root:Error occurred in send_news: Message caption is too long
+ERROR:root:File not found: media/news/news/IMG_20230621_214058_905.jpg
+ERROR:root:File not found: media/news/news/elon2_14.png
+ERROR:root:File not found: media/news/news/IMG_20230621_214058_905.jpg
+ERROR:root:File not found: media/news/news/elon2_14.png
+ERROR:root:File not found: media/news/news/IMG_20230621_214058_905.jpg
+ERROR:root:File not found: media/news/news/elon2_14.png
+ERROR:root:File not found: media/news/news/elon2_14_rt97f7D.png
+ERROR:root:File not found: media/news/news/elon2_14_rt97f7D.png
+ERROR:root:File not found: media/news/news/elon2_14_rt97f7D.png
+ERROR:root:File not found: media/news/news/elon2_14.png
+ERROR:root:File not found: media/news/news/elon2_14.png
+ERROR:root:File not found: media/news/news/elon2_14.png
+ERROR:root:File not found: media/news/news/elon2_14.png
+ERROR:root:File not found: media/news/news/elon2_14.png
+ERROR:root:File not found: media/news/news/elon2_14.png
+ERROR:root:File not found: media/news/Tiiame_bg.png

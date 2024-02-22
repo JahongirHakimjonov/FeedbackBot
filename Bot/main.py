@@ -48,6 +48,29 @@ class Form(StatesGroup):
     feedback_message = State()
 
 
+async def send_news():
+    try:
+        cur.execute("SELECT telegram_id FROM students WHERE telegram_id IS NOT NULL")
+        users = cur.fetchall()
+        cur.execute("SELECT title, content, image FROM news")
+        data = cur.fetchall()
+        for user in users:
+            for news in data:
+                caption = f"*{news['title']}*\n\n{news['content']}"
+                if len(caption) > 1024:
+                    caption = caption[:1021] + "..."
+                if news['image']:
+                    try:
+                        with open(f"../media/{news['image']}", 'rb') as photo:
+                            await bot.send_photo(user['telegram_id'], photo, caption=caption, parse_mode='Markdown')
+                    except FileNotFoundError:
+                        logging.error(f"File not found: media/{news['image']}")
+                else:
+                    await bot.send_message(user['telegram_id'], caption, parse_mode='Markdown')
+    except Exception as es:
+        logging.error(f"Error occurred in send_news: {es}")
+
+
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
     keyboards = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -158,8 +181,6 @@ async def cmd_help(message: types.Message):
         logging.error(f"Error occurred in cmd_help while handling help command: {es}")
 
 
-# ... other parts of the code ...
-
 @dp.message_handler(commands='tutorial')
 async def cmd_tutorial(message: types.Message):
     try:
@@ -235,15 +256,15 @@ async def process_callback(callback_query: types.CallbackQuery, state: FSMContex
     async with state.proxy() as data:
         data['feedback_prompt_message_id'] = feedback_message.message_id  # Store the message ID
 
-    # Wait for 70 minutes
-    await asyncio.sleep(70 * 60)
+    # Schedule the deletion of messages
+    asyncio.create_task(delete_messages_after_delay(callback_query.from_user.id, data['rating_message_id'],
+                                                    data['feedback_prompt_message_id'], 15 * 60))
 
-    # Check if the user has responded
-    async with state.proxy() as data:
-        if 'feedback' not in data:
-            # If the user hasn't responded, delete the messages
-            await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
-            await bot.delete_message(callback_query.from_user.id, data['feedback_prompt_message_id'])
+
+async def delete_messages_after_delay(user_id, rating_message_id, feedback_prompt_message_id, delay):
+    await asyncio.sleep(delay)
+    await bot.delete_message(user_id, rating_message_id)
+    await bot.delete_message(user_id, feedback_prompt_message_id)
 
 
 @dp.message_handler(state=Form.feedback_message)
