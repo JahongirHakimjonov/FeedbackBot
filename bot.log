@@ -396,3 +396,9 @@ INFO:django.utils.autoreload:/app/Bot/main.py changed, reloading.
 INFO:django.utils.autoreload:Watching for file changes with StatReloader
 INFO:django.utils.autoreload:/app/Bot/main.py changed, reloading.
 INFO:django.utils.autoreload:Watching for file changes with StatReloader
+ERROR:root:Error in database connection: 
+ERROR:root:Error in database connection: 
+ERROR:root:Error in database connection: 
+INFO:django.utils.autoreload:Watching for file changes with StatReloader
+INFO:django.utils.autoreload:Watching for file changes with StatReloader
+INFO:django.utils.autoreload:D:\Python\MyProjects\TIIAME_NRU\Bot\main.py changed, reloading.
