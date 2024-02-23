@@ -11,3 +11,11 @@ Telegram id : telegram_id
 ko'rinishda jo'natsin va shu row dagi telegram_id va foydalanuvchining telegram id raqami mosligi tekshirilsin aks holda malumot jo'natilmasin yani ha bir foydalanuvchiga faqat o'zi haqidagi ma'lumot jo'natilsin
 
 4. bot uchun berilgan shartlar va talablarda kamchilik va xatoliklar bo'ladigan bo'sa ularni to'girlash kerak va botni yuqori darajada tez va sifatli ishlaydigan qilish kerak va botni kuchaytirish kerak va botni bir nechta kerakli .py fillerga ajratib yozish kerak
+
+
+
+```git pull```
+
+```docker-compose down```
+
+```docker-compose up -d --build```
