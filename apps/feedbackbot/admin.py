@@ -57,7 +57,7 @@ class TeacherAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 @admin.register(Lesson)
 class LessonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = LessonResource
-    list_display = ('name', 'teacher_names')
+    list_display = ('name',)
     search_fields = ('name',)
 
     def teacher_names(self, obj):
@@ -89,7 +89,7 @@ class ScoreAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 @admin.register(ClassSchedule)
 class ClassScheduleAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = ClassScheduleResource
-    list_display = ('day', 'lesson_name', 'teacher_names', 'group_number', 'start_time')
+    list_display = ('day', 'lesson_name', 'room', 'teacher_names', 'group_number', 'start_time')
     exclude = ('end_time',)
     list_filter = ('group', 'day', 'lesson__name')
     search_fields = ('group__group_num', 'lesson__name')

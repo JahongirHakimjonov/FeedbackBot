@@ -140,7 +140,7 @@ class ClassSchedule(AbstractBaseModel):
     day = models.IntegerField(choices=DAYS_OF_WEEK)
     start_time = models.CharField(max_length=15, choices=LESSON_START_TIME)
     end_time = models.CharField(max_length=15, blank=True, null=True)
-    room = models.CharField(max_length=20, blank=True, null=True)
+    room = models.CharField(max_length=25, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if isinstance(self.start_time, str):
