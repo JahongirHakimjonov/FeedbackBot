@@ -14,6 +14,9 @@ class GroupAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     exclude = ('course_num',)
     list_filter = ('course_num', 'type')
     search_fields = ('group_num',)
+    date_hierarchy = 'created_at'
+    list_per_page = 10
+    list_max_show_all = 50
 
 
 @admin.register(Student)
@@ -23,6 +26,8 @@ class StudentAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     fields = ('login_id', 'password', 'first_name', 'last_name', 'telegram_id', 'group')
     list_filter = ('group', 'course_num')
     search_fields = ('first_name', 'last_name', 'telegram_id', 'group__group_num')
+    date_hierarchy = 'created_at'
+    list_max_show_all = 50
 
     def group_number(self, obj):
         return obj.group.group_num
@@ -35,6 +40,9 @@ class TeacherAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = TeacherResource
     list_display = ('full_name', 'average_score', 'percentage')
     search_fields = ('full_name',)
+    date_hierarchy = 'created_at'
+    list_per_page = 10
+    list_max_show_all = 50
 
     def full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
@@ -59,6 +67,9 @@ class LessonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = LessonResource
     list_display = ('name',)
     search_fields = ('name',)
+    date_hierarchy = 'created_at'
+    list_per_page = 10
+    list_max_show_all = 50
 
     def teacher_names(self, obj):
         class_schedule_instances = ClassSchedule.objects.filter(lesson=obj)
@@ -74,6 +85,8 @@ class ScoreAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('teacher_name', 'lesson_name', 'score_for_teacher', 'feedback', 'student')
     list_filter = ('teacher__full_name', 'lesson__name')
     search_fields = ('teacher__full_name', 'lesson__name')
+    date_hierarchy = 'created_at'
+    list_max_show_all = 50
 
     def teacher_name(self, obj):
         return f"{obj.teacher.full_name}"
@@ -93,6 +106,8 @@ class ClassScheduleAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     exclude = ('end_time',)
     list_filter = ('group', 'day', 'lesson__name')
     search_fields = ('group__group_num', 'lesson__name')
+    date_hierarchy = 'created_at'
+    list_max_show_all = 50
 
     def teacher_names(self, obj):
         return f"{obj.teacher.full_name}"
