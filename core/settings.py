@@ -153,7 +153,7 @@ JAZZMIN_SETTINGS = {
     "site_brand": "TIIAME NRU",
     "site_icon": "feedbackbot/image/logo.png",
     "welcome_sign": "TIIAME NRU Admin",
-    "search_model": ["auth.User", "auth.Group"],
+    # "search_model": ["auth.User", "auth.Group"],
     "topmenu_links": [
 
         {"name": "Home", "url": "/", "permissions": ["auth.view_user"]},
@@ -169,8 +169,8 @@ JAZZMIN_SETTINGS = {
     "show_sidebar": True,
     "navigation_expanded": True,
     "hide_apps": [],
-    "hide_models": ['auth.group', 'auth.user', 'auth.permission', 'auth.group', 'auth.user', 'auth.permission', ],
-    "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
+    # "hide_models": ['auth.group', 'auth.user', 'auth.permission', 'auth.group', 'auth.user', 'auth.permission', ],
+    # "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
 
     "icons": {
         "auth": "fas fa-users-cog",
