@@ -32,6 +32,7 @@
         </nav>
 
         <div class="text-box">
+            {% csrf_token %}
             <h1>"TIQXMMI" MTU</h1>
             <p>"Toshkent irrigatsiya va qishloq xo'jaligini mehanizatsiyalash muhandislari instituti" <br>Milliy
                 tadqiqoqt
@@ -122,9 +123,10 @@
     <!--Footer-->
     <section class="footer">
         <h4>About Us</h4>
-        <p>Ushbu platforma va <a href="https://t.me/tiiame_feedback_bot?start=help">telegram bot</a> mahsus buyurtma asosida
+        <p>Ushbu platforma va <a href="https://t.me/tiiame_feedback_bot?start=help">telegram bot</a> mahsus buyurtma
+            asosida
             "TIQXMMI" MTU Iqtisod fakulteti uchun tayyorlandi.</p>
-            <br>Made by <a href="https://github.com/JahongirHakimjonov">Jahongir Hakimjonov</a>
+        <br>Made by <a href="https://github.com/JahongirHakimjonov">Jahongir Hakimjonov</a>
     </section>
 
     <!--Javascript is Start-->
