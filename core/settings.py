@@ -156,7 +156,7 @@ JAZZMIN_SETTINGS = {
     # "search_model": ["auth.User", "auth.Group"],
     "topmenu_links": [
 
-        {"name": "Home", "url": "/", "permissions": ["auth.view_user"]},
+        {"name": "Home", "url": "/"},
 
         {"name": "Support", "url": "https://t.me/tiiamenru_fed_supportbot", "new_window": True},
 
