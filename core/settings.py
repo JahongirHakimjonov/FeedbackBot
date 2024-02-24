@@ -33,7 +33,7 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['feedback.tiiame.uz']
 
-CSRF_TRUSTED_ORIGINS = ['feedback.tiiame.uz']
+# CSRF_TRUSTED_ORIGINS = ['feedback.tiiame.uz']
 
 # Application definition
 
