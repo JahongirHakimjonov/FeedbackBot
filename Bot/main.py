@@ -152,8 +152,8 @@ if __name__ == '__main__':
                                              "Agar siz ro'yxatdan o'tmagan bo'lsangiz, bot sizni ro'yxatdan o'tishga "
                                              "chaqiradi.\n\n"
                                              "*Agar sizga darsingiz yo'q vaqtda baho berish uchun habar yuborilsa "
-                                             "iltimos"
-                                             "buni be etibor qoldiring.❗️❗️*\n\n", parse_mode='Markdown')
+                                             "iltimos "
+                                             "buni be'etibor qoldiring.❗️❗️*\n\n", parse_mode='Markdown')
         except Exception as es:
             logging.error(f"Error occurred in cmd_tutorial while handling tutorial command: {es}")
 
