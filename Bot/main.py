@@ -190,7 +190,7 @@ if __name__ == '__main__':
                                        f"📚 Fan: *{lesson_name}*\n"
                                        f"👨‍🏫 Ustoz: *{teacher_name}*\n"
                                        f"🚪Xona : *{class_['room']}*\n\n"
-                                       "Ustozning pedagoglik mahoratiga baho bering❗️👇",
+                                       "Ustozning pedagoglik mahoratiga baho bering❗👇",
                                        reply_markup=keyboard, parse_mode='Markdown')
 
                 # Store the class_id in the state
@@ -206,7 +206,8 @@ if __name__ == '__main__':
             data['rating_message_id'] = callback_query.message.message_id  # Store the message ID
 
         feedback_message = await bot.send_message(callback_query.from_user.id, "Dars va ustoz haqida fikr va "
-                                                                               "takliflaringizni yuboring.")
+                                                                               "takliflaringizni yuboring❗️",
+                                                  parse_mode='Markdown')
         await Form.feedback_message.set()
         async with state.proxy() as data:
             data['feedback_prompt_message_id'] = feedback_message.message_id  # Store the message ID
@@ -242,7 +243,8 @@ if __name__ == '__main__':
                 await bot.delete_message(message.chat.id, data['rating_message_id'])
                 await bot.delete_message(message.chat.id, data['feedback_prompt_message_id'])
 
-                await bot.send_message(message.chat.id, "Baholar qabul qilindi, E'tiboringiz uchun rahmat!👍")
+                await bot.send_message(message.chat.id, "*Baholar qabul qilindi*, E'tiboringiz uchun rahmat!👍",
+                                       parse_mode='Markdown')
             await state.finish()
         except Exception as es:
             print(f"Error in process_feedback_message: {es}")
