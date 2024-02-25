@@ -67,7 +67,7 @@ if __name__ == '__main__':
                                                parse_mode='Markdown')
                     else:
                         await bot.send_message(message.chat.id, "*Bunday foydalanuvchi mavjud❗*\n\nQayta urunish uchun "
-                                                                "/start"
+                                                                "/start "
                                                                 "buyrug'ini bosing.", parse_mode='Markdown')
                 else:
                     await bot.send_message(message.chat.id,
@@ -123,7 +123,7 @@ if __name__ == '__main__':
                                    "demak siz ID yoki parolni noto'g'ri kiritgansiz. Iltimos, qaytadan urinib "
                                    "ko'ring.\n\n"
                                    "*Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi!*\nhabari kelgandagina siz "
-                                   "ro'yxatdan muvafaqiyatli o'tgan bo'lasizn\n\n"
+                                   "ro'yxatdan muvafaqiyatli o'tgan bo'lasiz\n\n"
                                    "Darsingiz tugagan vaqtda 1 dan 5 gacha baho berish uchun habar keladi va "
                                    "baho berganingizdan so'ng\n\n*Dars va ustoz haqida fikr va takliflaringizni "
                                    "yuboring.*\n"
