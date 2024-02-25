@@ -120,6 +120,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+LOGIN_REDIRECT_URL = "admin/"
+LOGOUT_URL = "/accounts/login/"
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -156,7 +159,7 @@ JAZZMIN_SETTINGS = {
     "site_brand": "TIIAME NRU",
     "site_icon": "feedbackbot/image/logo.png",
     "welcome_sign": "TIIAME NRU Admin",
-    # "search_model": ["auth.User", "auth.Group"],
+    "search_model": ["feedbackbot.Student"],
     "topmenu_links": [
 
         {"name": "Home", "url": "/"},
@@ -179,7 +182,19 @@ JAZZMIN_SETTINGS = {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
+        "auth.Permission": "fas fa-lock",
+        "feedbackbot": "fas fa-robot",
+        "feedbackbot.Group": "fas fa-users",
+        "feedbackbot.Student": "fas fa-user",
+        "feedbackbot.Score": "fas fa-star",
+        "feedbackbot.ClassSchedule": "fas fa-calendar-alt",
+        "feedbackbot.Lesson": "fas fa-book",
+        "feedbackbot.Teacher": "fas fa-chalkboard-teacher",
+        "News": "fas fa-newspaper",
+        "News.News": "fas fa-newspaper",
+
     },
+    "copyright": "TIIAME NRU",
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
     "related_modal_active": False,
