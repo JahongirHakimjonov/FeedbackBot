@@ -33,9 +33,7 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
-# CSRF_TRUSTED_ORIGINS = ['feedback.tiiame.uz']
-
-# Application definition
+CSRF_TRUSTED_ORIGINS = ['https://feedback.tiiame.uz']
 
 
 class MyApplicationConfig(AppConfig):
@@ -53,12 +51,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.feedbackbot.apps.FeedbackbotConfig',
     'apps.News.apps.NewsConfig',
-    'import_export'
+    'import_export',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -117,6 +117,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
