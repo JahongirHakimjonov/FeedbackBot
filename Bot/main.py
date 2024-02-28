@@ -109,26 +109,28 @@ if __name__ == '__main__':
     async def cmd_help(message: types.Message):
         try:
             await bot.send_message(message.chat.id,
-                                   "Ushbu bot ta'lim sifatini nazorat qilish va ustozlarga baho berish uchun "
-                                   "mo'ljallangan.\n"
-                                   "Botdan foydalanish uchun quyidagi buyruqlardan foydalaning:\n\n"
-                                   "/start - Botni ishga tushirish\n"
-                                   "/about - O'z ma'lumotlaringizni ko'rish\n"
-                                   "/tutorial - Botdan foydalanish uchun qo'llanma\n"
-                                   "/help - Yordam\n\n"
-                                   "*Bunday foydalanuvchi mavjud*\nhabari kelsa demak sizga tegishli ID va parol "
-                                   "orqali boshqa talaba ro'yxatdan o'tgan bo'ladi. Bunday holatda siz fakultet "
-                                   "dekanatiga murojat qilishingiz kerak.\n\n"
-                                   "*ID yoki parolingiz xato iltimos qaytadan urunib ko'ring*\ndegan habar kelsa "
-                                   "demak siz ID yoki parolni noto'g'ri kiritgansiz. Iltimos, qaytadan urinib "
-                                   "ko'ring.\n\n"
-                                   "*Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi!*\nhabari kelgandagina siz "
-                                   "ro'yxatdan muvafaqiyatli o'tgan bo'lasiz\n\n"
-                                   "Darsingiz tugagan vaqtda 1 dan 5 gacha baho berish uchun habar keladi va "
-                                   "baho berganingizdan so'ng\n\n*Dars va ustoz haqida fikr va takliflaringizni "
-                                   "yuboring.*\n"
-                                   "degan habar keladi bu holatda har qanday fikr va takliflaringizni "
-                                   "yuborishingiz shart aks holda bergan bahoyingiz qabul qilinmaydi.❗",
+                                   '''Ushbu bot ta’lim sifatini nazorat qilish va ustozlarga baho berish uchun mo‘ljallangan.
+
+Botdan foydalanish uchun quyidagi buyruqlardan foydalaning:
+
+/start - Botni ishga tushirish
+/about - O‘z ma’lumotlaringizni ko‘rish
+/tutorial - Botdan foydalanish uchun qo‘llanma
+/help - Yordam
+
+*Bunday foydalanuvchi mavjud* xabari kelsa demak sizga tegishli ID va parol orqali boshqa talaba ro‘yxatdan o‘tgan 
+bo‘ladi. Bunday holatda siz fakultet dekanatiga murojaat qilishingiz kerak.
+
+*ID yoki parolingiz xato iltimos qaytadan urinib ko‘ring*
+degan xabar kelsa demak siz ID yoki parolni noto‘g‘ri kiritgansiz. Iltimos, qaytadan urinib ko‘ring.
+
+*Ro‘yxatdan o‘tish muvaffaqiyatli amalga oshirildi!*
+xabari kelgandagina siz ro‘yxatdan muvaffaqiyatli o‘tgan bo‘lasiz
+
+Darsingiz tugagan vaqtda 1 dan 5 gacha baho berish uchun xabar keladi va baho berganingizdan so‘ng
+
+*Dars va ustoz haqida fikr va takliflaringizni yuboring.* degan xabar keladi bu holatda har qanday fikr va 
+takliflaringizni yuborishingiz shart aks holda bergan bahoiyingiz qabul qilinmaydi.❗''',
                                    parse_mode='Markdown')
         except Exception as es:
             logging.error(f"Error occurred in cmd_help while handling help command: {es}")
@@ -145,15 +147,15 @@ if __name__ == '__main__':
                                              "Ro'yxatdan o'tish uchun shaxsiy login raqamingizni yuboring. Bu sizning "
                                              "*HEMIS ID* raqamingiz hisoblanadi\n\n"
                                              "Keyingi qadamda parolingizni yuboring.\n\n"
-                                             "Parol bu sizning passport seriya raqamingiz hisoblanadi.  Misol uchun: "
+                                             "Parol bu sizning pasport seriya raqamingiz hisoblanadi.  Misol uchun: "
                                              "*AA1234567*\n\n"
                                              "Agar siz ro'yxatdan o'tgan "
                                              "bo'lsangiz, bot sizga ma'lumotlaringizni ko'rsatadi.\n\n"
                                              "Agar siz ro'yxatdan o'tmagan bo'lsangiz, bot sizni ro'yxatdan o'tishga "
                                              "chaqiradi.\n\n"
-                                             "*Agar sizga darsingiz yo'q vaqtda baho berish uchun habar yuborilsa "
+                                             "*Agar sizga darsingiz yo'q vaqtda baho berish uchun xabar yuborilsa "
                                              "iltimos "
-                                             "buni be'etibor qoldiring.❗️❗️*\n\n", parse_mode='Markdown')
+                                             "buni bee'tibor qoldiring.❗️❗️*\n\n", parse_mode='Markdown')
         except Exception as es:
             logging.error(f"Error occurred in cmd_tutorial while handling tutorial command: {es}")
 
@@ -190,7 +192,7 @@ if __name__ == '__main__':
                                        f"📚 Fan: *{lesson_name}*\n"
                                        f"👨‍🏫 Ustoz: *{teacher_name}*\n"
                                        f"🚪Xona : *{class_['room']}*\n\n"
-                                       "Ustozning pedagoglik mahoratiga baho bering❗👇",
+                                       "Ustozning pedagogik mahoratiga baho bering❗👇",
                                        reply_markup=keyboard, parse_mode='Markdown')
 
                 # Store the class_id in the state
@@ -205,8 +207,8 @@ if __name__ == '__main__':
             data['score'] = int(callback_query.data)
             data['rating_message_id'] = callback_query.message.message_id  # Store the message ID
 
-        feedback_message = await bot.send_message(callback_query.from_user.id, "Dars va ustoz haqida fikr va "
-                                                                               "takliflaringizni yuboring❗️",
+        feedback_message = await bot.send_message(callback_query.from_user.id, '''Dars va ustoz haqida fikr va
+                                                                               takliflaringizni yuboring❗️''',
                                                   parse_mode='Markdown')
         await Form.feedback_message.set()
         async with state.proxy() as data:
