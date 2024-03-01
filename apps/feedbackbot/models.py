@@ -124,13 +124,13 @@ class ClassSchedule(AbstractBaseModel):
 
     LESSON_START_TIME = [
         ('08:30:00', '1-PARA, 08:30'),
-        ('10:00:00', '2-PARA, 10:00'),
-        ('11:30:00', '3-PARA, 11:30'),
-        ('13:00:00', '4-PARA, 13:00'),
-        ('13:30:00', '5-PARA, 13:30'),
-        ('15:00:00', '6-PARA, 15:00'),
-        ('16:30:00', '7-PARA, 16:30'),
-        ('16:30:00', '8-PARA, 16:30'),
+        ('09:30:00', '2-PARA, 10:00'),
+        ('10:30:00', '3-PARA, 11:30'),
+        ('11:30:00', '4-PARA, 13:00'),
+        ('12:30:00', '5-PARA, 13:30'),
+        ('13:30:00', '6-PARA, 15:00'),
+        ('14:30:00', '7-PARA, 16:30'),
+        ('15:30:00', '8-PARA, 16:30'),
         ('16:30:00', '9-PARA, 16:30'),
     ]
 
@@ -148,7 +148,7 @@ class ClassSchedule(AbstractBaseModel):
         else:
             start_time_obj = self.start_time
 
-        end_time_obj = (datetime.combine(datetime.today(), start_time_obj) + timedelta(minutes=80)).time()
+        end_time_obj = (datetime.combine(datetime.today(), start_time_obj) + timedelta(minutes=50)).time()
         self.end_time = end_time_obj.strftime('%H:%M:%S')
         super().save(*args, **kwargs)
 
