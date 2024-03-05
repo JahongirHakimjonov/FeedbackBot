@@ -63,7 +63,7 @@ if __name__ == '__main__':
                         cur.execute("UPDATE students SET telegram_id = %s WHERE login_id = %s AND password = %s",
                                     (message.from_user.id, data['login_id'], data['password']))
                         conn.commit()
-                        await bot.send_message(message.chat.id, "*Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi❗*",
+                        await bot.send_message(message.chat.id, "*Ro'yxatdan o'tish muvaffaqiyatli amalga oshirildi❗*",
                                                parse_mode='Markdown')
                     else:
                         await bot.send_message(message.chat.id, "*Bunday foydalanuvchi mavjud❗*\n\nQayta urunish uchun "
