@@ -10,6 +10,7 @@ import aiocron
 import pytz
 from datetime import datetime
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.utils.exceptions import MessageToDeleteNotFound
 
 from bot_setup import setup_bot
 from setup import setup_database
@@ -63,7 +64,7 @@ if __name__ == '__main__':
                         cur.execute("UPDATE students SET telegram_id = %s WHERE login_id = %s AND password = %s",
                                     (message.from_user.id, data['login_id'], data['password']))
                         conn.commit()
-                        await bot.send_message(message.chat.id, "*Ro'yxatdan o'tish muvaffaqiyatli amalga oshirildi❗*",
+                        await bot.send_message(message.chat.id, "*Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi❗*",
                                                parse_mode='Markdown')
                     else:
                         await bot.send_message(message.chat.id, "*Bunday foydalanuvchi mavjud❗*\n\nQayta urunish uchun "
@@ -72,9 +73,9 @@ if __name__ == '__main__':
                 else:
                     await bot.send_message(message.chat.id,
                                            "*ID yoki parolingiz xato iltimos qaytadan urunib ko'ring❗* \n\nQayta "
-                                           "urunish"
-                                           "uchun"
-                                           " /start buyrug'ini bosing", parse_mode='Markdown')
+                                           "urunish "
+                                           "uchun "
+                                           "/start buyrug'ini bosing", parse_mode='Markdown')
         except Exception as es:
             logging.error(f"Error occurred in process_password while processing password: {es}")
         finally:
@@ -204,31 +205,45 @@ takliflaringizni yuborishingiz shart aks holda bergan bahoiyingiz qabul qilinmay
     @dp.callback_query_handler(lambda c: c.data and c.data.isdigit())
     async def process_callback(callback_query: types.CallbackQuery, state: FSMContext):
         async with state.proxy() as data:
-            data['score'] = int(callback_query.data)
-            data['rating_message_id'] = callback_query.message.message_id  # Store the message ID
+            # If there is a previous rating message, delete it
+            if 'rating_message_id' in data:
+                await bot.delete_message(callback_query.from_user.id, data['rating_message_id'])
 
-        feedback_message = await bot.send_message(callback_query.from_user.id, '''Dars va ustoz haqida fikr va
-                                                                               takliflaringizni yuboring❗️''',
+            data['score'] = int(callback_query.data)
+            data['rating_message_id'] = callback_query.message.message_id  # Store the new message ID
+
+        feedback_message = await bot.send_message(callback_query.from_user.id,
+                                                  "Dars va ustoz haqida fikr va takliflaringizni yuboring❗",
                                                   parse_mode='Markdown')
         await Form.feedback_message.set()
         async with state.proxy() as data:
             data['feedback_prompt_message_id'] = feedback_message.message_id  # Store the message ID
 
-        # Schedule the deletion of messages
+        # Schedule the deletion of messages after 5 minutes
         asyncio.create_task(delete_messages_after_delay(callback_query.from_user.id, data['rating_message_id'],
-                                                        data['feedback_prompt_message_id'], 15 * 60))
+                                                        data['feedback_prompt_message_id'], 5 * 60))
 
 
     async def delete_messages_after_delay(user_id, rating_message_id, feedback_prompt_message_id, delay):
         await asyncio.sleep(delay)
-        await bot.delete_message(user_id, rating_message_id)
-        await bot.delete_message(user_id, feedback_prompt_message_id)
+        try:
+            await bot.delete_message(user_id, rating_message_id)
+        except MessageToDeleteNotFound:
+            pass  # Message already deleted, do nothing
+        try:
+            await bot.delete_message(user_id, feedback_prompt_message_id)
+        except MessageToDeleteNotFound:
+            pass  # Message already deleted, do nothing
 
 
     @dp.message_handler(state=Form.feedback_message)
     async def process_feedback_message(message: types.Message, state: FSMContext):
         try:
             async with state.proxy() as data:
+                if 'class_id' not in data:
+                    logging.error("class_id not found in data")
+                    raise Exception("class_id not found in data")
+
                 cur.execute(
                     "SELECT lesson_id, teacher_id FROM class_schedule WHERE id = %s",
                     (data['class_id'],))
@@ -247,9 +262,10 @@ takliflaringizni yuborishingiz shart aks holda bergan bahoiyingiz qabul qilinmay
 
                 await bot.send_message(message.chat.id, "*Baholar qabul qilindi*, E'tiboringiz uchun rahmat!👍",
                                        parse_mode='Markdown')
-            await state.finish()
         except Exception as es:
             print(f"Error in process_feedback_message: {es}")
+        finally:
+            await state.finish()
 
 
     try:
