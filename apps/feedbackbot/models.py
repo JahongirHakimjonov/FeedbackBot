@@ -31,13 +31,13 @@ class Group(AbstractBaseModel):
     is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
-        if 101 <= self.group_num <= 115:
+        if 101 <= self.group_num <= 150:
             self.course_num = 1
-        elif 201 <= self.group_num <= 215:
+        elif 201 <= self.group_num <= 250:
             self.course_num = 2
-        elif 301 <= self.group_num <= 315:
+        elif 301 <= self.group_num <= 350:
             self.course_num = 3
-        elif 401 <= self.group_num <= 415:
+        elif 401 <= self.group_num <= 450:
             self.course_num = 4
         super().save(*args, **kwargs)
 
@@ -123,13 +123,13 @@ class ClassSchedule(AbstractBaseModel):
 
     LESSON_START_TIME = [
         ('08:30:00', '1-PARA, 08:30'),
-        ('09:30:00', '2-PARA, 10:00'),
-        ('10:30:00', '3-PARA, 11:30'),
-        ('11:30:00', '4-PARA, 13:00'),
-        ('12:30:00', '5-PARA, 13:30'),
-        ('13:30:00', '6-PARA, 15:00'),
-        ('14:30:00', '7-PARA, 16:30'),
-        ('15:30:00', '8-PARA, 16:30'),
+        ('09:30:00', '2-PARA, 09:30'),
+        ('10:30:00', '3-PARA, 10:30'),
+        ('11:30:00', '4-PARA, 11:30'),
+        ('12:30:00', '5-PARA, 12:30'),
+        ('13:30:00', '6-PARA, 13:30'),
+        ('14:30:00', '7-PARA, 14:30'),
+        ('15:30:00', '8-PARA, 15:30'),
         ('16:30:00', '9-PARA, 16:30'),
     ]
 
