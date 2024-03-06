@@ -8,12 +8,14 @@ from aiogram.utils import executor
 from states import Form
 import aiocron
 import pytz
+import html
 from datetime import datetime
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.exceptions import MessageToDeleteNotFound
 
 from bot_setup import setup_bot
 from setup import setup_database
+from languages import english, russian, uzbek, japanese
 
 bot, dp = setup_bot()
 
@@ -22,20 +24,54 @@ if __name__ == '__main__':
     bot, dp = setup_bot()
     conn, cur = setup_database()
 
+    languages = {"Uzbek🇺🇿": uzbek, "English🇬🇧": english, "Russian🇷🇺": russian, "Japanese🇯🇵": japanese}
+
+
+    @dp.message_handler(commands='lang')
+    async def cmd_lang(message: types.Message):
+        keyboard = types.InlineKeyboardMarkup()
+        for language in languages.keys():
+            keyboard.add(types.InlineKeyboardButton(language, callback_data=language))
+        await bot.send_message(message.chat.id,
+                               "Please choose a language🇬🇧\n\nIltimos tilni tanlang🇺🇿\n\nПожалуйста, выберите "
+                               "язык🇷🇺\n\n言語を選択してください🇯🇵",
+                               reply_markup=keyboard)
+
+
+    @dp.callback_query_handler(lambda c: c.data and c.data in languages)
+    async def process_language_callback(callback_query: types.CallbackQuery, state: FSMContext):
+        async with state.proxy() as data:
+            data['language'] = callback_query.data
+        await bot.answer_callback_query(callback_query.id)
+        await bot.send_message(callback_query.from_user.id,
+                               f"You have chosen {callback_query.data} as your language.🇬🇧\n\nSiz {callback_query.data}"
+                               f" tilini tanladingiz.🇺🇿\n\nВы выбрали {callback_query.data} в качестве вашего "
+                               f"языка.🇷🇺\n\n言語として {callback_query.data} を選択しました。🇯🇵")
+        await bot.delete_message(callback_query.message.chat.id, callback_query.message.message_id)
+
+
+    async def send_message(user_id, message_key, state: FSMContext, parse_mode='Markdown'):
+        async with state.proxy() as data:
+            language = data.get('language', 'Uzbek🇺🇿')  # Default to Uzbek if no language is set
+            message = languages[language][message_key]
+            sent_message = await bot.send_message(user_id, message, parse_mode=parse_mode)
+            if sent_message is None:
+                raise Exception(f"Failed to send message: {message_key}")
+            return sent_message
+
 
     @dp.message_handler(commands='start')
-    async def cmd_start(message: types.Message):
-        keyboards = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        await bot.send_message(message.chat.id, "Assalomu alaykum", reply_markup=keyboards)
+    async def cmd_start(message: types.Message, state: FSMContext):
+        await send_message(message.chat.id, 'greeting', state)
 
         try:
             cur.execute("SELECT * FROM students WHERE telegram_id = %s", (message.from_user.id,))
             result = cur.fetchone()
             if result is None:
-                await bot.send_message(message.chat.id, "*Shaxsiy login raqamingizni yuboring❗*", parse_mode='Markdown')
+                await send_message(message.chat.id, 'login_prompt', state, parse_mode='Markdown')
                 await Form.login_id.set()
             else:
-                await bot.send_message(message.chat.id, "*Siz allaqachon ro'yxatdan o'tgansiz❗*", parse_mode='Markdown')
+                await send_message(message.chat.id, 'already_registered', state, parse_mode='Markdown')
         except Exception as es:
             logging.error(f"Error occurred in cmd_start while starting the bot: {es}")
 
@@ -45,7 +81,7 @@ if __name__ == '__main__':
         try:
             async with state.proxy() as data:
                 data['login_id'] = message.text
-            await bot.send_message(message.chat.id, "*Iltimos, parolingizni yuboring❗*", parse_mode='Markdown')
+            await send_message(message.chat.id, 'password_prompt', state, parse_mode='Markdown')
             await Form.next()
         except Exception as es:
             logging.error(f"Error occurred in process_login_id while processing login id: {es}")
@@ -64,18 +100,12 @@ if __name__ == '__main__':
                         cur.execute("UPDATE students SET telegram_id = %s WHERE login_id = %s AND password = %s",
                                     (message.from_user.id, data['login_id'], data['password']))
                         conn.commit()
-                        await bot.send_message(message.chat.id, "*Ro'xatdan o'tish muvaffaqiyatli amalga oshirildi❗*",
-                                               parse_mode='Markdown')
+                        await send_message(message.chat.id, 'login_success', state,
+                                           parse_mode='Markdown')
                     else:
-                        await bot.send_message(message.chat.id, "*Bunday foydalanuvchi mavjud❗*\n\nQayta urunish uchun "
-                                                                "/start "
-                                                                "buyrug'ini bosing.", parse_mode='Markdown')
+                        await send_message(message.chat.id, 'user_exists', state, parse_mode='Markdown')
                 else:
-                    await bot.send_message(message.chat.id,
-                                           "*ID yoki parolingiz xato iltimos qaytadan urunib ko'ring❗* \n\nQayta "
-                                           "urunish "
-                                           "uchun "
-                                           "/start buyrug'ini bosing", parse_mode='Markdown')
+                    await send_message(message.chat.id, 'login_error', state, parse_mode='Markdown')
         except Exception as es:
             logging.error(f"Error occurred in process_password while processing password: {es}")
         finally:
@@ -83,7 +113,7 @@ if __name__ == '__main__':
 
 
     @dp.message_handler(commands='about')
-    async def cmd_info(message: types.Message):
+    async def cmd_info(message: types.Message, state: FSMContext):
         try:
             cur.execute(
                 "SELECT students.first_name, students.last_name, groups.group_num, students.course_num, "
@@ -93,70 +123,39 @@ if __name__ == '__main__':
             result = cur.fetchone()
             if result is not None:
                 await bot.send_message(message.chat.id,
-                                       f"Ism: ```{result[0]}```\n"
-                                       f"Familiya: ```{result[1]}```"
-                                       f"Guruh raqami: ```{result[2]}```\n"
-                                       f"Kurs: ```{result[3]}```\n"
-                                       f"Telegram id: ```{result[4]}```", parse_mode='Markdown')
+                                       f"Ism, Name, Имя: ```{result[0]}```\n"
+                                       f"Familiya, Surname, Фамилия: ```{result[1]}```"
+                                       f"Guruh, Group, Группа: ```{result[2]}```\n"
+                                       f"Kurs, Course, Курс: ```{result[3]}```\n"
+                                       f"Telegram ID: ```{result[4]}```", parse_mode='Markdown')
             else:
-                await bot.send_message(message.chat.id,
-                                       "*Siz ro'yxatdan o'tmagansiz❗* Iltimos, /start buyrug'ini bosing.",
-                                       parse_mode='Markdown')
+                await send_message(message.chat.id,
+                                   'about_not_registered', state)
         except Exception as es:
             logging.error(f"Error occurred in cmd_info while handling info command: {es}")
 
 
     @dp.message_handler(commands='help')
-    async def cmd_help(message: types.Message):
+    async def cmd_help(message: types.Message, state: FSMContext):
         try:
-            await bot.send_message(message.chat.id,
-                                   '''Ushbu bot ta’lim sifatini nazorat qilish va ustozlarga baho berish uchun mo‘ljallangan.
-
-Botdan foydalanish uchun quyidagi buyruqlardan foydalaning:
-
-/start - Botni ishga tushirish
-/about - O‘z ma’lumotlaringizni ko‘rish
-/tutorial - Botdan foydalanish uchun qo‘llanma
-/help - Yordam
-
-*Bunday foydalanuvchi mavjud* xabari kelsa demak sizga tegishli ID va parol orqali boshqa talaba ro‘yxatdan o‘tgan 
-bo‘ladi. Bunday holatda siz fakultet dekanatiga murojaat qilishingiz kerak.
-
-*ID yoki parolingiz xato iltimos qaytadan urinib ko‘ring*
-degan xabar kelsa demak siz ID yoki parolni noto‘g‘ri kiritgansiz. Iltimos, qaytadan urinib ko‘ring.
-
-*Ro‘yxatdan o‘tish muvaffaqiyatli amalga oshirildi!*
-xabari kelgandagina siz ro‘yxatdan muvaffaqiyatli o‘tgan bo‘lasiz
-
-Darsingiz tugagan vaqtda 1 dan 5 gacha baho berish uchun xabar keladi va baho berganingizdan so‘ng
-
-*Dars va ustoz haqida fikr va takliflaringizni yuboring.* degan xabar keladi bu holatda har qanday fikr va 
-takliflaringizni yuborishingiz shart aks holda bergan bahoiyingiz qabul qilinmaydi.❗''',
-                                   parse_mode='Markdown')
+            await send_message(message.chat.id, 'help_message', state)
         except Exception as es:
             logging.error(f"Error occurred in cmd_help while handling help command: {es}")
 
 
     @dp.message_handler(commands='tutorial')
-    async def cmd_tutorial(message: types.Message):
+    async def cmd_tutorial(message: types.Message, state: FSMContext):
         try:
+            # Define the caption
+            sent_message = await send_message(message.chat.id, 'tutorial_message', state, parse_mode='Markdown')
+            caption = sent_message.text
+            await bot.delete_message(message.chat.id, sent_message.message_id)
+
             # Send video with caption
             tutorial_video_path = os.path.join(os.path.dirname(__file__), '../media/tutorial.mp4')
             with open(tutorial_video_path, 'rb') as video_file:
                 await bot.send_video(chat_id=message.chat.id, video=video_file,
-                                     caption="Botdan foydalanish uchun ro'yxatdan o'tgan bo'lishingiz kerak.\n\n"
-                                             "Ro'yxatdan o'tish uchun shaxsiy login raqamingizni yuboring. Bu sizning "
-                                             "*HEMIS ID* raqamingiz hisoblanadi\n\n"
-                                             "Keyingi qadamda parolingizni yuboring.\n\n"
-                                             "Parol bu sizning pasport seriya raqamingiz hisoblanadi.  Misol uchun: "
-                                             "*AA1234567*\n\n"
-                                             "Agar siz ro'yxatdan o'tgan "
-                                             "bo'lsangiz, bot sizga ma'lumotlaringizni ko'rsatadi.\n\n"
-                                             "Agar siz ro'yxatdan o'tmagan bo'lsangiz, bot sizni ro'yxatdan o'tishga "
-                                             "chaqiradi.\n\n"
-                                             "*Agar sizga darsingiz yo'q vaqtda baho berish uchun xabar yuborilsa "
-                                             "iltimos "
-                                             "buni bee'tibor qoldiring.❗️❗️*\n\n", parse_mode='Markdown')
+                                     caption=caption)
         except Exception as es:
             logging.error(f"Error occurred in cmd_tutorial while handling tutorial command: {es}")
 
@@ -190,10 +189,12 @@ takliflaringizni yuborishingiz shart aks holda bergan bahoiyingiz qabul qilinmay
                 lesson_name = cur.fetchone()['name']
 
                 await bot.send_message(student['telegram_id'],
-                                       f"📚 Fan: *{lesson_name}*\n"
-                                       f"👨‍🏫 Ustoz: *{teacher_name}*\n"
-                                       f"🚪Xona : *{class_['room']}*\n\n"
-                                       "Ustozning pedagogik mahoratiga baho bering❗👇",
+                                       f"📚 Fan, Lesson, Урок: *{lesson_name}*\n"
+                                       f"👨‍🏫 Ustoz, Teacher, Преподаватель: *{teacher_name}*\n"
+                                       f"🚪Xona, Room, Кабинет : *{class_['room']}*\n\n"
+                                       "Ustozning pedagogik mahoratiga baho bering❗👇\n"
+                                       "Rate the teacher's pedagogical skills❗👇\n"
+                                       "Оцените педагогические навыки преподавателя❗👇",
                                        reply_markup=keyboard, parse_mode='Markdown')
 
                 # Store the class_id in the state
@@ -212,9 +213,8 @@ takliflaringizni yuborishingiz shart aks holda bergan bahoiyingiz qabul qilinmay
             data['score'] = int(callback_query.data)
             data['rating_message_id'] = callback_query.message.message_id  # Store the new message ID
 
-        feedback_message = await bot.send_message(callback_query.from_user.id,
-                                                  "Dars va ustoz haqida fikr va takliflaringizni yuboring❗",
-                                                  parse_mode='Markdown')
+        feedback_message = await send_message(callback_query.from_user.id, "feedback_prompt", state,
+                                              parse_mode='Markdown')
         await Form.feedback_message.set()
         async with state.proxy() as data:
             data['feedback_prompt_message_id'] = feedback_message.message_id  # Store the message ID
@@ -260,8 +260,7 @@ takliflaringizni yuborishingiz shart aks holda bergan bahoiyingiz qabul qilinmay
                 await bot.delete_message(message.chat.id, data['rating_message_id'])
                 await bot.delete_message(message.chat.id, data['feedback_prompt_message_id'])
 
-                await bot.send_message(message.chat.id, "*Baholar qabul qilindi*, E'tiboringiz uchun rahmat!👍",
-                                       parse_mode='Markdown')
+                await send_message(message.chat.id, "finish_message", state, parse_mode='Markdown')
         except Exception as es:
             print(f"Error in process_feedback_message: {es}")
         finally:
@@ -272,3 +271,7 @@ takliflaringizni yuborishingiz shart aks holda bergan bahoiyingiz qabul qilinmay
         executor.start_polling(dp, skip_updates=True)
     except Exception as e:
         logging.error(f"Error occurred: {e}")
+    # finally:
+    #     conn.close()
+    #     cur.close()
+    #     bot.close()
