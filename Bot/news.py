@@ -1,6 +1,6 @@
 import os
 import logging
-
+from aiogram.utils.exceptions import BotBlocked
 from .bot_setup import setup_bot
 from .setup import setup_database
 
@@ -28,5 +28,7 @@ async def send_news():
                         logging.error(f"File not found: media/{news['image']}")
                 else:
                     await bot.send_message(user['telegram_id'], caption, parse_mode='Markdown')
+    except BotBlocked:
+        logging.warning(f"Bot was blocked by the user")
     except Exception as es:
         logging.error(f"Error occurred in send_news: {es}")

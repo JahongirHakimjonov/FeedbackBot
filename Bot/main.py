@@ -4,6 +4,7 @@ import os
 import asyncio
 from aiogram.dispatcher import FSMContext
 from aiogram.utils import executor
+from aiogram.utils.exceptions import BotBlocked
 
 from states import Form
 import aiocron
@@ -172,7 +173,12 @@ if __name__ == '__main__':
 
     @aiocron.crontab('* * * * *')
     async def cronjob():
-        conn, cur = setup_database()
+        try:
+            conn, cur = setup_database()
+        except Exception as e:
+            logging.error(f"Error occurred while setting up the database: {e}")
+            return  # Exit the function
+
         now = datetime.now(pytz.timezone('Asia/Tashkent'))
         cur.execute("SELECT * FROM class_schedule WHERE day = %s AND end_time = %s",
                     ((now.weekday() + 1) % 7, now.strftime('%H:%M:%S')))
@@ -188,19 +194,24 @@ if __name__ == '__main__':
                 cur.execute("SELECT name FROM lessons WHERE id = %s", (class_['lesson_id'],))
                 lesson_name = cur.fetchone()['name']
 
-                await bot.send_message(student['telegram_id'],
-                                       f"📚 Fan, Lesson, Урок: *{lesson_name}*\n"
-                                       f"👨‍🏫 Ustoz, Teacher, Преподаватель: *{teacher_name}*\n"
-                                       f"🚪Xona, Room, Кабинет : *{class_['room']}*\n\n"
-                                       "Ustozning pedagogik mahoratiga baho bering❗👇\n"
-                                       "Rate the teacher's pedagogical skills❗👇\n"
-                                       "Оцените педагогические навыки преподавателя❗👇",
-                                       reply_markup=keyboard, parse_mode='Markdown')
+                try:
+                    await bot.send_message(student['telegram_id'],
+                                           f"📚 Fan, Lesson, Урок: *{lesson_name}*\n"
+                                           f"👨‍🏫 Ustoz, Teacher, Преподаватель: *{teacher_name}*\n"
+                                           f"🚪Xona, Room, Кабинет : *{class_['room']}*\n\n"
+                                           "Ustozning pedagogik mahoratiga baho bering❗👇\n"
+                                           "Rate the teacher's pedagogical skills❗👇\n"
+                                           "Оцените педагогические навыки преподавателя❗👇",
+                                           reply_markup=keyboard, parse_mode='Markdown')
+                except BotBlocked:
+                    logging.warning(f"Bot is blocked by the user: {student['telegram_id']}")
 
-                # Store the class_id in the state
-                state = dp.current_state(user=student['telegram_id'])
-                async with state.proxy() as data:
-                    data['class_id'] = class_['id']
+                try:
+                    state = dp.current_state(user=student['telegram_id'])
+                    async with state.proxy() as data:
+                        data['class_id'] = class_['id']
+                except Exception as e:
+                    logging.error(f"Error occurred while setting the state: {e}")
 
 
     @dp.callback_query_handler(lambda c: c.data and c.data.isdigit())

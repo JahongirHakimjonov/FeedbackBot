@@ -29,6 +29,17 @@ services:
     depends_on:
       - db
 
+  support_bot:
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile
+    image: support_bot
+    command: python /bot/Support/main.py
+    volumes:
+      - .:/bot
+    env_file:
+      - ./.env
+
   db:
     image: postgres:15-alpine
     container_name: postgres_db
