@@ -4,15 +4,17 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.dispatcher import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.utils.exceptions import BotBlocked
-from dotenv import load_dotenv
 
-# PostgreSQL database connection
-from Bot.setup import setup_database
+import psycopg2
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+from psycopg2.extras import DictCursor
+from dotenv import load_dotenv, find_dotenv
 
 # Add a new state to the FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
-load_dotenv()  # take environment variables from .env.
+# Load environment variables
+load_dotenv(find_dotenv())
 
 # Now you can access the environment variables as before
 API_TOKEN = os.getenv('SUPPORT_BOT_TOKEN')
@@ -26,15 +28,29 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
-conn, cur = setup_database()
+dbname = os.getenv('SQL_DATABASE')
+user = os.getenv('SQL_USER')
+password = os.getenv('SQL_PASSWORD')
+host = os.getenv('SQL_HOST')
 
-# Define cursor object
-c = conn.cursor()
+
+def setup_database():
+    try:
+        conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, cursor_factory=DictCursor)
+        cur = conn.cursor()
+        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        return conn, cur
+    except psycopg2.OperationalError as e:
+        logging.error(f"Error in database connection: {e}")
+        exit(1)
+
+
+conn, c = setup_database()
 
 # Create a PostgreSQL table to store user details
 c.execute('''
     CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY PRIMARY KEY,
         full_name TEXT,
         username TEXT,
         telegram_id INTEGER
