@@ -173,7 +173,7 @@ async def process_callback(callback_query: types.CallbackQuery, state: FSMContex
     if callback_query.from_user.id in admin_ids:
         await state.update_data(user_id=user_id)  # Store user_id
         logging.info(f"User_id: {user_id}")
-        await bot.send_message(GROUP_ID, "Xabar matnini kiriting:")
+        await bot.send_message(GROUP_ID, "Javob matnini kiriting:")
         await state.set_state("admin_reply")
     else:
         await bot.send_message(GROUP_ID, "Siz admin emassiz.")
@@ -186,13 +186,26 @@ async def handle_admin_reply(message: types.Message, state: FSMContext):
     user_id = user_data.get("user_id")
     if user_id:
         try:
-            await bot.send_message(user_id, message.text)
-            await bot.send_message(GROUP_ID, "Xabaringiz yuborildi.")  # Send confirmation to admin
+            # Check if the user has interacted with the bot
+            c.execute('SELECT * FROM support_users WHERE telegram_id = %s', (user_id,))
+            user_exists = c.fetchall()
+            if user_exists:
+                await bot.send_message(user_id, message.text)
+                await bot.send_message(GROUP_ID, "Xabaringiz yuborildi.")  # Send confirmation to admin
+            else:
+                await bot.send_message(GROUP_ID, "Foydalanuvchi bot bilan suhbatni boshlamagan.")  # Notify admin
             await state.finish()  # Clear user_data
+        except BotBlocked:
+            logging.warning(f"Bot was blocked by the user {user_id}")
+            await bot.send_message(GROUP_ID, "Foydalanuvchi botni blokladi.")  # Notify admin
+            await state.finish()
         except Exception as e:
+            logging.error(f"Error occurred: {e}")
             await bot.send_message(GROUP_ID, f"Xatolik yuz berdi: {e}")  # Send error message to admin
+            await state.finish()
     else:
         await bot.send_message(GROUP_ID, "Xatolik: Foydalanuvchi topilmadi. Iltimos, qaytadan urinib ko'ring.")
+        await state.finish()
 
 
 if __name__ == '__main__':
