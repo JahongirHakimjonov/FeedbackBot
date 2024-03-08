@@ -50,7 +50,7 @@ conn, c = setup_database()
 # Create a PostgreSQL table to store user details
 c.execute('''
     CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
         full_name TEXT,
         username TEXT,
         telegram_id INTEGER
@@ -65,12 +65,15 @@ async def send_welcome(message: types.Message):
     full_name = message.from_user.full_name
     username = message.from_user.username
 
-    # Check if user already exists in the database
-    user_exists = c.execute('SELECT * FROM users WHERE telegram_id = ?', (user_id,)).fetchone()
+    # Execute the query
+    c.execute('SELECT * FROM users WHERE telegram_id = %s', (user_id,))
+
+    # Fetch the result
+    user_exists = c.fetchall()
 
     # If user does not exist, insert their details into the database
     if not user_exists:
-        c.execute('INSERT INTO users (full_name, username, telegram_id) VALUES (?, ?, ?)',
+        c.execute('INSERT INTO users (full_name, username, telegram_id) VALUES (%s, %s, %s)',
                   (full_name, username, user_id))
         conn.commit()
 
@@ -100,7 +103,7 @@ async def news_command(message: types.Message):
 async def handle_news(message: types.Message, state: FSMContext):
     if message.from_user.id == ADMIN_ID:
         # Get all users from the database
-        all_users = c.execute('SELECT telegram_id FROM users').fetchall()
+        all_users = c.execute('SELECT telegram_id FROM users WHERE telegram_id IS NOT NULL ').fetchall()
 
         for user in all_users:
             try:
