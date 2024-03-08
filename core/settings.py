@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.feedbackbot.apps.FeedbackbotConfig',
     'apps.News.apps.NewsConfig',
-    'apps.SupportBot.apps.SupportbotConfig',
+    'apps.SupportBot',
     'import_export',
     'corsheaders',
 ]
