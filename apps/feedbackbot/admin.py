@@ -41,8 +41,6 @@ class TeacherAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('full_name', 'average_score', 'percentage')
     search_fields = ('full_name',)
     date_hierarchy = 'created_at'
-    list_per_page = 10
-    list_max_show_all = 50
 
     def full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
