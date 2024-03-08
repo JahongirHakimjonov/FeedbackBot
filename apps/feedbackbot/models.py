@@ -170,3 +170,16 @@ class SupportUsers(models.Model):
     class Meta:
         verbose_name_plural = "Foydalanuvchilar"
         db_table = "support_users"
+
+
+class DailyMessages(models.Model):
+    telegram_id = models.BigIntegerField()
+    message_date = models.DateField()
+    message_count = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.telegram_id}"
+
+    class Meta:
+        verbose_name_plural = "Kunlik xabarlar"
+        db_table = "daily_messages"

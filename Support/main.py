@@ -121,6 +121,7 @@ async def handle_news(message: types.Message, state: FSMContext):
 
         await state.finish()
         await bot.send_message(ADMIN_ID, "Xabaringiz yuborildi.")
+        await bot.send_message(GROUP_ID, "Xabaringiz yuborildi.")
     else:
         await message.reply("Siz admin emassiz dib ettimu!!!")
 
@@ -128,27 +129,35 @@ async def handle_news(message: types.Message, state: FSMContext):
 # Respond to message
 @dp.message_handler(content_types=types.ContentType.TEXT)
 async def handle_message(message: types.Message):
-    if message.from_user.id == ADMIN_ID:
+    # Check if the message is from the admin or a group admin
+    if message.from_user.id == ADMIN_ID or message.from_user.id in [admin.user.id for admin in await bot.get_chat_administrators(GROUP_ID)]:
         return
 
     user_id = message.from_user.id
     user_name = message.from_user.full_name
     message_text = message.text
 
+    # Check the count of messages for the current day
+    c.execute('SELECT message_count FROM daily_messages WHERE telegram_id = %s AND message_date = CURRENT_DATE', (user_id,))
+    result = c.fetchone()
+
+    if result is None:
+        # This is the first message of the day, insert a new row
+        c.execute('INSERT INTO daily_messages (telegram_id, message_date, message_count) VALUES (%s, CURRENT_DATE, 1)', (user_id,))
+        conn.commit()
+    elif result[0] < 10:
+        # The user can still send messages today, increment the count
+        c.execute('UPDATE daily_messages SET message_count = message_count + 1 WHERE telegram_id = %s AND message_date = CURRENT_DATE', (user_id,))
+        conn.commit()
+    else:
+        # The user has reached their daily limit
+        await message.reply("Siz 1 kunda 10ta xabar yuborishingiz mumkin.")
+        return
+
     # Create inline keyboard
     keyboard = types.InlineKeyboardMarkup()
-    reply_button = types.InlineKeyboardButton("Javob berish",
-                                              callback_data=str(user_id))  # Store user_id in callback_data
+    reply_button = types.InlineKeyboardButton("Javob berish", callback_data=str(user_id))  # Store user_id in callback_data
     keyboard.add(reply_button)
-
-    # # Send information to admins with inline keyboard
-    # await bot.send_message(
-    #     ADMIN_ID,
-    #     f"Foydalanuvchi: {user_name}\n"
-    #     f"Id: {user_id}\n"
-    #     f"Xabar: {message_text}",
-    #     reply_markup=keyboard
-    # )
 
     # Send information to group with inline keyboard
     await bot.send_message(
