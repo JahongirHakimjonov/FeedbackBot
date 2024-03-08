@@ -7,3 +7,4 @@ class Form(StatesGroup):
     teacher_rating = State()
     feedback = State()
     feedback_message = State()
+    waiting_for_news = State()

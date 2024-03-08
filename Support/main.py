@@ -48,18 +48,6 @@ def setup_database():
 conn, c = setup_database()
 
 
-# # Create a PostgreSQL table to store user details
-# c.execute('''
-#     CREATE TABLE IF NOT EXISTS users (
-#         id SERIAL PRIMARY KEY,
-#         full_name TEXT,
-#         username TEXT,
-#         telegram_id INTEGER
-#     );
-# ''')
-# conn.commit()
-
-
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
     user_id = message.from_user.id
@@ -130,7 +118,8 @@ async def handle_news(message: types.Message, state: FSMContext):
 @dp.message_handler(content_types=types.ContentType.TEXT)
 async def handle_message(message: types.Message):
     # Check if the message is from the admin or a group admin
-    if message.from_user.id == ADMIN_ID or message.from_user.id in [admin.user.id for admin in await bot.get_chat_administrators(GROUP_ID)]:
+    if message.from_user.id == ADMIN_ID or message.from_user.id in [admin.user.id for admin in
+                                                                    await bot.get_chat_administrators(GROUP_ID)]:
         return
 
     user_id = message.from_user.id
@@ -138,16 +127,20 @@ async def handle_message(message: types.Message):
     message_text = message.text
 
     # Check the count of messages for the current day
-    c.execute('SELECT message_count FROM daily_messages WHERE telegram_id = %s AND message_date = CURRENT_DATE', (user_id,))
+    c.execute('SELECT message_count FROM daily_messages WHERE telegram_id = %s AND message_date = CURRENT_DATE',
+              (user_id,))
     result = c.fetchone()
 
     if result is None:
         # This is the first message of the day, insert a new row
-        c.execute('INSERT INTO daily_messages (telegram_id, message_date, message_count) VALUES (%s, CURRENT_DATE, 1)', (user_id,))
+        c.execute('INSERT INTO daily_messages (telegram_id, message_date, message_count) VALUES (%s, CURRENT_DATE, 1)',
+                  (user_id,))
         conn.commit()
     elif result[0] < 10:
         # The user can still send messages today, increment the count
-        c.execute('UPDATE daily_messages SET message_count = message_count + 1 WHERE telegram_id = %s AND message_date = CURRENT_DATE', (user_id,))
+        c.execute(
+            'UPDATE daily_messages SET message_count = message_count + 1 WHERE telegram_id = %s AND message_date = CURRENT_DATE',
+            (user_id,))
         conn.commit()
     else:
         # The user has reached their daily limit
@@ -156,7 +149,8 @@ async def handle_message(message: types.Message):
 
     # Create inline keyboard
     keyboard = types.InlineKeyboardMarkup()
-    reply_button = types.InlineKeyboardButton("Javob berish", callback_data=str(user_id))  # Store user_id in callback_data
+    reply_button = types.InlineKeyboardButton("Javob berish",
+                                              callback_data=str(user_id))  # Store user_id in callback_data
     keyboard.add(reply_button)
 
     # Send information to group with inline keyboard

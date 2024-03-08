@@ -4,12 +4,11 @@ import os
 import asyncio
 from aiogram.dispatcher import FSMContext
 from aiogram.utils import executor
-from aiogram.utils.exceptions import BotBlocked
+from aiogram.utils.exceptions import BotBlocked, ChatNotFound
 
 from states import Form
 import aiocron
 import pytz
-import html
 from datetime import datetime
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.exceptions import MessageToDeleteNotFound
@@ -19,6 +18,9 @@ from setup import setup_database
 from languages import english, russian, uzbek, japanese
 
 bot, dp = setup_bot()
+
+ADMIN_ID = int(os.getenv('ADMIN_ID'))  # Make sure ADMIN_ID is an integer
+GROUP_ID = int(os.getenv('GROUP_ID'))  # Make sure GROUP_ID is an integer
 
 if __name__ == '__main__':
 
@@ -159,6 +161,42 @@ if __name__ == '__main__':
                                      caption=caption)
         except Exception as es:
             logging.error(f"Error occurred in cmd_tutorial while handling tutorial command: {es}")
+
+
+    @dp.message_handler(commands=['news'])
+    async def news_command(message: types.Message):
+        if message.from_user.id == ADMIN_ID:
+            await message.reply("Assalomu alaykum akajon habarizi yuboring man hammaga jo'nataman:")
+            await Form.waiting_for_news.set()
+        else:
+            await message.reply("Adminmassizku nega bosvos uyatmasmi aaa?")
+
+
+    @dp.message_handler(state=Form.waiting_for_news, content_types=types.ContentType.ANY)
+    async def handle_news(message: types.Message, state: FSMContext):
+        if message.from_user.id == ADMIN_ID:
+            # Get all users from the database
+            cur.execute('SELECT telegram_id FROM students WHERE telegram_id IS NOT NULL')
+            users = cur.fetchall()
+
+            for user in users:
+                telegram_id = user[0]
+                try:
+                    if telegram_id == ADMIN_ID:
+                        continue
+                    await bot.copy_message(telegram_id, message.chat.id, message.message_id)
+                except BotBlocked:
+                    logging.warning(f"Bot was blocked by the user {telegram_id}")
+                    continue
+                except ChatNotFound:
+                    logging.warning(f"Chat not found for the user {telegram_id}")
+                    continue
+
+            await state.finish()
+            await bot.send_message(ADMIN_ID, "Xabaringiz yuborildi.")
+            await bot.send_message(GROUP_ID, "Xabaringiz yuborildi.")
+        else:
+            await message.reply("Siz admin emassiz dib ettimu!!!")
 
 
     keyboard = InlineKeyboardMarkup()
