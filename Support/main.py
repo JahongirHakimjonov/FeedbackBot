@@ -47,16 +47,16 @@ def setup_database():
 
 conn, c = setup_database()
 
-# Create a PostgreSQL table to store user details
-c.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        full_name TEXT,
-        username TEXT,
-        telegram_id INTEGER
-    )
-''')
-conn.commit()
+# # Create a PostgreSQL table to store user details
+# c.execute('''
+#     CREATE TABLE IF NOT EXISTS users (
+#         id SERIAL PRIMARY KEY,
+#         full_name TEXT,
+#         username TEXT,
+#         telegram_id INTEGER
+#     );
+# ''')
+# conn.commit()
 
 
 @dp.message_handler(commands=['start'])
@@ -66,7 +66,7 @@ async def send_welcome(message: types.Message):
     username = message.from_user.username
 
     # Execute the query
-    c.execute('SELECT * FROM users WHERE telegram_id = %s', (user_id,))
+    c.execute('SELECT * FROM support_usersusers WHERE telegram_id = %s', (user_id,))
 
     # Fetch the result
     user_exists = c.fetchall()
@@ -103,7 +103,7 @@ async def news_command(message: types.Message):
 async def handle_news(message: types.Message, state: FSMContext):
     if message.from_user.id == ADMIN_ID:
         # Get all users from the database
-        all_users = c.execute('SELECT telegram_id FROM users WHERE telegram_id IS NOT NULL ').fetchall()
+        all_users = c.execute('SELECT telegram_id FROM support_usersusers WHERE telegram_id IS NOT NULL ').fetchall()
 
         for user in all_users:
             try:

@@ -157,3 +157,16 @@ class ClassSchedule(AbstractBaseModel):
     class Meta:
         verbose_name_plural = "Dars jadvali"
         db_table = "class_schedule"
+
+
+class SupportUsers(AbstractBaseModel):
+    full_name = models.CharField(max_length=100)
+    username = models.CharField(max_length=100)
+    telegram_id = models.BigIntegerField(unique=True, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.username}"
+
+    class Meta:
+        verbose_name_plural = "Foydalanuvchilar"
+        db_table = "support_users"
