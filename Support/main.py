@@ -82,7 +82,7 @@ async def send_welcome(message: types.Message):
         await message.reply("Salom! Jahongir aka botga xush kelibsiz.")
     else:
         await message.reply(
-            "Salom! Talab va takliflaringiz bo‘lsa, ularni yuboring. Barcha gapingizni 1ta xabarda yozing.")
+            "Salom! Talab va takliflaringiz bo‘lsa, ularni yuboring. \nBarcha gapingizni 1ta xabarda yozing.  \n\nDiqqat!, xabar faqat tekst ko‘rinishida bo‘lishi kerak. Rasm, video va boshqa formatdagi fayllar qabul qilinmaydi.")
 
 
 class News(StatesGroup):
@@ -180,7 +180,7 @@ async def process_callback(callback_query: types.CallbackQuery, state: FSMContex
         await state.finish()
 
 
-@dp.message_handler(state="admin_reply")
+@dp.message_handler(state="admin_reply", content_types=types.ContentType.ANY)
 async def handle_admin_reply(message: types.Message, state: FSMContext):
     user_data = await state.get_data()  # Get user_id
     user_id = user_data.get("user_id")
@@ -190,7 +190,7 @@ async def handle_admin_reply(message: types.Message, state: FSMContext):
             c.execute('SELECT * FROM support_users WHERE telegram_id = %s', (user_id,))
             user_exists = c.fetchall()
             if user_exists:
-                await bot.send_message(user_id, message.text)
+                await bot.copy_message(user_id, message.chat.id, message.message_id)  # Send message to user
                 await bot.send_message(GROUP_ID, "Xabaringiz yuborildi.")  # Send confirmation to admin
             else:
                 await bot.send_message(GROUP_ID, "Foydalanuvchi bot bilan suhbatni boshlamagan.")  # Notify admin
