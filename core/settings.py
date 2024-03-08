@@ -190,6 +190,9 @@ JAZZMIN_SETTINGS = {
         "feedbackbot.Teacher": "fas fa-chalkboard-teacher",
         "News": "fas fa-newspaper",
         "News.News": "fas fa-newspaper",
+        "SupportBot": "fas fa-headset",
+        "SupportBot.SupportUsers": "fas fa-user",
+        "SupportBot.DailyMessages": "fas fa-envelope",
 
     },
     "copyright": "TIIAME NRU",
