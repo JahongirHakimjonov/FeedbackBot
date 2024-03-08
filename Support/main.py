@@ -50,7 +50,6 @@ conn, c = setup_database()
 # Create a PostgreSQL table to store user details
 c.execute('''
     CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
         full_name TEXT,
         username TEXT,
         telegram_id INTEGER
