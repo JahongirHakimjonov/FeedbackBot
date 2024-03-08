@@ -104,16 +104,19 @@ async def handle_news(message: types.Message, state: FSMContext):
     if message.from_user.id == ADMIN_ID:
         # Get all users from the database
         c.execute('SELECT telegram_id FROM support_users WHERE telegram_id IS NOT NULL')
-        all_users = c.fetchall()
+        users = c.fetchall()
 
-        for user in all_users:
+        for user in users:
+            telegram_id = user[0]
             try:
-                await bot.copy_message(user, message.chat.id, message.message_id)
+                if telegram_id == ADMIN_ID:
+                    continue
+                await bot.copy_message(telegram_id, message.chat.id, message.message_id)
             except BotBlocked:
-                logging.warning(f"Bot was blocked by the user {user}")
+                logging.warning(f"Bot was blocked by the user {telegram_id}")
                 continue
             except ChatNotFound:
-                logging.warning(f"Chat not found for the user {user}")
+                logging.warning(f"Chat not found for the user {telegram_id}")
                 continue
 
         await state.finish()
