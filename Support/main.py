@@ -120,6 +120,7 @@ async def handle_news(message: types.Message, state: FSMContext):
                 continue
 
         await state.finish()
+        await bot.send_message(ADMIN_ID, "Xabaringiz yuborildi.")
     else:
         await message.reply("Siz admin emassiz dib ettimu!!!")
 
@@ -186,7 +187,7 @@ async def handle_admin_reply(message: types.Message, state: FSMContext):
     if user_id:
         try:
             await bot.send_message(user_id, message.text)
-            await bot.send_message(GROUP_ID, "Habaringiz yuborildi.")  # Send confirmation to admin
+            await bot.send_message(GROUP_ID, "Xabaringiz yuborildi.")  # Send confirmation to admin
             await state.finish()  # Clear user_data
         except Exception as e:
             await bot.send_message(GROUP_ID, f"Xatolik yuz berdi: {e}")  # Send error message to admin
