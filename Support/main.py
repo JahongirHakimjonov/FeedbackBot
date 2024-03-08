@@ -55,14 +55,14 @@ async def send_welcome(message: types.Message):
     username = message.from_user.username
 
     # Execute the query
-    c.execute('SELECT * FROM support_users WHERE telegram_id = %s', (user_id,))
+    c.execute('SELECT * FROM support_user WHERE telegram_id = %s', (user_id,))
 
     # Fetch the result
     user_exists = c.fetchall()
 
     # If user does not exist, insert their details into the database
     if not user_exists:
-        c.execute('INSERT INTO support_users (full_name, username, telegram_id) VALUES (%s, %s, %s)',
+        c.execute('INSERT INTO support_user (full_name, username, telegram_id) VALUES (%s, %s, %s)',
                   (full_name, username, user_id))
         conn.commit()
 
@@ -91,7 +91,7 @@ async def news_command(message: types.Message):
 async def handle_news(message: types.Message, state: FSMContext):
     if message.from_user.id == ADMIN_ID:
         # Get all users from the database
-        c.execute('SELECT telegram_id FROM support_users WHERE telegram_id IS NOT NULL')
+        c.execute('SELECT telegram_id FROM support_user WHERE telegram_id IS NOT NULL')
         users = c.fetchall()
 
         for user in users:
@@ -190,7 +190,7 @@ async def handle_admin_reply(message: types.Message, state: FSMContext):
     if user_id:
         try:
             # Check if the user has interacted with the bot
-            c.execute('SELECT * FROM support_users WHERE telegram_id = %s', (user_id,))
+            c.execute('SELECT * FROM support_user WHERE telegram_id = %s', (user_id,))
             user_exists = c.fetchall()
             if user_exists:
                 await bot.copy_message(user_id, message.chat.id, message.message_id)  # Send message to user

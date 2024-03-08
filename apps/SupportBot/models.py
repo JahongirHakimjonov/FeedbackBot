@@ -11,7 +11,7 @@ class SupportUsers(models.Model):
 
     class Meta:
         verbose_name_plural = "Foydalanuvchilar"
-        db_table = "support_users"
+        db_table = "support_user"
 
 
 class DailyMessages(models.Model):
