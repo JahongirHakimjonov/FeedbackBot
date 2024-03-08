@@ -1,11 +1,13 @@
 import logging
-import sqlite3
 import os
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.dispatcher import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.utils.exceptions import BotBlocked
 from dotenv import load_dotenv
+
+# PostgreSQL database connection
+from Bot.setup import setup_database
 
 # Add a new state to the FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -24,24 +26,20 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
-# Create a connection to the SQLite database
-# If the database doesn't exist, it will be created
-conn = sqlite3.connect('users.db')
+conn, cur = setup_database()
 
-# Create a cursor object
+# Define cursor object
 c = conn.cursor()
 
-# Create table if it doesn't exist
+# Create a PostgreSQL table to store user details
 c.execute('''
-    CREATE TABLE IF NOT EXISTS users(
-        id INTEGER PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         full_name TEXT,
         username TEXT,
         telegram_id INTEGER
     )
 ''')
-
-# Save changes
 conn.commit()
 
 
@@ -63,7 +61,8 @@ async def send_welcome(message: types.Message):
     if user_id == ADMIN_ID:
         await message.reply("Salom! Jahongir aka botga xush kelibsiz.")
     else:
-        await message.reply("Salom! Talab va takliflaringiz bo‘lsa, ularni yuboring. Barcha gapingizni 1ta xabarda yozing.")
+        await message.reply(
+            "Salom! Talab va takliflaringiz bo‘lsa, ularni yuboring. Barcha gapingizni 1ta xabarda yozing.")
 
 
 class News(StatesGroup):

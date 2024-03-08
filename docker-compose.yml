@@ -39,6 +39,8 @@ services:
       - .:/bot
     env_file:
       - ./.env
+    depends_on:
+        - db
 
   db:
     image: postgres:15-alpine
