@@ -24,4 +24,4 @@ class DailyMessages(models.Model):
 
     class Meta:
         verbose_name_plural = "Kunlik xabarlar"
-        db_table = "daily_messages"
+        db_table = "daily_message"

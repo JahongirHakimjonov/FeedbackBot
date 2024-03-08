@@ -127,19 +127,19 @@ async def handle_message(message: types.Message):
     message_text = message.text
 
     # Check the count of messages for the current day
-    c.execute('SELECT message_count FROM daily_messages WHERE telegram_id = %s AND message_date = CURRENT_DATE',
+    c.execute('SELECT message_count FROM daily_message WHERE telegram_id = %s AND message_date = CURRENT_DATE',
               (user_id,))
     result = c.fetchone()
 
     if result is None:
         # This is the first message of the day, insert a new row
-        c.execute('INSERT INTO daily_messages (telegram_id, message_date, message_count) VALUES (%s, CURRENT_DATE, 1)',
+        c.execute('INSERT INTO daily_message (telegram_id, message_date, message_count) VALUES (%s, CURRENT_DATE, 1)',
                   (user_id,))
         conn.commit()
     elif result[0] < 10:
         # The user can still send messages today, increment the count
         c.execute(
-            'UPDATE daily_messages SET message_count = message_count + 1 WHERE telegram_id = %s AND message_date = CURRENT_DATE',
+            'UPDATE daily_message SET message_count = message_count + 1 WHERE telegram_id = %s AND message_date = CURRENT_DATE',
             (user_id,))
         conn.commit()
     else:
