@@ -66,14 +66,14 @@ async def send_welcome(message: types.Message):
     username = message.from_user.username
 
     # Execute the query
-    c.execute('SELECT * FROM support_usersusers WHERE telegram_id = %s', (user_id,))
+    c.execute('SELECT * FROM support_users WHERE telegram_id = %s', (user_id,))
 
     # Fetch the result
     user_exists = c.fetchall()
 
     # If user does not exist, insert their details into the database
     if not user_exists:
-        c.execute('INSERT INTO users (full_name, username, telegram_id) VALUES (%s, %s, %s)',
+        c.execute('INSERT INTO support_users (full_name, username, telegram_id) VALUES (%s, %s, %s)',
                   (full_name, username, user_id))
         conn.commit()
 
@@ -103,7 +103,7 @@ async def news_command(message: types.Message):
 async def handle_news(message: types.Message, state: FSMContext):
     if message.from_user.id == ADMIN_ID:
         # Get all users from the database
-        all_users = c.execute('SELECT telegram_id FROM support_usersusers WHERE telegram_id IS NOT NULL ').fetchall()
+        all_users = c.execute('SELECT telegram_id FROM support_users WHERE telegram_id IS NOT NULL ').fetchall()
 
         for user in all_users:
             try:
