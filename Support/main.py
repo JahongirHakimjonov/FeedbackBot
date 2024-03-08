@@ -3,7 +3,7 @@ import os
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.dispatcher import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram.utils.exceptions import BotBlocked
+from aiogram.utils.exceptions import BotBlocked, ChatNotFound
 
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
@@ -99,7 +99,6 @@ async def news_command(message: types.Message):
         await message.reply("Adminmassizku nega bosvos uyatmasmi aaa?")
 
 
-# Respond to admin's news
 @dp.message_handler(state=News.waiting_for_news, content_types=types.ContentType.ANY)
 async def handle_news(message: types.Message, state: FSMContext):
     if message.from_user.id == ADMIN_ID:
@@ -112,6 +111,9 @@ async def handle_news(message: types.Message, state: FSMContext):
                 await bot.copy_message(user, message.chat.id, message.message_id)
             except BotBlocked:
                 logging.warning(f"Bot was blocked by the user {user}")
+                continue
+            except ChatNotFound:
+                logging.warning(f"Chat not found for the user {user}")
                 continue
 
         await state.finish()
