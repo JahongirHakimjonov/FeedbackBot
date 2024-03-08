@@ -194,7 +194,6 @@ if __name__ == '__main__':
 
             await state.finish()
             await bot.send_message(ADMIN_ID, "Xabaringiz yuborildi.")
-            await bot.send_message(GROUP_ID, "Xabaringiz yuborildi.")
         else:
             await message.reply("Siz admin emassiz dib ettimu!!!")
 
