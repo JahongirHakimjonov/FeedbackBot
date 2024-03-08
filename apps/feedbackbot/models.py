@@ -159,7 +159,7 @@ class ClassSchedule(AbstractBaseModel):
         db_table = "class_schedule"
 
 
-class SupportUsers(AbstractBaseModel):
+class SupportUsers(models.Model):
     full_name = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     telegram_id = models.BigIntegerField(unique=True, blank=True, null=True)
