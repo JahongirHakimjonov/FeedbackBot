@@ -69,6 +69,17 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core.urls'
 
+CORS_ORIGIN_WHITELIST = [
+    "https://feedback.tiiame.uz",
+    "http://feedback.tiiame.uz",
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "http://0.0.0.0:8000",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -119,8 +130,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -160,14 +169,14 @@ JAZZMIN_SETTINGS = {
     "search_model": ["feedbackbot.Student"],
     "topmenu_links": [
 
-        {"name": "Home", "url": "/"},
+        {"name": "Home", "url": "https://feedback.tiiame.uz", "new_window": False},
 
-        {"name": "Support", "url": "https://t.me/tiiamenru_fed_supportbot", "new_window": True},
+        {"name": "Support", "url": "https://t.me/tiiamenru_supportbot", "new_window": True},
 
     ],
 
     "usermenu_links": [
-        {"name": "Support", "url": "https://t.me/tiiamenru_fed_supportbot", "new_window": True},
+        {"name": "Support", "url": "https://t.me/tiiamenru_supportbot", "new_window": True, 'icon': 'fas fa-headset'},
         # {"model": "auth.user"}
     ],
     "show_sidebar": True,

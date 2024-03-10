@@ -161,6 +161,7 @@ async def handle_message(message: types.Message):
         f"Xabar: {message_text}",
         reply_markup=keyboard  # Add inline keyboard to group message
     )
+    await message.reply("Xabaringiz qabul qilindi. Javobni kuting.")
 
 
 @dp.callback_query_handler()
@@ -194,7 +195,7 @@ async def handle_admin_reply(message: types.Message, state: FSMContext):
             user_exists = c.fetchall()
             if user_exists:
                 await bot.copy_message(user_id, message.chat.id, message.message_id)  # Send message to user
-                await bot.send_message(GROUP_ID, "Xabaringiz yuborildi.")  # Send confirmation to admin
+                await bot.send_message(GROUP_ID, "Javobingiz yuborildi.")  # Send confirmation to admin
             else:
                 await bot.send_message(GROUP_ID, "Foydalanuvchi bot bilan suhbatni boshlamagan.")  # Notify admin
             await state.finish()  # Clear user_data
