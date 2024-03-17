@@ -213,4 +213,7 @@ async def handle_admin_reply(message: types.Message, state: FSMContext):
 
 
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+    try:
+        executor.start_polling(dp, skip_updates=True)
+    except Exception as e:
+        logging.error(f"Error occurred: {e}")

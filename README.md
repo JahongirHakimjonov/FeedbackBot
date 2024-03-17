@@ -60,3 +60,5 @@ Har kuni 03:00 da autorun.sh faylini ishga tushirish uchun<br><br>
 
 **4) Crontab ni saqlash uchun<br><br>**
 ```Ctrl + X,Shift + Y, Enter```
+
+<iframe src="https://github.com/sponsors/JahongirHakimjonov/card" title="Sponsor JahongirHakimjonov" height="225" width="600" style="border: 0;"></iframe>
