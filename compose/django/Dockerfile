@@ -14,6 +14,12 @@ COPY ./compose/django/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 
+COPY ./check_error.sh /check_error.sh
+RUN chmod +x /check_error.sh
+
+COPY ./autorun.sh /autorun.sh
+RUN chmod +x /autorun.sh
+
 WORKDIR /app
 
 ENTRYPOINT ["/entrypoint"]
