@@ -3,7 +3,7 @@ import os
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.dispatcher import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram.utils.exceptions import BotBlocked, ChatNotFound
+from aiogram.utils.exceptions import BotBlocked, ChatNotFound, UserDeactivated
 
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
@@ -124,6 +124,8 @@ async def handle_news(message: types.Message, state: FSMContext):
                 continue
             except ChatNotFound:
                 logging.warning(f"Chat not found for the user {telegram_id}")
+            except UserDeactivated:
+                logging.warning(f"User {telegram_id} is deactivated")
                 continue
 
         await state.finish()

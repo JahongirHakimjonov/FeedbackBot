@@ -4,7 +4,7 @@ import os
 import asyncio
 from aiogram.dispatcher import FSMContext
 from aiogram.utils import executor
-from aiogram.utils.exceptions import BotBlocked, ChatNotFound
+from aiogram.utils.exceptions import BotBlocked, ChatNotFound, UserDeactivated
 
 from states import Form
 import aiocron
@@ -206,6 +206,8 @@ if __name__ == '__main__':
                     continue
                 except ChatNotFound:
                     logging.warning(f"Chat not found for the user {telegram_id}")
+                except UserDeactivated:
+                    logging.warning(f"The user {telegram_id} has been deactivated")
                     continue
 
             await state.finish()
@@ -260,6 +262,10 @@ if __name__ == '__main__':
                     logging.warning(f"Bot is blocked by the user: {student['telegram_id']}")
                 except ChatNotFound:
                     logging.warning(f"Chat not found for the user: {student['telegram_id']}")
+                except UserDeactivated:
+                    logging.warning(f"The user {student['telegram_id']} has been deactivated")
+                except Exception as e:
+                    logging.error(f"Error occurred while sending the message: {e}")
 
                 try:
                     state = dp.current_state(user=student['telegram_id'])
