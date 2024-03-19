@@ -18,8 +18,8 @@ load_dotenv(find_dotenv())
 
 # Now you can access the environment variables as before
 API_TOKEN = os.getenv('SUPPORT_BOT_TOKEN')
-ADMIN_ID = int(os.getenv('ADMIN_ID'))  # Make sure ADMIN_ID is an integer
-GROUP_ID = int(os.getenv('GROUP_ID'))  # Make sure GROUP_ID is an integer
+# ADMIN_ID = int(os.getenv('ADMIN_ID'))  # Make sure ADMIN_ID is an integer
+# GROUP_ID = int(os.getenv('GROUP_ID'))  # Make sure GROUP_ID is an integer
 
 # Logger settings
 logging.basicConfig(level=logging.INFO)
@@ -46,6 +46,25 @@ def setup_database():
 
 
 conn, c = setup_database()
+
+
+def get_admin_and_group_id():
+    try:
+        # Execute the query to get admin_id
+        c.execute('SELECT admin_id FROM admins LIMIT 1')
+        admin_id = c.fetchone()[0]
+
+        # Execute the query to get group_id
+        c.execute('SELECT group_id FROM admins LIMIT 1')
+        group_id = c.fetchone()[0]
+
+        return admin_id, group_id
+    except Exception as e:
+        logging.error(f"Error in fetching admin_id and group_id: {e}")
+        exit(1)
+
+
+ADMIN_ID, GROUP_ID = get_admin_and_group_id()
 
 
 @dp.message_handler(commands=['start'])
@@ -153,15 +172,23 @@ async def handle_message(message: types.Message):
                                               callback_data=str(user_id))  # Store user_id in callback_data
     keyboard.add(reply_button)
 
-    # Send information to group with inline keyboard
-    await bot.send_message(
-        GROUP_ID,
-        f"Foydalanuvchi: {user_name}\n"
-        f"Id: {user_id}\n"
-        f"Xabar: {message_text}",
-        reply_markup=keyboard  # Add inline keyboard to group message
-    )
-    await message.reply("Xabaringiz qabul qilindi. Javobni kuting.")
+    try:
+        # Send information to group with inline keyboard
+        await bot.send_message(
+            GROUP_ID,
+            f"Foydalanuvchi: {user_name}\n"
+            f"Id: {user_id}\n"
+            f"Xabar: {message_text}",
+            reply_markup=keyboard  # Add inline keyboard to group message
+        )
+        await message.reply("Xabaringiz qabul qilindi. Javobni kuting.")
+    except BotBlocked:
+        logging.warning(f"Bot was blocked by the user {user_id}")
+    except ChatNotFound:
+        logging.warning(f"Chat not found for the user {user_id}")
+        await bot.send_message(ADMIN_ID, "Guruh topilmadi. Guruh ID ni tekshiring.")
+    except Exception as e:
+        logging.error(f"Error occurred: {e}")
 
 
 @dp.callback_query_handler()

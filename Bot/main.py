@@ -27,6 +27,25 @@ if __name__ == '__main__':
     bot, dp = setup_bot()
     conn, cur = setup_database()
 
+
+    def get_admin_and_group_id(cur):
+        try:
+            # Execute the query to get admin_id
+            cur.execute('SELECT admin_id FROM admins LIMIT 1')
+            admin_id = cur.fetchone()[0]
+
+            # Execute the query to get group_id
+            cur.execute('SELECT group_id FROM admins LIMIT 1')
+            group_id = cur.fetchone()[0]
+
+            return admin_id, group_id
+        except Exception as e:
+            logging.error(f"Error in fetching admin_id and group_id: {e}")
+            exit(1)
+
+
+    ADMIN_ID, GROUP_ID = get_admin_and_group_id(cur)
+
     languages = {"Uzbek🇺🇿": uzbek, "English🇬🇧": english, "Russian🇷🇺": russian, "Japanese🇯🇵": japanese}
 
 

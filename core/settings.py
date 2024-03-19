@@ -202,6 +202,7 @@ JAZZMIN_SETTINGS = {
         "SupportBot": "fas fa-headset",
         "SupportBot.SupportUsers": "fas fa-user",
         "SupportBot.DailyMessages": "fas fa-envelope",
+        "SupportBot.AdminsID": "fas fa-user-shield",
 
     },
     "copyright": "TIIAME NRU",

@@ -25,3 +25,15 @@ class DailyMessages(models.Model):
     class Meta:
         verbose_name_plural = "Kunlik xabarlar"
         db_table = "daily_message"
+
+
+class AdminsID(models.Model):
+    admin_id = models.BigIntegerField()
+    group_id = models.BigIntegerField()
+
+    def __str__(self):
+        return f"{self.admin_id} - {self.group_id}"
+
+    class Meta:
+        verbose_name_plural = "Adminlar"
+        db_table = "admins"
