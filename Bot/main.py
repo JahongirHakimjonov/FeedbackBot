@@ -19,9 +19,6 @@ from languages import english, russian, uzbek, japanese
 
 bot, dp = setup_bot()
 
-ADMIN_ID = int(os.getenv('ADMIN_ID'))  # Make sure ADMIN_ID is an integer
-GROUP_ID = int(os.getenv('GROUP_ID'))  # Make sure GROUP_ID is an integer
-
 if __name__ == '__main__':
 
     bot, dp = setup_bot()
@@ -31,11 +28,11 @@ if __name__ == '__main__':
     def get_admin_and_group_id(cur):
         try:
             # Execute the query to get admin_id
-            cur.execute('SELECT admin_id FROM admins LIMIT 1')
+            cur.execute('SELECT admin_id FROM admins_id LIMIT 1')
             admin_id = cur.fetchone()[0]
 
             # Execute the query to get group_id
-            cur.execute('SELECT group_id FROM admins LIMIT 1')
+            cur.execute('SELECT group_id FROM admins_id LIMIT 1')
             group_id = cur.fetchone()[0]
 
             return admin_id, group_id

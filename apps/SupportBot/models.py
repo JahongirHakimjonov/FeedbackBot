@@ -36,4 +36,4 @@ class AdminsID(models.Model):
 
     class Meta:
         verbose_name_plural = "Adminlar"
-        db_table = "admins"
+        db_table = "admins_id"

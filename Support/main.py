@@ -51,11 +51,11 @@ conn, c = setup_database()
 def get_admin_and_group_id():
     try:
         # Execute the query to get admin_id
-        c.execute('SELECT admin_id FROM admins LIMIT 1')
+        c.execute('SELECT admin_id FROM admins_id LIMIT 1')
         admin_id = c.fetchone()[0]
 
         # Execute the query to get group_id
-        c.execute('SELECT group_id FROM admins LIMIT 1')
+        c.execute('SELECT group_id FROM admins_id LIMIT 1')
         group_id = c.fetchone()[0]
 
         return admin_id, group_id
