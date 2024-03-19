@@ -242,6 +242,8 @@ if __name__ == '__main__':
                                            reply_markup=keyboard, parse_mode='Markdown')
                 except BotBlocked:
                     logging.warning(f"Bot is blocked by the user: {student['telegram_id']}")
+                except ChatNotFound:
+                    logging.warning(f"Chat not found for the user: {student['telegram_id']}")
 
                 try:
                     state = dp.current_state(user=student['telegram_id'])
