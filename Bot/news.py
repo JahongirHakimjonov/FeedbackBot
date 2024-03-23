@@ -1,6 +1,6 @@
 import os
 import logging
-from aiogram.utils.exceptions import BotBlocked
+from aiogram.utils.exceptions import BotBlocked, ChatNotFound, UserDeactivated
 from .bot_setup import setup_bot
 from .setup import setup_database
 
@@ -30,5 +30,9 @@ async def send_news():
                     await bot.send_message(user['telegram_id'], caption, parse_mode='Markdown')
     except BotBlocked:
         logging.warning(f"Bot was blocked by the user")
+    except ChatNotFound:
+        logging.error(f"Chat not found")
+    except UserDeactivated:
+        logging.warning(f"User deactivated the account")
     except Exception as es:
         logging.error(f"Error occurred in send_news: {es}")
