@@ -7,15 +7,21 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-dbname = os.getenv('SQL_DATABASE')
-user = os.getenv('SQL_USER')
-password = os.getenv('SQL_PASSWORD')
-host = os.getenv('SQL_HOST')
+dbname = os.getenv("SQL_DATABASE")
+user = os.getenv("SQL_USER")
+password = os.getenv("SQL_PASSWORD")
+host = os.getenv("SQL_HOST")
 
 
 def setup_database():
     try:
-        conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, cursor_factory=DictCursor)
+        conn = psycopg2.connect(
+            dbname=dbname,
+            user=user,
+            password=password,
+            host=host,
+            cursor_factory=DictCursor,
+        )
         cur = conn.cursor()
         conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         return conn, cur

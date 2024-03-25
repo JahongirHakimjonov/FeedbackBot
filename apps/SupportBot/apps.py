@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class SupportbotConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.SupportBot'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "apps.SupportBot"

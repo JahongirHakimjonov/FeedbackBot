@@ -12,7 +12,7 @@ uzbek = {
     "feedback_prompt": "Dars va ustoz haqida fikr va takliflaringizni yuboring❗",
     "finish_message": "*Baholar qabul qilindi*, E'tiboringiz uchun rahmat!👍",
     "rating_message": "📚 Fan: *{lesson_name}*\n👨‍🏫 Ustoz: *{teacher_name}*\n🚪Xona: *{class_['room']}*\n\nUstozning pedagogik mahoratiga baho bering❗👇",
-    "about_message": "Ism: ```{result[0]}```\nFamiliya: ```{result[1]}```\nGuruh: ```{result[2]}```\nKurs: ```{result[3]}```\nTelegram id: ```{result[4]}```"
+    "about_message": "Ism: ```{result[0]}```\nFamiliya: ```{result[1]}```\nGuruh: ```{result[2]}```\nKurs: ```{result[3]}```\nTelegram id: ```{result[4]}```",
 }
 english = {
     "greeting": "Hello.",
@@ -28,7 +28,7 @@ english = {
     "feedback_prompt": "Send your feedback and suggestions about the class and teacher❗",
     "finish_message": "*Ratings received*, Thank you for your attention!👍",
     "rating_message": "📚 Lesson: *{lesson_name}*\n👨‍🏫 Teacher: *{teacher_name}*\n🚪Room: *{class_['room']}*\n\nRate the teacher's pedagogical skills❗👇",
-    "about_message": "Name: ```{result[0]}```\nSurname: ```{result[1]}```\nGroup: ```{result[2]}```\nCourse: ```{result[3]}```\nTelegram id: ```{result[4]}```"
+    "about_message": "Name: ```{result[0]}```\nSurname: ```{result[1]}```\nGroup: ```{result[2]}```\nCourse: ```{result[3]}```\nTelegram id: ```{result[4]}```",
 }
 russian = {
     "greeting": "Добро пожаловать.",
@@ -44,7 +44,7 @@ russian = {
     "feedback_prompt": "Отправьте свой отзыв и предложения о занятии и преподавателе❗",
     "finish_message": "*Получены оценки*, Спасибо за внимание!👍",
     "rating_message": "📚 Урок: *{lesson_name}*\n👨‍🏫 Преподаватель: *{teacher_name}*\n🚪Кабинет: *{class_['room']}*\n\nОцените педагогические навыки преподавателя❗👇",
-    "about_message": "Имя: ```{result[0]}```\nФамилия: ```{result[1]}```\nГруппа: ```{result[2]}```\nКурс: ```{result[3]}```\nTelegram id: ```{result[4]}```"
+    "about_message": "Имя: ```{result[0]}```\nФамилия: ```{result[1]}```\nГруппа: ```{result[2]}```\nКурс: ```{result[3]}```\nTelegram id: ```{result[4]}```",
 }
 japanese = {
     "greeting": "こんにちは。",
@@ -60,5 +60,5 @@ japanese = {
     "feedback_prompt": "授業や教師に関するフィードバックや提案を送信してください❗",
     "finish_message": "*評価を受け取りました*、ご注意いただきありがとうございます！👍",
     "rating_message": "📚 レッスン: *{lesson_name}*\n👨‍🏫 教師: *{teacher_name}*\n🚪部屋: *{class_['room']}*\n\n教師の教育スキルを評価してください❗👇",
-    "about_message": "名前: ```{result[0]}```\n姓: ```{result[1]}```\nグループ: ```{result[2]}```\nコース: ```{result[3]}```\nTelegram id: ```{result[4]}```"
+    "about_message": "名前: ```{result[0]}```\n姓: ```{result[1]}```\nグループ: ```{result[2]}```\nコース: ```{result[3]}```\nTelegram id: ```{result[4]}```",
 }

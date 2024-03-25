@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+
 import os
 from pathlib import Path
 from django.apps import AppConfig
@@ -21,53 +22,53 @@ load_dotenv(find_dotenv())
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
-env.read_env(os.path.join(BASE_DIR, '.env'))
+env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = ['https://feedback.tiiame.uz']
+CSRF_TRUSTED_ORIGINS = ["https://feedback.tiiame.uz"]
 
 
 class MyApplicationConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.feedbackbot'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "apps.feedbackbot"
 
 
 INSTALLED_APPS = [
-    'jazzmin',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'apps.feedbackbot.apps.FeedbackbotConfig',
-    'apps.News.apps.NewsConfig',
-    'apps.SupportBot',
-    'import_export',
-    'corsheaders',
+    "jazzmin",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "apps.feedbackbot.apps.FeedbackbotConfig",
+    "apps.News.apps.NewsConfig",
+    "apps.SupportBot",
+    "import_export",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'core.urls'
+ROOT_URLCONF = "core.urls"
 
 CORS_ORIGIN_WHITELIST = [
     "https://feedback.tiiame.uz",
@@ -82,33 +83,33 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "templates")],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+WSGI_APPLICATION = "core.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('SQL_DATABASE'),
-        'USER': os.getenv('SQL_USER'),
-        'PASSWORD': os.getenv('SQL_PASSWORD'),
-        'HOST': os.getenv('SQL_HOST'),
-        'PORT': os.getenv('SQL_PORT')
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("SQL_DATABASE"),
+        "USER": os.getenv("SQL_USER"),
+        "PASSWORD": os.getenv("SQL_PASSWORD"),
+        "HOST": os.getenv("SQL_HOST"),
+        "PORT": os.getenv("SQL_PORT"),
     }
 }
 
@@ -117,27 +118,27 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'uz-uz'
+LANGUAGE_CODE = "uz-uz"
 
-TIME_ZONE = 'Asia/Tashkent'
+TIME_ZONE = "Asia/Tashkent"
 
-TIME_FORMAT = '%H:%M:%S'
+TIME_FORMAT = "%H:%M:%S"
 
 USE_I18N = True
 
@@ -148,17 +149,17 @@ USE_TZ = True
 
 # settings.py
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
-STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
+STATIC_URL = "static/"
+STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]
+STATIC_ROOT = str(BASE_DIR.joinpath("staticfiles"))
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
+MEDIA_URL = "/media/"
+MEDIA_ROOT = str(BASE_DIR.joinpath("media"))
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 JAZZMIN_SETTINGS = {
     "site_title": "TIIAME NRU",
@@ -168,15 +169,20 @@ JAZZMIN_SETTINGS = {
     "welcome_sign": "TIIAME NRU Admin",
     "search_model": ["feedbackbot.Student"],
     "topmenu_links": [
-
         {"name": "Home", "url": "https://feedback.tiiame.uz", "new_window": False},
-
-        {"name": "Support", "url": "https://t.me/tiiamenru_supportbot", "new_window": True},
-
+        {
+            "name": "Support",
+            "url": "https://t.me/tiiamenru_supportbot",
+            "new_window": True,
+        },
     ],
-
     "usermenu_links": [
-        {"name": "Support", "url": "https://t.me/tiiamenru_supportbot", "new_window": True, 'icon': 'fas fa-headset'},
+        {
+            "name": "Support",
+            "url": "https://t.me/tiiamenru_supportbot",
+            "new_window": True,
+            "icon": "fas fa-headset",
+        },
         # {"model": "auth.user"}
     ],
     "show_sidebar": True,
@@ -184,7 +190,6 @@ JAZZMIN_SETTINGS = {
     "hide_apps": [],
     # "hide_models": ['auth.group', 'auth.user', 'auth.permission', 'auth.group', 'auth.user', 'auth.permission', ],
     # "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
-
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
@@ -203,7 +208,6 @@ JAZZMIN_SETTINGS = {
         "SupportBot.SupportUsers": "fas fa-user",
         "SupportBot.DailyMessages": "fas fa-envelope",
         "SupportBot.AdminsID": "fas fa-user-shield",
-
     },
     "copyright": "TIIAME NRU",
     "default_icon_parents": "fas fa-chevron-circle-right",
@@ -212,7 +216,10 @@ JAZZMIN_SETTINGS = {
     "custom_js": None,
     "use_google_fonts_cdn": True,
     "changeform_format": "horizontal_tabs",
-    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
+    "changeform_format_overrides": {
+        "auth.user": "collapsible",
+        "auth.group": "vertical_tabs",
+    },
     "site_logo_classes": "img-circle",
     "login_logo": "feedbackbot/image/login_logo.jpg",
     "custom_css": "feedbackbot/css/custom.css",
@@ -249,7 +256,7 @@ JAZZMIN_UI_TWEAKS = {
         "info": "btn-outline-info",
         "warning": "btn-warning",
         "danger": "btn-danger",
-        "success": "btn-success"
+        "success": "btn-success",
     },
-    "actions_sticky_top": False
+    "actions_sticky_top": False,
 }

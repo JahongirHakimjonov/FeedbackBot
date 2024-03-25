@@ -17,7 +17,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 load_dotenv(find_dotenv())
 
 # Now you can access the environment variables as before
-API_TOKEN = os.getenv('SUPPORT_BOT_TOKEN')
+API_TOKEN = os.getenv("SUPPORT_BOT_TOKEN")
 # ADMIN_ID = int(os.getenv('ADMIN_ID'))  # Make sure ADMIN_ID is an integer
 # GROUP_ID = int(os.getenv('GROUP_ID'))  # Make sure GROUP_ID is an integer
 
@@ -28,15 +28,21 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
-dbname = os.getenv('SQL_DATABASE')
-user = os.getenv('SQL_USER')
-password = os.getenv('SQL_PASSWORD')
-host = os.getenv('SQL_HOST')
+dbname = os.getenv("SQL_DATABASE")
+user = os.getenv("SQL_USER")
+password = os.getenv("SQL_PASSWORD")
+host = os.getenv("SQL_HOST")
 
 
 def setup_database():
     try:
-        conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, cursor_factory=DictCursor)
+        conn = psycopg2.connect(
+            dbname=dbname,
+            user=user,
+            password=password,
+            host=host,
+            cursor_factory=DictCursor,
+        )
         cur = conn.cursor()
         conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         return conn, cur
@@ -51,11 +57,11 @@ conn, c = setup_database()
 def get_admin_and_group_id():
     try:
         # Execute the query to get admin_id
-        c.execute('SELECT admin_id FROM admins_id LIMIT 1')
+        c.execute("SELECT admin_id FROM admins_id LIMIT 1")
         admin_id = c.fetchone()[0]
 
         # Execute the query to get group_id
-        c.execute('SELECT group_id FROM admins_id LIMIT 1')
+        c.execute("SELECT group_id FROM admins_id LIMIT 1")
         group_id = c.fetchone()[0]
 
         return admin_id, group_id
@@ -67,29 +73,32 @@ def get_admin_and_group_id():
 ADMIN_ID, GROUP_ID = get_admin_and_group_id()
 
 
-@dp.message_handler(commands=['start'])
+@dp.message_handler(commands=["start"])
 async def send_welcome(message: types.Message):
     user_id = message.from_user.id
     full_name = message.from_user.full_name
     username = message.from_user.username
 
     # Execute the query
-    c.execute('SELECT * FROM support_user WHERE telegram_id = %s', (user_id,))
+    c.execute("SELECT * FROM support_user WHERE telegram_id = %s", (user_id,))
 
     # Fetch the result
     user_exists = c.fetchall()
 
     # If user does not exist, insert their details into the database
     if not user_exists:
-        c.execute('INSERT INTO support_user (full_name, username, telegram_id) VALUES (%s, %s, %s)',
-                  (full_name, username, user_id))
+        c.execute(
+            "INSERT INTO support_user (full_name, username, telegram_id) VALUES (%s, %s, %s)",
+            (full_name, username, user_id),
+        )
         conn.commit()
 
     if user_id == ADMIN_ID:
         await message.reply("Salom! Jahongir aka botga xush kelibsiz.")
     else:
         await message.reply(
-            "Salom! Talab va takliflaringiz bo‘lsa, ularni yuboring. \nBarcha gapingizni 1ta xabarda yozing.  \n\nDiqqat!, xabar faqat tekst ko‘rinishida bo‘lishi kerak. Rasm, video va boshqa formatdagi fayllar qabul qilinmaydi.")
+            "Salom! Talab va takliflaringiz bo‘lsa, ularni yuboring. \nBarcha gapingizni 1ta xabarda yozing.  \n\nDiqqat!, xabar faqat tekst ko‘rinishida bo‘lishi kerak. Rasm, video va boshqa formatdagi fayllar qabul qilinmaydi."
+        )
 
 
 class News(StatesGroup):
@@ -97,10 +106,12 @@ class News(StatesGroup):
 
 
 # Respond to /news command
-@dp.message_handler(commands=['news'])
+@dp.message_handler(commands=["news"])
 async def news_command(message: types.Message):
     if message.from_user.id == ADMIN_ID:
-        await message.reply("Assalomu alaykum akajon habarizi yuboring man hammaga jo'nataman:")
+        await message.reply(
+            "Assalomu alaykum akajon habarizi yuboring man hammaga jo'nataman:"
+        )
         await News.waiting_for_news.set()
     else:
         await message.reply("Adminmassizku nega bosvos uyatmasmi aaa?")
@@ -110,7 +121,7 @@ async def news_command(message: types.Message):
 async def handle_news(message: types.Message, state: FSMContext):
     if message.from_user.id == ADMIN_ID:
         # Get all users from the database
-        c.execute('SELECT telegram_id FROM support_user WHERE telegram_id IS NOT NULL')
+        c.execute("SELECT telegram_id FROM support_user WHERE telegram_id IS NOT NULL")
         users = c.fetchall()
 
         for user in users:
@@ -139,8 +150,9 @@ async def handle_news(message: types.Message, state: FSMContext):
 @dp.message_handler(content_types=types.ContentType.TEXT)
 async def handle_message(message: types.Message):
     # Check if the message is from the admin or a group admin
-    if message.from_user.id == ADMIN_ID or message.from_user.id in [admin.user.id for admin in
-                                                                    await bot.get_chat_administrators(GROUP_ID)]:
+    if message.from_user.id == ADMIN_ID or message.from_user.id in [
+        admin.user.id for admin in await bot.get_chat_administrators(GROUP_ID)
+    ]:
         return
 
     user_id = message.from_user.id
@@ -148,20 +160,25 @@ async def handle_message(message: types.Message):
     message_text = message.text
 
     # Check the count of messages for the current day
-    c.execute('SELECT message_count FROM daily_message WHERE telegram_id = %s AND message_date = CURRENT_DATE',
-              (user_id,))
+    c.execute(
+        "SELECT message_count FROM daily_message WHERE telegram_id = %s AND message_date = CURRENT_DATE",
+        (user_id,),
+    )
     result = c.fetchone()
 
     if result is None:
         # This is the first message of the day, insert a new row
-        c.execute('INSERT INTO daily_message (telegram_id, message_date, message_count) VALUES (%s, CURRENT_DATE, 1)',
-                  (user_id,))
+        c.execute(
+            "INSERT INTO daily_message (telegram_id, message_date, message_count) VALUES (%s, CURRENT_DATE, 1)",
+            (user_id,),
+        )
         conn.commit()
     elif result[0] < 10:
         # The user can still send messages today, increment the count
         c.execute(
-            'UPDATE daily_message SET message_count = message_count + 1 WHERE telegram_id = %s AND message_date = CURRENT_DATE',
-            (user_id,))
+            "UPDATE daily_message SET message_count = message_count + 1 WHERE telegram_id = %s AND message_date = CURRENT_DATE",
+            (user_id,),
+        )
         conn.commit()
     else:
         # The user has reached their daily limit
@@ -170,18 +187,17 @@ async def handle_message(message: types.Message):
 
     # Create inline keyboard
     keyboard = types.InlineKeyboardMarkup()
-    reply_button = types.InlineKeyboardButton("Javob berish",
-                                              callback_data=str(user_id))  # Store user_id in callback_data
+    reply_button = types.InlineKeyboardButton(
+        "Javob berish", callback_data=str(user_id)
+    )  # Store user_id in callback_data
     keyboard.add(reply_button)
 
     try:
         # Send information to group with inline keyboard
         await bot.send_message(
             GROUP_ID,
-            f"Foydalanuvchi: {user_name}\n"
-            f"Id: {user_id}\n"
-            f"Xabar: {message_text}",
-            reply_markup=keyboard  # Add inline keyboard to group message
+            f"Foydalanuvchi: {user_name}\n" f"Id: {user_id}\n" f"Xabar: {message_text}",
+            reply_markup=keyboard,  # Add inline keyboard to group message
         )
         await message.reply("Xabaringiz qabul qilindi. Javobni kuting.")
     except BotBlocked:
@@ -220,28 +236,41 @@ async def handle_admin_reply(message: types.Message, state: FSMContext):
     if user_id:
         try:
             # Check if the user has interacted with the bot
-            c.execute('SELECT * FROM support_user WHERE telegram_id = %s', (user_id,))
+            c.execute("SELECT * FROM support_user WHERE telegram_id = %s", (user_id,))
             user_exists = c.fetchall()
             if user_exists:
-                await bot.copy_message(user_id, message.chat.id, message.message_id)  # Send message to user
-                await bot.send_message(GROUP_ID, "Javobingiz yuborildi.")  # Send confirmation to admin
+                await bot.copy_message(
+                    user_id, message.chat.id, message.message_id
+                )  # Send message to user
+                await bot.send_message(
+                    GROUP_ID, "Javobingiz yuborildi."
+                )  # Send confirmation to admin
             else:
-                await bot.send_message(GROUP_ID, "Foydalanuvchi bot bilan suhbatni boshlamagan.")  # Notify admin
+                await bot.send_message(
+                    GROUP_ID, "Foydalanuvchi bot bilan suhbatni boshlamagan."
+                )  # Notify admin
             await state.finish()  # Clear user_data
         except BotBlocked:
             logging.warning(f"Bot was blocked by the user {user_id}")
-            await bot.send_message(GROUP_ID, "Foydalanuvchi botni blokladi.")  # Notify admin
+            await bot.send_message(
+                GROUP_ID, "Foydalanuvchi botni blokladi."
+            )  # Notify admin
             await state.finish()
         except Exception as e:
             logging.error(f"Error occurred: {e}")
-            await bot.send_message(GROUP_ID, f"Xatolik yuz berdi: {e}")  # Send error message to admin
+            await bot.send_message(
+                GROUP_ID, f"Xatolik yuz berdi: {e}"
+            )  # Send error message to admin
             await state.finish()
     else:
-        await bot.send_message(GROUP_ID, "Xatolik: Foydalanuvchi topilmadi. Iltimos, qaytadan urinib ko'ring.")
+        await bot.send_message(
+            GROUP_ID,
+            "Xatolik: Foydalanuvchi topilmadi. Iltimos, qaytadan urinib ko'ring.",
+        )
         await state.finish()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         executor.start_polling(dp, skip_updates=True)
     except Exception as e:

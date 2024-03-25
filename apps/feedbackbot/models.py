@@ -9,10 +9,10 @@ class AbstractBaseModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def get_created_at_time(self):
-        return self.created_at.strftime('%H:%M:%S')
+        return self.created_at.strftime("%H:%M:%S")
 
     def get_updated_at_time(self):
-        return self.updated_at.strftime('%H:%M:%S')
+        return self.updated_at.strftime("%H:%M:%S")
 
     class Meta:
         abstract = True
@@ -20,9 +20,9 @@ class AbstractBaseModel(models.Model):
 
 class Group(AbstractBaseModel):
     TYPE_CHOICES = [
-        ('uz', "O'zbek guruh"),
-        ('eng', "Ingliz guruh"),
-        ('rus', "Rus guruh"),
+        ("uz", "O'zbek guruh"),
+        ("eng", "Ingliz guruh"),
+        ("rus", "Rus guruh"),
     ]
 
     group_num = models.IntegerField()
@@ -97,7 +97,9 @@ class Lesson(AbstractBaseModel):
 
 
 class Score(AbstractBaseModel):
-    score_for_teacher = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    score_for_teacher = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
     feedback = models.TextField()
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
@@ -113,24 +115,24 @@ class Score(AbstractBaseModel):
 
 class ClassSchedule(AbstractBaseModel):
     DAYS_OF_WEEK = [
-        (1, 'Dushanba'),
-        (2, 'Seshanba'),
-        (3, 'Chorshanba'),
-        (4, 'Payshanba'),
-        (5, 'Juma'),
-        (6, 'Shanba'),
+        (1, "Dushanba"),
+        (2, "Seshanba"),
+        (3, "Chorshanba"),
+        (4, "Payshanba"),
+        (5, "Juma"),
+        (6, "Shanba"),
     ]
 
     LESSON_START_TIME = [
-        ('08:30:00', '1-PARA, 08:30'),
-        ('09:30:00', '2-PARA, 09:30'),
-        ('10:30:00', '3-PARA, 10:30'),
-        ('11:30:00', '4-PARA, 11:30'),
-        ('12:30:00', '5-PARA, 12:30'),
-        ('13:30:00', '6-PARA, 13:30'),
-        ('14:30:00', '7-PARA, 14:30'),
-        ('15:30:00', '8-PARA, 15:30'),
-        ('16:30:00', '9-PARA, 16:30'),
+        ("08:30:00", "1-PARA, 08:30"),
+        ("09:30:00", "2-PARA, 09:30"),
+        ("10:30:00", "3-PARA, 10:30"),
+        ("11:30:00", "4-PARA, 11:30"),
+        ("12:30:00", "5-PARA, 12:30"),
+        ("13:30:00", "6-PARA, 13:30"),
+        ("14:30:00", "7-PARA, 14:30"),
+        ("15:30:00", "8-PARA, 15:30"),
+        ("16:30:00", "9-PARA, 16:30"),
     ]
 
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -143,12 +145,14 @@ class ClassSchedule(AbstractBaseModel):
 
     def save(self, *args, **kwargs):
         if isinstance(self.start_time, str):
-            start_time_obj = datetime.strptime(self.start_time, '%H:%M:%S').time()
+            start_time_obj = datetime.strptime(self.start_time, "%H:%M:%S").time()
         else:
             start_time_obj = self.start_time
 
-        end_time_obj = (datetime.combine(datetime.today(), start_time_obj) + timedelta(minutes=50)).time()
-        self.end_time = end_time_obj.strftime('%H:%M:%S')
+        end_time_obj = (
+            datetime.combine(datetime.today(), start_time_obj) + timedelta(minutes=50)
+        ).time()
+        self.end_time = end_time_obj.strftime("%H:%M:%S")
         super().save(*args, **kwargs)
 
     def __str__(self):
