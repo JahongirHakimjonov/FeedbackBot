@@ -80,7 +80,7 @@ class TeacherAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         queryset = queryset.annotate(
             average_score=Avg('score__score_for_teacher')
         )
-        return queryset.order_by('-average_score')
+        return queryset.order_by('average_score')
 
 
 @admin.register(Lesson)
