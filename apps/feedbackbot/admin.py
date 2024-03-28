@@ -77,10 +77,8 @@ class TeacherAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        queryset = queryset.annotate(
-            average_score=Avg('score__score_for_teacher')
-        )
-        return queryset.order_by('average_score')
+        queryset = queryset.annotate(average_score=Avg("score__score_for_teacher"))
+        return queryset.order_by("average_score")
 
 
 @admin.register(Lesson)
@@ -111,7 +109,12 @@ class ScoreAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         "student",
     )
     list_filter = ("teacher__full_name", "lesson__name", "student__group")
-    search_fields = ("teacher__full_name", "lesson__name", "student__first_name", "student__last_name")
+    search_fields = (
+        "teacher__full_name",
+        "lesson__name",
+        "student__first_name",
+        "student__last_name",
+    )
     date_hierarchy = "created_at"
     list_max_show_all = 50
 
