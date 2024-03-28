@@ -110,8 +110,8 @@ class ScoreAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         "feedback",
         "student",
     )
-    list_filter = ("teacher__full_name", "lesson__name")
-    search_fields = ("teacher__full_name", "lesson__name")
+    list_filter = ("teacher__full_name", "lesson__name", "student__group")
+    search_fields = ("teacher__full_name", "lesson__name", "student__first_name", "student__last_name")
     date_hierarchy = "created_at"
     list_max_show_all = 50
 
