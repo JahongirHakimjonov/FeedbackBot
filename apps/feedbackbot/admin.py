@@ -75,6 +75,13 @@ class TeacherAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
     full_name.short_description = "Ism Familiya"
 
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.annotate(
+            average_score=Avg('score__score_for_teacher')
+        )
+        return queryset.order_by('-average_score')
+
 
 @admin.register(Lesson)
 class LessonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
