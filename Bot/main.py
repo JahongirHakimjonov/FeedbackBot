@@ -4,11 +4,18 @@ import os
 import asyncio
 from aiogram.dispatcher import FSMContext
 from aiogram.utils import executor
-from aiogram.utils.exceptions import BotBlocked, ChatNotFound, UserDeactivated
+from aiogram.utils.exceptions import (
+    BotBlocked,
+    ChatNotFound,
+    UserDeactivated,
+    TelegramAPIError,
+)
+from aiohttp.client_exceptions import ClientConnectorError
 
 from states import Form
 import aiocron
 import pytz
+import time
 from datetime import datetime
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.exceptions import MessageToDeleteNotFound
@@ -26,13 +33,19 @@ if __name__ == "__main__":
 
     def get_admin_and_group_id(cur):
         try:
-            # Execute the query to get admin_id
             cur.execute("SELECT admin_id FROM admins_id LIMIT 1")
-            admin_id = cur.fetchone()[0]
+            result = cur.fetchone()
+            if result is None:
+                logging.error("No rows in admins_id table")
+                return None, None
+            admin_id = result[0]
 
-            # Execute the query to get group_id
             cur.execute("SELECT group_id FROM admins_id LIMIT 1")
-            group_id = cur.fetchone()[0]
+            result = cur.fetchone()
+            if result is None:
+                logging.error("No rows in admins_id table")
+                return None, None
+            group_id = result[0]
 
             return admin_id, group_id
         except Exception as e:
@@ -258,6 +271,7 @@ if __name__ == "__main__":
                     continue
                 except ChatNotFound:
                     logging.warning(f"Chat not found for the user {telegram_id}")
+                    continue
                 except UserDeactivated:
                     logging.warning(f"The user {telegram_id} has been deactivated")
                     continue
@@ -324,16 +338,20 @@ if __name__ == "__main__":
                     logging.warning(
                         f"Bot is blocked by the user: {student['telegram_id']}"
                     )
+                    continue
                 except ChatNotFound:
                     logging.warning(
                         f"Chat not found for the user: {student['telegram_id']}"
                     )
+                    continue
                 except UserDeactivated:
                     logging.warning(
                         f"The user {student['telegram_id']} has been deactivated"
                     )
+                    continue
                 except Exception as e:
                     logging.error(f"Error occurred while sending the message: {e}")
+                    continue
 
                 try:
                     state = dp.current_state(user=student["telegram_id"])
@@ -341,6 +359,7 @@ if __name__ == "__main__":
                         data["class_id"] = class_["id"]
                 except Exception as e:
                     logging.error(f"Error occurred while setting the state: {e}")
+                    continue
 
     @dp.callback_query_handler(lambda c: c.data and c.data.isdigit())
     async def process_callback(callback_query: types.CallbackQuery, state: FSMContext):
@@ -392,9 +411,10 @@ if __name__ == "__main__":
     async def process_feedback_message(message: types.Message, state: FSMContext):
         try:
             async with state.proxy() as data:
+                # Check if class_id is in data
                 if "class_id" not in data:
                     logging.error("class_id not found in data")
-                    raise Exception("class_id not found in data")
+                    return  # Exit the function if class_id is not found
 
                 cur.execute(
                     "SELECT lesson_id, teacher_id FROM class_schedule WHERE id = %s",
@@ -416,25 +436,50 @@ if __name__ == "__main__":
                 )
                 conn.commit()
 
-                # Delete the previous messages
-                await bot.delete_message(message.chat.id, data["rating_message_id"])
-                await bot.delete_message(
-                    message.chat.id, data["feedback_prompt_message_id"]
-                )
+                # Check if the messages exist before trying to delete them
+                if "rating_message_id" in data:
+                    try:
+                        await bot.delete_message(
+                            message.chat.id, data["rating_message_id"]
+                        )
+                    except MessageToDeleteNotFound:
+                        pass  # Message already deleted, do nothing
+
+                if "feedback_prompt_message_id" in data:
+                    try:
+                        await bot.delete_message(
+                            message.chat.id, data["feedback_prompt_message_id"]
+                        )
+                    except MessageToDeleteNotFound:
+                        pass  # Message already deleted, do nothing
 
                 await send_message(
                     message.chat.id, "finish_message", state, parse_mode="Markdown"
                 )
         except Exception as es:
-            print(f"Error in process_feedback_message: {es}")
+            logging.error(f"Error in process_feedback_message: {es}")
         finally:
             await state.finish()
 
-    try:
-        executor.start_polling(dp, skip_updates=True)
-    except Exception as e:
-        logging.error(f"Error occurred: {e}")
-    # finally:
-    #     conn.close()
-    #     cur.close()
-    #     bot.close()
+    retry_count = 5
+    delay = 5
+    for i in range(retry_count):
+        try:
+            executor.start_polling(dp, skip_updates=True)
+            break
+        except TelegramAPIError as e:
+            if i < retry_count - 1:  # If it's not the last attempt
+                logging.error(f"Error occurred, retrying after {delay} seconds...")
+                time.sleep(delay)  # Wait for some time before the next attempt
+            else:
+                logging.error(f"Failed to start polling after {retry_count} attempts.")
+                raise e  # If all attempts failed, raise the exception
+        except ClientConnectorError as e:
+            if i < retry_count - 1:
+                logging.error(f"Error occurred, retrying after {delay} seconds...")
+                time.sleep(delay)
+            else:
+                logging.error(f"Failed to start polling after {retry_count} attempts.")
+                raise e
+        except Exception as e:
+            logging.error(f"Error occurred: {e}")

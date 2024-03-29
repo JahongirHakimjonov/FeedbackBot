@@ -3,7 +3,13 @@ import os
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.dispatcher import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram.utils.exceptions import BotBlocked, ChatNotFound, UserDeactivated
+from aiogram.utils.exceptions import (
+    BotBlocked,
+    ChatNotFound,
+    UserDeactivated,
+    TelegramAPIError,
+)
+from aiohttp.client_exceptions import ClientConnectorError
 
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
@@ -12,6 +18,7 @@ from dotenv import load_dotenv, find_dotenv
 
 # Add a new state to the FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
+import time
 
 # Load environment variables
 load_dotenv(find_dotenv())
@@ -97,7 +104,9 @@ async def send_welcome(message: types.Message):
         await message.reply("Salom! Jahongir aka botga xush kelibsiz.")
     else:
         await message.reply(
-            "Salom! Talab va takliflaringiz bo‘lsa, ularni yuboring. \nBarcha gapingizni 1ta xabarda yozing.  \n\nDiqqat!, xabar faqat tekst ko‘rinishida bo‘lishi kerak. Rasm, video va boshqa formatdagi fayllar qabul qilinmaydi."
+            "Salom! Talab va takliflaringiz bo‘lsa, ularni yuboring. \nBarcha gapingizni 1ta xabarda yozing.  "
+            "\n\nDiqqat!, xabar faqat tekst ko‘rinishida bo‘lishi kerak. Rasm, video va boshqa formatdagi fayllar "
+            "qabul qilinmaydi."
         )
 
 
@@ -176,7 +185,8 @@ async def handle_message(message: types.Message):
     elif result[0] < 10:
         # The user can still send messages today, increment the count
         c.execute(
-            "UPDATE daily_message SET message_count = message_count + 1 WHERE telegram_id = %s AND message_date = CURRENT_DATE",
+            "UPDATE daily_message SET message_count = message_count + 1 WHERE telegram_id = %s AND message_date = "
+            "CURRENT_DATE",
             (user_id,),
         )
         conn.commit()
@@ -271,7 +281,25 @@ async def handle_admin_reply(message: types.Message, state: FSMContext):
 
 
 if __name__ == "__main__":
-    try:
-        executor.start_polling(dp, skip_updates=True)
-    except Exception as e:
-        logging.error(f"Error occurred: {e}")
+    retry_count = 5
+    delay = 5
+    for i in range(retry_count):
+        try:
+            executor.start_polling(dp, skip_updates=True)
+            break
+        except TelegramAPIError as e:
+            if i < retry_count - 1:  # If it's not the last attempt
+                logging.error(f"Error occurred, retrying after {delay} seconds...")
+                time.sleep(delay)  # Wait for some time before the next attempt
+            else:
+                logging.error(f"Failed to start polling after {retry_count} attempts.")
+                raise e  # If all attempts failed, raise the exception
+        except ClientConnectorError as e:
+            if i < retry_count - 1:
+                logging.error(f"Error occurred, retrying after {delay} seconds...")
+                time.sleep(delay)
+            else:
+                logging.error(f"Failed to start polling after {retry_count} attempts.")
+                raise e
+        except Exception as e:
+            logging.error(f"Error occurred: {e}")
