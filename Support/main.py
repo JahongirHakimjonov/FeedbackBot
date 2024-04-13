@@ -10,6 +10,7 @@ from aiogram.utils.exceptions import (
     TelegramAPIError,
 )
 from aiohttp.client_exceptions import ClientConnectorError
+from aiogram.utils.exceptions import TelegramAPIError
 
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
@@ -280,6 +281,8 @@ async def handle_admin_reply(message: types.Message, state: FSMContext):
         await state.finish()
 
 
+
+
 if __name__ == "__main__":
     retry_count = 5
     delay = 5
@@ -287,19 +290,12 @@ if __name__ == "__main__":
         try:
             executor.start_polling(dp, skip_updates=True)
             break
-        except TelegramAPIError as e:
+        except (TelegramAPIError, ClientConnectorError) as e:
             if i < retry_count - 1:  # If it's not the last attempt
                 logging.error(f"Error occurred, retrying after {delay} seconds...")
                 time.sleep(delay)  # Wait for some time before the next attempt
             else:
                 logging.error(f"Failed to start polling after {retry_count} attempts.")
                 raise e  # If all attempts failed, raise the exception
-        except ClientConnectorError as e:
-            if i < retry_count - 1:
-                logging.error(f"Error occurred, retrying after {delay} seconds...")
-                time.sleep(delay)
-            else:
-                logging.error(f"Failed to start polling after {retry_count} attempts.")
-                raise e
         except Exception as e:
             logging.error(f"Error occurred: {e}")
