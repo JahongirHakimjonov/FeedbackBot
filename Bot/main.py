@@ -353,6 +353,9 @@ if __name__ == "__main__":
                     logging.warning(
                         f"Bot is blocked by the user: {student['telegram_id']}"
                     )
+                    await bot.send_message(
+                        ADMIN_ID,
+                        f"Bot is blocked by the user: ```{student['telegram_id']}```🚫", parse_mode="Markdown")
                     continue
                 except ChatNotFound:
                     logging.warning(
