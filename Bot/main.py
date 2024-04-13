@@ -417,11 +417,11 @@ if __name__ == "__main__":
         await asyncio.sleep(delay)
         try:
             await bot.delete_message(user_id, rating_message_id)
-        except MessageCantBeDeleted:
+        except (MessageCantBeDeleted, MessageToDeleteNotFound):
             logging.warning("Bot can't delete the rating message for everyone.")
         try:
             await bot.delete_message(user_id, feedback_prompt_message_id)
-        except MessageCantBeDeleted:
+        except (MessageCantBeDeleted, MessageToDeleteNotFound):
             logging.warning("Bot can't delete the feedback prompt message for everyone.")
 
 

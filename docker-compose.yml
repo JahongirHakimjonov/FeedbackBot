@@ -40,7 +40,7 @@ services:
     env_file:
       - ./.env
     depends_on:
-        - db
+      - db
 
   db:
     image: postgres:15-alpine
