@@ -31,7 +31,6 @@ if __name__ == "__main__":
     bot, dp = setup_bot()
     conn, cur = setup_database()
 
-
     def get_admin_and_group_id(cur):
         try:
             cur.execute("SELECT admin_id FROM admins_id LIMIT 1")
@@ -53,7 +52,6 @@ if __name__ == "__main__":
             logging.error(f"Error in fetching admin_id and group_id: {e}")
             exit(1)
 
-
     ADMIN_ID, GROUP_ID = get_admin_and_group_id(cur)
 
     languages = {
@@ -62,7 +60,6 @@ if __name__ == "__main__":
         "Russian🇷🇺": russian,
         "Japanese🇯🇵": japanese,
     }
-
 
     @dp.message_handler(commands="lang")
     async def cmd_lang(message: types.Message):
@@ -76,10 +73,9 @@ if __name__ == "__main__":
             reply_markup=keyboard,
         )
 
-
     @dp.callback_query_handler(lambda c: c.data and c.data in languages)
     async def process_language_callback(
-            callback_query: types.CallbackQuery, state: FSMContext
+        callback_query: types.CallbackQuery, state: FSMContext
     ):
         async with state.proxy() as data:
             data["language"] = callback_query.data
@@ -94,9 +90,8 @@ if __name__ == "__main__":
             callback_query.message.chat.id, callback_query.message.message_id
         )
 
-
     async def send_message(
-            user_id, message_key, state: FSMContext, parse_mode="Markdown"
+        user_id, message_key, state: FSMContext, parse_mode="Markdown"
     ):
         async with state.proxy() as data:
             language = data.get(
@@ -109,7 +104,6 @@ if __name__ == "__main__":
             if sent_message is None:
                 raise Exception(f"Failed to send message: {message_key}")
             return sent_message
-
 
     @dp.message_handler(commands="start")
     async def cmd_start(message: types.Message, state: FSMContext):
@@ -132,7 +126,6 @@ if __name__ == "__main__":
         except Exception as es:
             logging.error(f"Error occurred in cmd_start while starting the bot: {es}")
 
-
     @dp.message_handler(state=Form.login_id)
     async def process_login_id(message: types.Message, state: FSMContext):
         try:
@@ -146,7 +139,6 @@ if __name__ == "__main__":
             logging.error(
                 f"Error occurred in process_login_id while processing login id: {es}"
             )
-
 
     @dp.message_handler(state=Form.password)
     async def process_password(message: types.Message, state: FSMContext):
@@ -186,7 +178,6 @@ if __name__ == "__main__":
         finally:
             await state.finish()
 
-
     @dp.message_handler(commands="about")
     async def cmd_info(message: types.Message, state: FSMContext):
         try:
@@ -214,7 +205,6 @@ if __name__ == "__main__":
                 f"Error occurred in cmd_info while handling info command: {es}"
             )
 
-
     @dp.message_handler(commands="help")
     async def cmd_help(message: types.Message, state: FSMContext):
         try:
@@ -223,7 +213,6 @@ if __name__ == "__main__":
             logging.error(
                 f"Error occurred in cmd_help while handling help command: {es}"
             )
-
 
     @dp.message_handler(commands="tutorial")
     async def cmd_tutorial(message: types.Message, state: FSMContext):
@@ -248,7 +237,6 @@ if __name__ == "__main__":
                 f"Error occurred in cmd_tutorial while handling tutorial command: {es}"
             )
 
-
     @dp.message_handler(commands=["news"])
     async def news_command(message: types.Message):
         if message.from_user.id == ADMIN_ID:
@@ -258,7 +246,6 @@ if __name__ == "__main__":
             await Form.waiting_for_news.set()
         else:
             await message.reply("Adminmassizku nega bosvos uyatmasmi aaa?")
-
 
     @dp.message_handler(
         state=Form.waiting_for_news, content_types=types.ContentType.ANY
@@ -294,7 +281,6 @@ if __name__ == "__main__":
         else:
             await message.reply("Siz admin emassiz dib ettimu!!!")
 
-
     keyboard = InlineKeyboardMarkup()
     keyboard.row(
         InlineKeyboardButton("1", callback_data="1"),
@@ -303,7 +289,6 @@ if __name__ == "__main__":
         InlineKeyboardButton("4", callback_data="4"),
         InlineKeyboardButton("5", callback_data="5"),
     )
-
 
     @aiocron.crontab("* * * * *")
     async def cronjob():
@@ -355,7 +340,9 @@ if __name__ == "__main__":
                     )
                     await bot.send_message(
                         ADMIN_ID,
-                        f"Bot is blocked by the user: ```{student['telegram_id']}```", parse_mode="Markdown")
+                        f"Bot is blocked by the user: ```{student['telegram_id']}```",
+                        parse_mode="Markdown",
+                    )
                     continue
                 except ChatNotFound:
                     logging.warning(
@@ -378,7 +365,6 @@ if __name__ == "__main__":
                 except Exception as e:
                     logging.error(f"Error occurred while setting the state: {e}")
                     continue
-
 
     @dp.callback_query_handler(lambda c: c.data and c.data.isdigit())
     async def process_callback(callback_query: types.CallbackQuery, state: FSMContext):
@@ -413,9 +399,8 @@ if __name__ == "__main__":
             )
         )
 
-
     async def delete_messages_after_delay(
-            user_id, rating_message_id, feedback_prompt_message_id, delay
+        user_id, rating_message_id, feedback_prompt_message_id, delay
     ):
         await asyncio.sleep(delay)
         try:
@@ -425,8 +410,9 @@ if __name__ == "__main__":
         try:
             await bot.delete_message(user_id, feedback_prompt_message_id)
         except (MessageCantBeDeleted, MessageToDeleteNotFound):
-            logging.warning("Bot can't delete the feedback prompt message for everyone.")
-
+            logging.warning(
+                "Bot can't delete the feedback prompt message for everyone."
+            )
 
     @dp.message_handler(state=Form.feedback_message)
     async def process_feedback_message(message: types.Message, state: FSMContext):
@@ -481,7 +467,6 @@ if __name__ == "__main__":
             logging.error(f"Error in process_feedback_message: {es}")
         finally:
             await state.finish()
-
 
     retry_count = 5
     delay = 5

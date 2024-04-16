@@ -22,7 +22,10 @@ class StudentResource(resources.ModelResource):
 class TeacherResource(resources.ModelResource):
     class Meta:
         model = Teacher
-        fields = ("id", "full_name",)
+        fields = (
+            "id",
+            "full_name",
+        )
 
     def before_import_row(self, row, **kwargs):
         full_name = row.get("full_name")
@@ -31,7 +34,9 @@ class TeacherResource(resources.ModelResource):
             full_name = full_name.strip()
             row["full_name"] = full_name  # Update the row with the stripped full_name
         if Teacher.objects.filter(full_name=full_name).exists():
-            return {}  # Skip this row if a teacher with the same full_name already exists
+            return (
+                {}
+            )  # Skip this row if a teacher with the same full_name already exists
 
     def get_import_id_fields(self):
         return ["id"]

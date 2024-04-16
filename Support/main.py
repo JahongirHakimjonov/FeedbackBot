@@ -281,8 +281,6 @@ async def handle_admin_reply(message: types.Message, state: FSMContext):
         await state.finish()
 
 
-
-
 if __name__ == "__main__":
     retry_count = 5
     delay = 5

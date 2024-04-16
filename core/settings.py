@@ -15,6 +15,7 @@ from pathlib import Path
 from django.apps import AppConfig
 import environ
 from dotenv import load_dotenv, find_dotenv
+from django.utils.translation import gettext_lazy as _
 
 load_dotenv(find_dotenv())
 
@@ -66,6 +67,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -143,6 +145,12 @@ TIME_FORMAT = "%H:%M:%S"
 USE_I18N = True
 
 USE_TZ = True
+
+LANGUAGES = (
+    ("ru", _("Russia")),
+    ("en", _("English")),
+    ("uz", _("Uzbek")),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -226,6 +234,7 @@ JAZZMIN_SETTINGS = {
     "site_logo": "feedbackbot/image/login_logo.jpg",
     "login_logo_dark": "feedbackbot/image/login_logo.jpg",
     "show_ui_builder": False,
+    "language_chooser": True,
 }
 
 JAZZMIN_UI_TWEAKS = {
