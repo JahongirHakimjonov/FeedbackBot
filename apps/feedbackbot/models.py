@@ -147,7 +147,7 @@ class ClassSchedule(AbstractBaseModel):
             start_time_obj = self.start_time
 
         end_time_obj = (
-            datetime.combine(datetime.today(), start_time_obj) + timedelta(minutes=50)
+            datetime.combine(datetime.today(), start_time_obj) + timedelta(minutes=80)
         ).time()
         self.end_time = end_time_obj.strftime("%H:%M:%S")
         super().save(*args, **kwargs)
